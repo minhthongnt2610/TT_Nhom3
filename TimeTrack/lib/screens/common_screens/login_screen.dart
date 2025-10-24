@@ -6,6 +6,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int height = MediaQuery.of(context).size.height.toInt();
+    int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -19,7 +21,18 @@ class LoginScreen extends StatelessWidget {
               colors: [AppColors.hexFFF0F0, AppColors.hexD79E4E],
             ),
           ),
-          child: Container(),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 176 * height / 928,
+              ),
+              Image(
+                image: AssetImage("assets/logo/logo.png"),
+                height: 200 * height / 928,
+              ),
+
+            ],
+          ),
         ),
       ),
     );
