@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               SizedBox(height: 176 * height / 956),
               Image(
-                image: AssetImage("assets/logo/logo.png"),
+                image: AssetImage("assets/images/logo_login_screen.png"),
                 height: 200 * height / 956,
               ),
               SizedBox(height: 103 * height / 956),
@@ -38,7 +38,10 @@ class LoginScreen extends StatelessWidget {
                     FieldWidget(
                       labelText: "Email",
                       hintText: "",
-                      suffixIcon: Icon(Icons.email_rounded),
+                      suffixIcon: Icon(
+                        Icons.email_rounded,
+                        color: Colors.white,
+                      ),
                       onChange: (value) {},
                       validator: (value) {},
                       controller: emailController,
@@ -53,8 +56,34 @@ class LoginScreen extends StatelessWidget {
                       validator: (value) {},
                       controller: passwordController,
                     ),
+                    SizedBox(height: 10 * height / 956),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          print("Quên mật khẩu");
+                        },
+                        child: Text(
+                          "Quên mật khẩu",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 52 * height / 956),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white24,
+                      ),
+                      onPressed: () {
+                        print("Đăng nhập");
+                      },
+                      child: Text(
+                        "Đăng nhập",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ],
-                )
+                ),
               ),
             ],
           ),
