@@ -53,13 +53,13 @@ class _FieldWidgetState extends State<FieldWidget> {
             : widget.suffixIcon,
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 2),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Colors.grey),
         hintStyle: TextStyle(color: Colors.white),
       ),
       style: TextStyle(color: Colors.white),
