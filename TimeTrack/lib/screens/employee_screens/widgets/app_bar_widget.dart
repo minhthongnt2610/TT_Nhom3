@@ -12,9 +12,18 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     int width = MediaQuery.of(context).size.width.toInt();
     return AppBar(
       backgroundColor: Colors.transparent,
-      title: Text(
-        greet("Nguyễn Minh Thông"),
-        style: TextStyle(color: Colors.white),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            greet(),
+            style: TextStyle(color: Colors.white,fontSize: 20 ),
+          ),
+          Text(
+            "Nguyễn Minh Thông",
+            style: TextStyle(color: Colors.white,fontSize: 26),
+          ),
+        ],
       ),
       flexibleSpace: Container(
         width: double.infinity,
@@ -33,32 +42,44 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            print("Thông báo");
-          },
-          icon: Image(
-            image: AssetImage("assets/logo/logo.png"),
-            width: 50 * width / 440,
-            height: 50 * height / 956,
+        Padding(
+          padding: EdgeInsets.only(right: 15 * width / 440),
+          child: ClipOval(
+            child: Material(
+              color: Colors.blue,
+              child: InkWell(
+                onTap: () {
+                  print("Thông báo");
+                },
+                child: SizedBox(
+                  width: 50 * width / 440,
+                  height: 50 * height / 956,
+                  child: Image(
+                    image: AssetImage("assets/logo/logo.png"),
+                    width: 50 * width / 440,
+                    height: 50 * height / 956,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 
-  String greet(String name) {
+  String greet() {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return "Chào buổi sáng! \n$name";
+      return "Chào buổi sáng!";
     } else if (hour < 17) {
-      return "Chào buổi chiều! \n$name";
+      return "Chào buổi chiều!";
     } else {
-      return "Chào buổi tối! \n$name";
+      return "Chào buổi tối!";
     }
   }
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(150);
+  Size get preferredSize => Size.fromHeight(120);
 }
