@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
+import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
 
 import '../../contains/app_colors.dart';
+
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
 
@@ -17,7 +19,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(),
-      body:Container(
+      body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -27,7 +29,35 @@ class _CheckInScreenState extends State<CheckInScreen> {
             colors: [AppColors.hexF9C752, AppColors.hexFF1275],
           ),
         ),
-      )
+        child: Padding(
+          padding: EdgeInsets.only(top: 241 * height / 956),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              EventButton(
+                onTap: () {},
+                urlImage: "assets/logo/logo.png",
+                text: "Đơn xin chấm\ncông bổ sung",
+              ),
+              EventButton(
+                onTap: () {},
+                urlImage: "assets/logo/logo.png",
+                text: "Đơn xin\nnghỉ phép",
+              ),
+              EventButton(
+                onTap: () {},
+                urlImage: "assets/logo/logo.png",
+                text: "Lịch sử\nchấm công",
+              ),
+              EventButton(
+                onTap: () {},
+                urlImage: "assets/logo/logo.png",
+                text: "Trạng thái",
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -17,11 +17,19 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             greet(),
-            style: TextStyle(color: Colors.white,fontSize: 20 ),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontFamily: 'tnr',
+            ),
           ),
           Text(
             "Nguyễn Minh Thông",
-            style: TextStyle(color: Colors.white,fontSize: 26),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 26,
+              fontFamily: 'tnr',
+            ),
           ),
         ],
       ),
@@ -46,7 +54,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(right: 15 * width / 440),
           child: ClipOval(
             child: Material(
-              color: Colors.blue,
+              color: Colors.white,
               child: InkWell(
                 onTap: () {
                   print("Thông báo");
@@ -55,7 +63,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   width: 50 * width / 440,
                   height: 50 * height / 956,
                   child: Image(
-                    image: AssetImage("assets/logo/logo.png"),
+                    image: AssetImage("assets/images/logo_login_screen.png"),
                     width: 50 * width / 440,
                     height: 50 * height / 956,
                   ),
