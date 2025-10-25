@@ -26,33 +26,64 @@ class _CheckInScreenState extends State<CheckInScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColors.hexF9C752, AppColors.hexFF1275],
+            colors: [AppColors.hexFFF0F0, AppColors.hexD42C42],
           ),
         ),
         child: Padding(
           padding: EdgeInsets.only(top: 241 * height / 956),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
             children: [
-              EventButton(
-                onTap: () {},
-                urlImage: "assets/logo/logo.png",
-                text: "Đơn xin chấm\ncông bổ sung",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  EventButton(
+                    onTap: () {},
+                    urlImage: "assets/logo/logo.png",
+                    text: "Đơn xin chấm\ncông bổ sung",
+                  ),
+                  EventButton(
+                    onTap: () {},
+                    urlImage: "assets/logo/logo.png",
+                    text: "Đơn xin\nnghỉ phép",
+                  ),
+                  EventButton(
+                    onTap: () {},
+                    urlImage: "assets/logo/logo.png",
+                    text: "Lịch sử\nchấm công",
+                  ),
+                  EventButton(
+                    onTap: () {},
+                    urlImage: "assets/logo/logo.png",
+                    text: "Trạng thái\n",
+                  ),
+                ],
               ),
-              EventButton(
-                onTap: () {},
-                urlImage: "assets/logo/logo.png",
-                text: "Đơn xin\nnghỉ phép",
-              ),
-              EventButton(
-                onTap: () {},
-                urlImage: "assets/logo/logo.png",
-                text: "Lịch sử\nchấm công",
-              ),
-              EventButton(
-                onTap: () {},
-                urlImage: "assets/logo/logo.png",
-                text: "Trạng thái",
+              SizedBox(height: 46 * height / 956),
+              GestureDetector(
+                onTap: (){
+                  print("Check in");
+                },
+                child: Container(
+                  width: 223 * width / 440,
+                  height: 223 * height / 956,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [AppColors.hexFFFBFE, AppColors.hexFFE699],
+                    ),
+                    borderRadius: BorderRadius.circular(112 * height / 956),
+                    border: Border.all(
+                      color: AppColors.hexF8790A,
+                      width: 5 * height / 956,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "CHECK IN",
+                    style: TextStyle(fontSize: 40, color: AppColors.hexF8790A,),
+                  ),
+                ),
               ),
             ],
           ),
