@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../contains/app_colors.dart';
@@ -10,7 +9,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
-
+    bool isCheckIn = false;
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Column(
@@ -60,7 +59,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   color: Colors.white,
                   child: InkWell(
                     onTap: () {
-                      print("Thông báo");
+                      debugPrint("Thông báo");
                     },
                     child: SizedBox(
                       width: 50 * width / 440,
@@ -83,10 +82,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   width: 14.0 * width / 440,
                   height: 14.0 * width / 440,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: isCheckIn ? Colors.green : Colors.grey,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.white, // Viền trắng để nổi bật trên avatar
+                      color: Colors.white,
                       width: 2.0,
                     ),
                   ),
