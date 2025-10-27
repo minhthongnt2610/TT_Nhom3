@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../../contains/app_colors.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -10,6 +10,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
+
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Column(
@@ -20,7 +21,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontFamily: 'tnr',
+              fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
           ),
           Text(
@@ -28,7 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: 26,
-              fontFamily: 'tnr',
+              fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
           ),
         ],
@@ -52,24 +53,46 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 15 * width / 440),
-          child: ClipOval(
-            child: Material(
-              color: Colors.white,
-              child: InkWell(
-                onTap: () {
-                  print("Thông báo");
-                },
-                child: SizedBox(
-                  width: 50 * width / 440,
-                  height: 50 * height / 956,
-                  child: Image(
-                    image: AssetImage("assets/images/logo_login_screen.png"),
-                    width: 50 * width / 440,
-                    height: 50 * height / 956,
+          child: Stack(
+            children: [
+              ClipOval(
+                child: Material(
+                  color: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      print("Thông báo");
+                    },
+                    child: SizedBox(
+                      width: 50 * width / 440,
+                      height: 50 * height / 956,
+                      child: Image(
+                        image: AssetImage(
+                          "assets/images/logo_login_screen.png",
+                        ),
+                        width: 50 * width / 440,
+                        height: 50 * height / 956,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: 14.0 * width / 440,
+                  height: 14.0 * width / 440,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white, // Viền trắng để nổi bật trên avatar
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

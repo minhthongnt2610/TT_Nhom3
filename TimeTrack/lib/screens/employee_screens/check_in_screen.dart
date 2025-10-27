@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
@@ -124,7 +125,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   style: TextStyle(
                     fontSize: 20 * height / 956,
                     color: Colors.black,
-                    fontFamily: 'tnr',
+                    fontFamily: GoogleFonts.notoSans().fontFamily,
                   ),
                 ),
               ],
