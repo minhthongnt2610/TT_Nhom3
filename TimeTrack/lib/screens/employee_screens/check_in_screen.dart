@@ -107,7 +107,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   style: TextStyle(
                     fontSize: 20 * height / 956,
                     color: Colors.black,
-                    fontFamily: GoogleFonts.notoSans().fontFamily,
+                    fontFamily: 'balooPaaji',
                   ),
                 ),
               ],

@@ -34,8 +34,9 @@ class EventButton extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            fontFamily: GoogleFonts.notoSans().fontFamily,
+            fontFamily: 'balooPaaji',
             fontSize: 12,
+            color:Colors.black,
           ),
           textAlign: TextAlign.center,
         ),

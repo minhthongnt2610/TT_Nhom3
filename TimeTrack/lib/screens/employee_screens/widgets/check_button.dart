@@ -94,7 +94,7 @@ class _CheckButtonState extends State<CheckButton>
 
                   fontSize: 35,
                   color: Colors.black,
-                  fontFamily: GoogleFonts.balooPaaji2().fontFamily,
+                  fontFamily: 'balooPaaji',
                   fontWeight: FontWeight.w900,
                 ),
               ),
