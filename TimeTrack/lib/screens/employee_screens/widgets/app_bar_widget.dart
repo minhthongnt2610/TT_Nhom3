@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../contains/app_colors.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key});
-
+  const AppBarWidget({super.key, required this.isCheck});
+  final bool isCheck;
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
-    bool isCheckIn = false;
+
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Column(
@@ -82,7 +82,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   width: 14.0 * width / 440,
                   height: 14.0 * width / 440,
                   decoration: BoxDecoration(
-                    color: isCheckIn ? Colors.green : Colors.grey,
+                    color: isCheck ? Colors.green : Colors.grey,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: Colors.white,

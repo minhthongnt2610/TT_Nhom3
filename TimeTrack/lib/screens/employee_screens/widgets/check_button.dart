@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../contains/app_colors.dart';
 
 class CheckButton extends StatefulWidget {
-  const CheckButton({super.key, required this.onPressed});
+  const CheckButton({
+    super.key,
+    required this.onPressed,
+    required this.nameButton,
+  });
   final VoidCallback onPressed;
+  final String nameButton;
 
   @override
   State<CheckButton> createState() => _CheckButtonState();
@@ -83,8 +89,13 @@ class _CheckButtonState extends State<CheckButton>
               ),
               alignment: Alignment.center,
               child: Text(
-                "CHECK IN",
-                style: TextStyle(fontSize: 40, color: AppColors.hexF8790A),
+                widget.nameButton,
+                style: TextStyle(
+                  fontSize: 35,
+                  color: AppColors.hexF8790A,
+                  fontFamily: GoogleFonts.balooPaaji2().fontFamily,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           );

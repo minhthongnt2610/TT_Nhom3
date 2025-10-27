@@ -18,6 +18,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   ClockWidget clockWidget = ClockWidget();
   late String _currentTime;
   late String _currentDate;
+  bool isCheck = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -31,6 +32,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
       });
     });
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -44,7 +46,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: AppBarWidget(isCheck: isCheck,),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -86,9 +88,15 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   ],
                 ),
                 SizedBox(height: 46 * height / 956),
-                CheckButton(onPressed: (){
-                  debugPrint('Check in');
-                }),
+                CheckButton(
+                  onPressed: () {
+                    debugPrint('Check in');
+                    setState(() {
+                      isCheck = !isCheck;
+                    });
+                  },
+                  nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
+                ),
                 SizedBox(height: 46 * height / 956),
                 Text(
                   _currentTime,
