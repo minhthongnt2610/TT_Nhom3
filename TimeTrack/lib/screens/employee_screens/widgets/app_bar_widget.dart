@@ -10,8 +10,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
 
-    return AppBar(
-      backgroundColor: Colors.transparent,
+    final appbar = AppBar(
+      backgroundColor: AppColors.backgroundAppBar,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25 * height / 956),
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -21,27 +25,19 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.bold,
               color: AppColors.textAppBar,
               fontSize: 20,
-              fontFamily: GoogleFonts.notoSans().fontFamily,
+              fontFamily: GoogleFonts.balooPaaji2().fontFamily,
             ),
           ),
           Text(
-            "Nguyễn Minh Thông",
+            "Phạm Lê Huyền Trân",
             style: TextStyle(
               color: AppColors.textAppBar,
               fontWeight: FontWeight.bold,
               fontSize: 26,
-              fontFamily: GoogleFonts.notoSans().fontFamily,
+              fontFamily: GoogleFonts.balooPaaji2().fontFamily,
             ),
           ),
         ],
-      ),
-      flexibleSpace: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.backgroundAppBar,
-          borderRadius: BorderRadius.circular(25 * height / 956),
-        ),
       ),
       actions: [
         Padding(
@@ -78,14 +74,38 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   decoration: BoxDecoration(
                     color: isCheck ? Colors.green : Colors.grey,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
+                    border: Border.all(color: Colors.white, width: 2.0),
                   ),
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+    return Stack(
+      children: [
+        appbar,
+        Positioned(
+          bottom: 15,
+          child: Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.textAppBar),
+              ),
+              onPressed: () {},
+              child: Text(
+                "Thông tin cá nhân",
+                style: TextStyle(
+                  color: AppColors.backgroundAppBar,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.balooPaaji2().fontFamily,
+                ),
+              ),
+            ),
           ),
         ),
       ],
@@ -104,6 +124,5 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(120);
+  Size get preferredSize => Size.fromHeight(140);
 }
