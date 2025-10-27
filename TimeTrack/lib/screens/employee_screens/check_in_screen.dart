@@ -63,22 +63,22 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   children: [
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
                       text: "Đơn xin chấm\ncông bổ sung",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/DonXinNghiPhep.png",
                       text: "Đơn xin\nnghỉ phép",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/TrangThaiDon.png",
                       text: "Trạng thái\n",
                     ),
                   ],
