@@ -72,11 +72,11 @@ class _CheckButtonState extends State<CheckButton>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [AppColors.hexFFFBFE, AppColors.hexFFE699],
+                  colors: [AppColors.backgroundColor, AppColors.backgroundButton],
                 ),
                 borderRadius: BorderRadius.circular(112 * height / 956),
                 border: Border.all(
-                  color: AppColors.hexF8790A,
+                  color: AppColors.borderButton,
                   width: 5 * height / 956,
                 ),
                 boxShadow: [
@@ -91,10 +91,11 @@ class _CheckButtonState extends State<CheckButton>
               child: Text(
                 widget.nameButton,
                 style: TextStyle(
+
                   fontSize: 35,
-                  color: AppColors.hexF8790A,
+                  color: Colors.black,
                   fontFamily: GoogleFonts.balooPaaji2().fontFamily,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

@@ -51,11 +51,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColors.hexFFF0F0, AppColors.hexD42C42],
-          ),
+          color: AppColors.backgroundColor,
         ),
         child: SingleChildScrollView(
           child: Padding(

@@ -18,7 +18,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           Text(
             greet(),
             style: TextStyle(
-              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textAppBar,
               fontSize: 20,
               fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
@@ -26,7 +27,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           Text(
             "Nguyễn Minh Thông",
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.textAppBar,
+              fontWeight: FontWeight.bold,
               fontSize: 26,
               fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
@@ -37,15 +39,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.hexF9C752,
-              AppColors.hexFF3846,
-              AppColors.hexFF1275,
-            ],
-          ),
+          color: AppColors.backgroundAppBar,
           borderRadius: BorderRadius.circular(25 * height / 956),
         ),
       ),
