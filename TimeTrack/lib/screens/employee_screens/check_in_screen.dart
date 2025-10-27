@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
+import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
 
@@ -16,6 +18,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   ClockWidget clockWidget = ClockWidget();
   late String _currentTime;
   late String _currentDate;
+  bool isCheck = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -29,6 +32,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
       });
     });
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -42,16 +46,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
     int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: AppBarWidget(isCheck: isCheck,),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColors.hexFFF0F0, AppColors.hexD42C42],
-          ),
+          color: AppColors.backgroundColor,
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -63,52 +63,35 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   children: [
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
                       text: "Đơn xin chấm\ncông bổ sung",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/DonXinNghiPhep.png",
                       text: "Đơn xin\nnghỉ phép",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",
                     ),
                     EventButton(
                       onTap: () {},
-                      urlImage: "assets/logo/logo.png",
+                      urlImage: "assets/images/icon/TrangThaiDon.png",
                       text: "Trạng thái\n",
                     ),
                   ],
                 ),
                 SizedBox(height: 46 * height / 956),
-                GestureDetector(
-                  onTap: () {
-                    print("Check in");
+                CheckButton(
+                  onPressed: () {
+                    debugPrint('Check in');
+                    setState(() {
+                      isCheck = !isCheck;
+                    });
                   },
-                  child: Container(
-                    width: 223 * width / 440,
-                    height: 223 * height / 956,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [AppColors.hexFFFBFE, AppColors.hexFFE699],
-                      ),
-                      borderRadius: BorderRadius.circular(112 * height / 956),
-                      border: Border.all(
-                        color: AppColors.hexF8790A,
-                        width: 5 * height / 956,
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "CHECK IN",
-                      style: TextStyle(fontSize: 40, color: AppColors.hexF8790A),
-                    ),
-                  ),
+                  nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                 ),
                 SizedBox(height: 46 * height / 956),
                 Text(
@@ -124,7 +107,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   style: TextStyle(
                     fontSize: 20 * height / 956,
                     color: Colors.black,
-                    fontFamily: 'tnr',
+                    fontFamily: 'balooPaaji',
                   ),
                 ),
               ],

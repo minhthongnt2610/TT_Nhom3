@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EventButton extends StatelessWidget {
   EventButton({
@@ -32,9 +33,13 @@ class EventButton extends StatelessWidget {
         SizedBox(height: 4 * height / 956),
         Text(
           text,
-          style: TextStyle(fontFamily: 'tnr',fontSize: 12),
+          style: TextStyle(
+            fontFamily: 'balooPaaji',
+            fontSize: 12,
+            color:Colors.black,
+          ),
           textAlign: TextAlign.center,
-        )
+        ),
       ],
     );
   }
