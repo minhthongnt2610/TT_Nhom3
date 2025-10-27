@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
+import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
 
@@ -85,32 +86,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   ],
                 ),
                 SizedBox(height: 46 * height / 956),
-                GestureDetector(
-                  onTap: () {
-                    print("Check in");
-                  },
-                  child: Container(
-                    width: 223 * width / 440,
-                    height: 223 * height / 956,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [AppColors.hexFFFBFE, AppColors.hexFFE699],
-                      ),
-                      borderRadius: BorderRadius.circular(112 * height / 956),
-                      border: Border.all(
-                        color: AppColors.hexF8790A,
-                        width: 5 * height / 956,
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "CHECK IN",
-                      style: TextStyle(fontSize: 40, color: AppColors.hexF8790A),
-                    ),
-                  ),
-                ),
+                CheckButton(onPressed: (){
+                  debugPrint('Check in');
+                }),
                 SizedBox(height: 46 * height / 956),
                 Text(
                   _currentTime,
