@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timetrack/screens/employee_screens/dialogs/check_out_success_dialog.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
 
 import '../../contains/app_colors.dart';
+import 'dialogs/check_in_success_dialog.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
@@ -46,13 +48,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
     int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(isCheck: isCheck,),
+      appBar: AppBarWidget(isCheck: isCheck),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.backgroundColor,
-        ),
+        decoration: BoxDecoration(color: AppColors.backgroundColor),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: 241 * height / 956),
@@ -62,22 +62,38 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Đơn xin chấm công bổ sung"
+                        );
+                      },
                       urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
                       text: "Đơn xin chấm\ncông bổ sung",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Đơn xin nghỉ phép"
+                        );
+                      },
                       urlImage: "assets/images/icon/DonXinNghiPhep.png",
                       text: "Đơn xin\nnghỉ phép",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Lịch sử chấm công"
+                        );
+                      },
                       urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Trạng thái đơn"
+                        );
+                      },
                       urlImage: "assets/images/icon/TrangThaiDon.png",
                       text: "Trạng thái\n",
                     ),
@@ -87,9 +103,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 CheckButton(
                   onPressed: () {
                     debugPrint('Check in');
+
                     setState(() {
                       isCheck = !isCheck;
                     });
+                    isCheck
+                        ? checkInSuccessDialog(context)
+                        : checkOutSuccessDialog(context);
                   },
                   nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                 ),

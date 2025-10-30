@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../contains/app_colors.dart';
+import '../info_employee.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key, required this.isCheck});
@@ -95,7 +96,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(AppColors.textAppBar),
               ),
-              onPressed: () {},
+              onPressed: () {
+                debugPrint("Thông tin cá nhân");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => InfoEmployee()));
+              },
               child: Text(
                 "Thông tin cá nhân",
                 style: TextStyle(
