@@ -62,22 +62,38 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Đơn xin chấm công bổ sung"
+                        );
+                      },
                       urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
                       text: "Đơn xin chấm\ncông bổ sung",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Đơn xin nghỉ phép"
+                        );
+                      },
                       urlImage: "assets/images/icon/DonXinNghiPhep.png",
                       text: "Đơn xin\nnghỉ phép",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Lịch sử chấm công"
+                        );
+                      },
                       urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",
                     ),
                     EventButton(
-                      onTap: () {},
+                      onTap: () {
+                        debugPrint(
+                          "Trạng thái đơn"
+                        );
+                      },
                       urlImage: "assets/images/icon/TrangThaiDon.png",
                       text: "Trạng thái\n",
                     ),

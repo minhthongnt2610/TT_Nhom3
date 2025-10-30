@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/contains/app_colors.dart';
+import 'package:timetrack/screens/common_screens/forgot_password_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
 import 'package:timetrack/screens/employee_screens/check_in_screen.dart';
 
@@ -64,6 +65,7 @@ class LoginScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             print("Quên mật khẩu");
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                           },
                           child: Text(
                             "Quên mật khẩu",

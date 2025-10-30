@@ -111,7 +111,7 @@ class InfoEmployee extends StatelessWidget {
                 ),
                 onPressed: () {
                   debugPrint('Đăng xuất');
-                  checkInSuccessDialog(context);
+
                 },
                 child: Text(
                   'Đăng xuất',
