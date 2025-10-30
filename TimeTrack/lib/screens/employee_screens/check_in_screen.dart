@@ -47,70 +47,72 @@ class _CheckInScreenState extends State<CheckInScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(isCheck: isCheck,),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.backgroundColor,
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(top: 241 * height / 956),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    EventButton(
-                      onTap: () {},
-                      urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
-                      text: "Đơn xin chấm\ncông bổ sung",
-                    ),
-                    EventButton(
-                      onTap: () {},
-                      urlImage: "assets/images/icon/DonXinNghiPhep.png",
-                      text: "Đơn xin\nnghỉ phép",
-                    ),
-                    EventButton(
-                      onTap: () {},
-                      urlImage: "assets/images/icon/LichSuChamCong.png",
-                      text: "Lịch sử\nchấm công",
-                    ),
-                    EventButton(
-                      onTap: () {},
-                      urlImage: "assets/images/icon/TrangThaiDon.png",
-                      text: "Trạng thái\n",
-                    ),
-                  ],
-                ),
-                SizedBox(height: 46 * height / 956),
-                CheckButton(
-                  onPressed: () {
-                    debugPrint('Check in');
-                    setState(() {
-                      isCheck = !isCheck;
-                    });
-                  },
-                  nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
-                ),
-                SizedBox(height: 46 * height / 956),
-                Text(
-                  _currentTime,
-                  style: TextStyle(
-                    fontSize: 29 * height / 956,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.backgroundColor,
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(top: 241 * height / 956),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      EventButton(
+                        onTap: () {},
+                        urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
+                        text: "Đơn xin chấm\ncông bổ sung",
+                      ),
+                      EventButton(
+                        onTap: () {},
+                        urlImage: "assets/images/icon/DonXinNghiPhep.png",
+                        text: "Đơn xin\nnghỉ phép",
+                      ),
+                      EventButton(
+                        onTap: () {},
+                        urlImage: "assets/images/icon/LichSuChamCong.png",
+                        text: "Lịch sử\nchấm công",
+                      ),
+                      EventButton(
+                        onTap: () {},
+                        urlImage: "assets/images/icon/TrangThaiDon.png",
+                        text: "Trạng thái\n",
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  _currentDate,
-                  style: TextStyle(
-                    fontSize: 20 * height / 956,
-                    color: Colors.black,
-                    fontFamily: 'balooPaaji',
+                  SizedBox(height: 46 * height / 956),
+                  CheckButton(
+                    onPressed: () {
+                      debugPrint('Check in');
+                      setState(() {
+                        isCheck = !isCheck;
+                      });
+                    },
+                    nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                   ),
-                ),
-              ],
+                  SizedBox(height: 46 * height / 956),
+                  Text(
+                    _currentTime,
+                    style: TextStyle(
+                      fontSize: 29 * height / 956,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    _currentDate,
+                    style: TextStyle(
+                      fontSize: 20 * height / 956,
+                      color: Colors.black,
+                      fontFamily: 'balooPaaji',
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

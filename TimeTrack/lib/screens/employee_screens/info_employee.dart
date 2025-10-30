@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../common_screens/widgets/build_info_field.dart';
+
 class InfoEmployee extends StatelessWidget {
   const InfoEmployee({super.key});
 
   @override
   Widget build(BuildContext context) {
+    int height = MediaQuery.of(context).size.height.toInt();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Nút back
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
@@ -23,7 +25,6 @@ class InfoEmployee extends StatelessWidget {
                 ),
               ),
 
-              // Avatar tròn
               const SizedBox(height: 10),
               const CircleAvatar(
                 radius: 60,
@@ -36,7 +37,6 @@ class InfoEmployee extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // Tên nhân viên
               Text(
                 'Nguyễn Minh Thông',
                 style: GoogleFonts.poppins(
@@ -48,7 +48,6 @@ class InfoEmployee extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // Khung thông tin
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 30),
                 padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
@@ -58,12 +57,11 @@ class InfoEmployee extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    buildInfoField('Mã nhân viên'),
-                    buildInfoField('CCCD'),
-                    buildInfoField('Phòng Ban'),
-                    buildInfoField('Chức vụ'),
-                    buildInfoField('Email'),
-                    buildInfoField('Mật khẩu (ẩn)', hasChangePassword: true),
+                    BuildInfoField( title: 'Mã nhân viên',),
+                    BuildInfoField( title: 'CCCD',),
+                    BuildInfoField( title: 'Phòng ban',),
+                    BuildInfoField( title: 'Chức vụ',),
+                    BuildInfoField( title: 'Email',),
                   ],
                 ),
               ),
@@ -98,32 +96,4 @@ class InfoEmployee extends StatelessWidget {
     );
   }
 
-  // Widget tạo từng dòng thông tin
-  Widget buildInfoField(String label, {bool hasChangePassword = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Stack(
-        alignment: Alignment.centerRight,
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Center(
-              child: Text(
-                label,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
