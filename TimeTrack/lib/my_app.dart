@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timetrack/screens/common_screens/login_screen.dart';
 import 'package:timetrack/screens/employee_screens/check_in_screen.dart';
 import 'package:timetrack/screens/employee_screens/info_employee.dart';
 class MyApp extends StatelessWidget {
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Time Track",
-        home: InfoEmployee(),
+        home: LoginScreen(),
     );
   }
 }

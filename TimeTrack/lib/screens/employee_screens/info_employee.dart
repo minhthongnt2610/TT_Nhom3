@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/contains/app_colors.dart';
+import 'package:timetrack/screens/employee_screens/dialogs/check_in_success_dialog.dart';
 
 import '../common_screens/widgets/build_info_field.dart';
 
@@ -29,11 +30,16 @@ class InfoEmployee extends StatelessWidget {
               ),
 
               SizedBox(height: 10 * height / 956),
-              const CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(radius: 57, backgroundColor: Colors.white),
-              ),
+               GestureDetector(
+                 onTap: () {
+                   debugPrint("Chọn ảnh");
+                 },
+                 child: CircleAvatar(
+                  radius: 60 * height / 956,
+                  backgroundColor: Colors.black,
+                  child: CircleAvatar(radius: 57 * height / 956, backgroundColor: Colors.white),
+                               ),
+               ),
 
               SizedBox(height: 12 * height / 956),
 
@@ -105,6 +111,7 @@ class InfoEmployee extends StatelessWidget {
                 ),
                 onPressed: () {
                   debugPrint('Đăng xuất');
+                  checkInSuccessDialog(context);
                 },
                 child: Text(
                   'Đăng xuất',
