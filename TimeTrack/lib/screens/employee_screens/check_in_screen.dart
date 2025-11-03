@@ -64,20 +64,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     EventButton(
                       onTap: () {
                         debugPrint(
-                          "Đơn xin chấm công bổ sung"
+                          "Quản lý đơn từ"
                         );
                       },
                       urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
-                      text: "Đơn xin chấm\ncông bổ sung",
-                    ),
-                    EventButton(
-                      onTap: () {
-                        debugPrint(
-                          "Đơn xin nghỉ phép"
-                        );
-                      },
-                      urlImage: "assets/images/icon/DonXinNghiPhep.png",
-                      text: "Đơn xin\nnghỉ phép",
+                      text: "Quản lý đơn từ",
                     ),
                     EventButton(
                       onTap: () {
@@ -102,11 +93,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 SizedBox(height: 46 * height / 956),
                 CheckButton(
                   onPressed: () {
-                    debugPrint('Check in');
 
                     setState(() {
                       isCheck = !isCheck;
                     });
+                    isCheck ? debugPrint("CHECK IN") : debugPrint("CHECK OUT");
                     isCheck
                         ? checkInSuccessDialog(context)
                         : checkOutSuccessDialog(context);
