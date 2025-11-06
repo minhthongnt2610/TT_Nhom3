@@ -11,6 +11,7 @@ class BottomSheetWidget extends StatelessWidget {
     int width = MediaQuery.of(context).size.width.toInt();
 
     return DraggableScrollableSheet(
+
       expand: false,
       initialChildSize: 0.6,
       minChildSize: 0.25,
@@ -48,7 +49,9 @@ class BottomSheetWidget extends StatelessWidget {
                 SizedBox(height: 20 * height / 956),
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    debugPrint('Đơn xin phép');
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
@@ -65,7 +68,9 @@ class BottomSheetWidget extends StatelessWidget {
                 SizedBox(height: 10 * height / 956),
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    debugPrint('Đơn giải trình');
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
@@ -82,7 +87,9 @@ class BottomSheetWidget extends StatelessWidget {
                 SizedBox(height: 10 * height / 956),
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    debugPrint('Đơn xin tăng ca');
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
