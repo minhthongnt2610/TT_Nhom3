@@ -6,17 +6,19 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart' as loc;
 
 class OpenStreetMap extends StatefulWidget {
-  const OpenStreetMap({super.key});
+  const OpenStreetMap({super.key,required this.onChangeAddress});
+  final Function(String?) onChangeAddress;
 
   @override
   State<OpenStreetMap> createState() => _OpenStreetMapState();
 }
 
 class _OpenStreetMapState extends State<OpenStreetMap> {
+
   final MapController _mapController = MapController();
   LatLng? _currentLocation;
   final loc.Location _location = loc.Location();
-  String _address = "Đang lấy địa chỉ...";
+  late String _address;
   Future<void> _requestEnableGPS() async {
     bool serviceEnable;
     serviceEnable = await _location.serviceEnabled();
@@ -56,6 +58,9 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
           "${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}. ";
       debugPrint(_address);
     });
+    if (widget.onChangeAddress != null) {
+      widget.onChangeAddress!(_address);
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -73,6 +78,8 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
 
   @override
   Widget build(BuildContext context) {
+    int height = MediaQuery.of(context).size.height.toInt();
+    int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       body: Stack(
         children: [
@@ -98,7 +105,7 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
                       size: 20,
                     ),
                   ),
-                  markerSize: Size(35, 35),
+                  markerSize: Size(35 * width / 440, 35  * height / 956),
                   markerDirection: MarkerDirection.heading,
                 ),
               ),
@@ -112,7 +119,7 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
         },
         elevation: 0,
         backgroundColor: Colors.blue,
-        child: Icon(Icons.my_location, size: 30, color: Colors.white),
+        child: Icon(Icons.my_location, size: 30 * height / 956, color: Colors.white),
       ),
     );
   }

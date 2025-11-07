@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Time Track",
-        home: OpenStreetMap(),
+        home: CheckInScreen(),
     );
   }
 }

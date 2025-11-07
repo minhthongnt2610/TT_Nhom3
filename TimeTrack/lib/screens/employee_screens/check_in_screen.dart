@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
 import 'package:timetrack/screens/employee_screens/dialogs/check_out_success_dialog.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/bottom_sheet_widget.dart';
@@ -18,6 +19,7 @@ class CheckInScreen extends StatefulWidget {
 }
 
 class _CheckInScreenState extends State<CheckInScreen> {
+  String _address = "Đang tải địa chỉ...";
   ClockWidget clockWidget = ClockWidget();
   late String _currentTime;
   late String _currentDate;
@@ -43,7 +45,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet(){
+  void _showBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -51,10 +53,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(isCheck: isCheck),
@@ -72,9 +76,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   children: [
                     EventButton(
                       onTap: () {
-                        debugPrint(
-                          "Quản lý đơn từ"
-                        );
+                        debugPrint("Quản lý đơn từ");
                         _showBottomSheet();
                       },
                       urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
@@ -82,18 +84,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     ),
                     EventButton(
                       onTap: () {
-                        debugPrint(
-                          "Lịch sử chấm công"
-                        );
+                        debugPrint("Lịch sử chấm công");
                       },
                       urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",
                     ),
                     EventButton(
                       onTap: () {
-                        debugPrint(
-                          "Trạng thái đơn"
-                        );
+                        debugPrint("Trạng thái đơn");
                       },
                       urlImage: "assets/images/icon/TrangThaiDon.png",
                       text: "Trạng thái\n",
@@ -103,7 +101,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 SizedBox(height: 46 * height / 956),
                 CheckButton(
                   onPressed: () {
-
                     setState(() {
                       isCheck = !isCheck;
                     });
@@ -130,6 +127,26 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     color: Colors.black,
                     fontFamily: 'balooPaaji',
                   ),
+                ),
+                SizedBox(height: 5 * height / 956),
+                Text(
+                  "Đ/c: $_address",
+                  style: TextStyle(
+                    fontSize: 17 * height / 956,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10 * height / 956),
+                Container(
+                  width: 353 * width / 440,
+                  height: 156 * height / 956,
+                  child: OpenStreetMap(onChangeAddress: (address) {
+                    setState(() {
+                      _address = address!;
+                    });
+                  },),
                 ),
               ],
             ),
