@@ -13,42 +13,39 @@ class TestOpenStreetMap extends StatefulWidget {
 
 class _TestOpenStreetMapState extends State<TestOpenStreetMap> {
   final MapController _mapController = MapController();
-  // final Location _location = Location();
-  // final TextEditingController _locationController = TextEditingController();
-  // bool isLoading = true;
   LatLng? _currentLocation;
-  // Future<void> _userCurrentLocation() async {
-  //   if (_currentLocation != null) {
-  //     _mapController.move(_currentLocation!, 15);
-  //   } else {
-  //     ScaffoldMessenger.of(
-  //       context,
-  //     ).showSnackBar(SnackBar(content: Text("Không thể lấy vị trí hiện tại")));
-  //   }
-  // }
-  Future<void> _getCurrentLocation() async {
-    Location location = Location();
+  final Location _location = Location();
+  Future<void> _requestEnableGPS() async {
+    bool serviceEnable;
+    serviceEnable = await _location.serviceEnabled();
+    if (!serviceEnable) {
+      serviceEnable = await _location.requestService();
+    }
+    if (!serviceEnable) return;
+  }
 
-    bool serviceEnabled;
+  Future<void> _requestEnablePermission() async {
     PermissionStatus permissionGranted;
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) return;
-    }
-
-    permissionGranted = await location.hasPermission();
+    permissionGranted = await _location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) return;
+      //denied -> chưa được cấp quyền
+      permissionGranted = await _location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted)
+        return; //không được cấp quyền
     }
+  }
 
-    final userLocation = await location.getLocation();
+  Future<void> _getCurrentLocation() async {
+    _requestEnableGPS();
+    _requestEnablePermission();
+    final userLocation = await _location.getLocation();
     setState(() {
-      _currentLocation = LatLng(userLocation.latitude!, userLocation.longitude!);
+      _currentLocation = LatLng(
+        userLocation.latitude!,
+        userLocation.longitude!,
+      );
+      print(_currentLocation);
     });
-
     _mapController.move(_currentLocation!, 15);
   }
 
