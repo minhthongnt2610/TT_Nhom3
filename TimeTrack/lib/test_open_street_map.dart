@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 
 class TestOpenStreetMap extends StatefulWidget {
   const TestOpenStreetMap({super.key});
@@ -14,7 +15,8 @@ class TestOpenStreetMap extends StatefulWidget {
 class _TestOpenStreetMapState extends State<TestOpenStreetMap> {
   final MapController _mapController = MapController();
   LatLng? _currentLocation;
-  final Location _location = Location();
+  final loc.Location _location = loc.Location();
+  String _address = "Đang lấy địa chỉ...";
   Future<void> _requestEnableGPS() async {
     bool serviceEnable;
     serviceEnable = await _location.serviceEnabled();
@@ -25,27 +27,41 @@ class _TestOpenStreetMapState extends State<TestOpenStreetMap> {
   }
 
   Future<void> _requestEnablePermission() async {
-    PermissionStatus permissionGranted;
+    loc.PermissionStatus permissionGranted;
     permissionGranted = await _location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
+    if (permissionGranted == loc.PermissionStatus.denied) {
       //denied -> chưa được cấp quyền
       permissionGranted = await _location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted)
+      if (permissionGranted != loc.PermissionStatus.granted)
         return; //không được cấp quyền
     }
   }
 
-  Future<void> _getCurrentLocation() async {
-    _requestEnableGPS();
-    _requestEnablePermission();
+  Future<void> _getUserLocation() async {
     final userLocation = await _location.getLocation();
     setState(() {
       _currentLocation = LatLng(
         userLocation.latitude!,
         userLocation.longitude!,
       );
-      print(_currentLocation);
+      debugPrint(_currentLocation.toString());
     });
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      userLocation.latitude!,
+      userLocation.longitude!,
+    );
+    Placemark place = placemarks.first;
+    setState(() {
+      _address =
+          "${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+      debugPrint(_address);
+    });
+  }
+
+  Future<void> _getCurrentLocation() async {
+    _requestEnableGPS();
+    _requestEnablePermission();
+    _getUserLocation();
     _mapController.move(_currentLocation!, 15);
   }
 
