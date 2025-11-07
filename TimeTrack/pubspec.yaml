@@ -36,6 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: ^0.14.4
   google_fonts: ^6.3.2
+  location: ^8.0.1
+  flutter_map: ^8.2.2
+  http: ^1.5.0
+  flutter_map_location_marker: ^10.1.0
+  latlong2: ^0.9.1
+  geocoding: ^4.0.0
 #  google_maps_flutter: ^2.13.1
 #  geocoding: ^4.0.0
 flutter_launcher_icons:
