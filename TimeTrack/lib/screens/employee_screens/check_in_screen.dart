@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/screens/employee_screens/dialogs/check_out_success_dialog.dart';
 import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
+import 'package:timetrack/screens/employee_screens/widgets/bottom_sheet_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
@@ -42,6 +43,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
     clockWidget.timer.cancel();
   }
 
+  void _showBottomSheet(){
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return BottomSheetWidget();
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
@@ -64,20 +73,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     EventButton(
                       onTap: () {
                         debugPrint(
-                          "Đơn xin chấm công bổ sung"
+                          "Quản lý đơn từ"
                         );
+                        _showBottomSheet();
                       },
                       urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
-                      text: "Đơn xin chấm\ncông bổ sung",
-                    ),
-                    EventButton(
-                      onTap: () {
-                        debugPrint(
-                          "Đơn xin nghỉ phép"
-                        );
-                      },
-                      urlImage: "assets/images/icon/DonXinNghiPhep.png",
-                      text: "Đơn xin\nnghỉ phép",
+                      text: "Quản lý đơn từ",
                     ),
                     EventButton(
                       onTap: () {
@@ -102,11 +103,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 SizedBox(height: 46 * height / 956),
                 CheckButton(
                   onPressed: () {
-                    debugPrint('Check in');
 
                     setState(() {
                       isCheck = !isCheck;
                     });
+                    isCheck ? debugPrint("CHECK IN") : debugPrint("CHECK OUT");
                     isCheck
                         ? checkInSuccessDialog(context)
                         : checkOutSuccessDialog(context);
