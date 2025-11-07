@@ -5,14 +5,14 @@ import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart' as loc;
 
-class TestOpenStreetMap extends StatefulWidget {
-  const TestOpenStreetMap({super.key});
+class OpenStreetMap extends StatefulWidget {
+  const OpenStreetMap({super.key});
 
   @override
-  State<TestOpenStreetMap> createState() => _TestOpenStreetMapState();
+  State<OpenStreetMap> createState() => _OpenStreetMapState();
 }
 
-class _TestOpenStreetMapState extends State<TestOpenStreetMap> {
+class _OpenStreetMapState extends State<OpenStreetMap> {
   final MapController _mapController = MapController();
   LatLng? _currentLocation;
   final loc.Location _location = loc.Location();
@@ -53,7 +53,7 @@ class _TestOpenStreetMapState extends State<TestOpenStreetMap> {
     Placemark place = placemarks.first;
     setState(() {
       _address =
-          "${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+          "${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}. ";
       debugPrint(_address);
     });
   }
