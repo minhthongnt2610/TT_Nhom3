@@ -8,8 +8,8 @@ import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
 
-import '../../contains/app_colors.dart';
-import 'dialogs/check_in_success_dialog.dart';
+import '../../../contains/app_colors.dart';
+import '../dialogs/check_in_success_dialog.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
