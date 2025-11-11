@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
+import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/app_bar_widget.dart';
+import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/bottom_sheet_widget.dart';
+import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/check_button.dart';
+import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/clock_widget.dart';
+import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/event_button.dart';
 import 'package:timetrack/screens/employee_screens/dialogs/check_out_success_dialog.dart';
-import 'package:timetrack/screens/employee_screens/widgets/app_bar_widget.dart';
-import 'package:timetrack/screens/employee_screens/widgets/bottom_sheet_widget.dart';
-import 'package:timetrack/screens/employee_screens/widgets/check_button.dart';
-import 'package:timetrack/screens/employee_screens/widgets/clock_widget.dart';
-import 'package:timetrack/screens/employee_screens/widgets/event_button.dart';
-
-import '../../contains/app_colors.dart';
-import 'dialogs/check_in_success_dialog.dart';
+import '../../../contains/app_colors.dart';
+import '../dialogs/check_in_success_dialog.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});

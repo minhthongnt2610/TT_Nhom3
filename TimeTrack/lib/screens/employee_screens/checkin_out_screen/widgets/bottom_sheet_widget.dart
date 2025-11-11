@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../contains/app_colors.dart';
+import '../../../../contains/app_colors.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
@@ -88,13 +88,13 @@ class BottomSheetWidget extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    debugPrint('Đơn xin tăng ca');
+                    debugPrint('Đơn đăng ký công tác');
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
                   child: Text(
-                    'Đơn xin tăng ca',
+                    'Đơn đăng ký công tác',
                     style: TextStyle(
                       fontSize: 16 * height / 956,
                       fontFamily: 'balooPaaji',
