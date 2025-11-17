@@ -7,12 +7,14 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.onChanged,
     required this.maxLines,
     required this.initialValue,
+    required this.controller,
   });
 
   final String hintText;
   final ValueChanged<String> onChanged;
   final int maxLines;
   final String? initialValue;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TextFormFieldWidget extends StatelessWidget {
         filled: true,
         fillColor: Colors.white12,
       ),
-
+      controller: controller,
       onChanged: onChanged,
       maxLines: maxLines,
       initialValue: initialValue,

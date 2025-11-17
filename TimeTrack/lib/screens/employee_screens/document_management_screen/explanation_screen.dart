@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
 
 import '../../../contains/app_colors.dart';
 
@@ -44,7 +45,17 @@ class ExplanationScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(36 * height / 956),
                   ),
                   child: Column(
-                    children: [SizedBox(height: 47 * height / 956)],
+                    children: [
+                      SizedBox(height: 47 * height / 956),
+                      FieldWidget(
+                        labelText: "Họ và tên",
+                        hintText: '',
+                        suffixIcon: null,
+                        onChange: (value) {},
+                        validator: (value) {},
+                        controller: controller,
+                      ),
+                    ],
                   ),
                 ),
               ],
