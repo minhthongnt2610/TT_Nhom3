@@ -1,33 +1,52 @@
 import 'package:flutter/material.dart';
 
-class DateTimePicker extends StatelessWidget {
+class DateTimePicker extends StatefulWidget {
   const DateTimePicker({
     super.key,
-    required this.onTap,
     required this.controller,
     required this.title,
   });
-  final VoidCallback onTap;
   final TextEditingController controller;
   final String title;
+  @override
+  State<DateTimePicker> createState() => _DateTimePickerState();
+}
+
+class _DateTimePickerState extends State<DateTimePicker> {
+  Future<void> _pickDate() async {
+    DateTime? time = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (time != null) {
+      setState(() {
+        widget.controller.text = "${time.day}/${time.month}/${time.year}";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: _pickDate,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 1),
+          color: Colors.white70,
           borderRadius: BorderRadius.circular(8),
         ),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 8),
         child: Text(
-          controller.text.isEmpty ? title : controller.text,
-          style: TextStyle(
+          widget.controller.text.isEmpty
+              ? widget.title
+              : widget.controller.text,
+          style: const TextStyle(
             color: Colors.black,
-            fontSize: 16,
-            fontWeight:
-            controller.text.isEmpty ? FontWeight.bold : FontWeight.normal,
+            fontSize: 15,
+            fontFamily: 'balooPaaji',
           ),
         ),
       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:timetrack/screens/employee_screens/document_management_screen/explanation_screen.dart';
+import 'package:timetrack/screens/employee_screens/document_management_screen/job_application_screen.dart';
+import 'package:timetrack/screens/employee_screens/document_management_screen/leave_application_screen.dart';
 
 import '../../../../contains/app_colors.dart';
 
@@ -50,7 +53,8 @@ class BottomSheetWidget extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    debugPrint('Đơn xin phép');
+                    debugPrint('Đơn xin nghỉ phép');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ExplanationScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
@@ -70,6 +74,7 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn giải trình');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => JobApplicationScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
@@ -89,6 +94,7 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn đăng ký công tác');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveApplicationScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
