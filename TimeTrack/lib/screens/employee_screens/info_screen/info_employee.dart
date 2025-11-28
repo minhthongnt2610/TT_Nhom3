@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/contains/app_colors.dart';
-import 'package:timetrack/screens/employee_screens/dialogs/check_in_success_dialog.dart';
 
 import '../../common_screens/widgets/build_info_field.dart';
 
