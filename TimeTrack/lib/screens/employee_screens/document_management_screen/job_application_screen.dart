@@ -16,6 +16,8 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
   final TextEditingController departmentController = TextEditingController();
   final TextEditingController fromDate = TextEditingController();
   final TextEditingController toDate = TextEditingController();
+  final TextEditingController reasonController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
   @override
   void dispose() {
     nameController.dispose();
@@ -152,7 +154,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                             onChanged: (value) {},
                             maxLines: 1,
                             initialValue: null,
-                            controller: departmentController,
+                            controller: numberController,
                           ),
                         ),
                         SizedBox(height: 29 * height / 956),
@@ -161,7 +163,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                           onChanged: (value) {},
                           maxLines: 6,
                           initialValue: null,
-                          controller: departmentController,
+                          controller: reasonController,
                         ),
                         SizedBox(height: 20 * height / 956),
                         Row(
