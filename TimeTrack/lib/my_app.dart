@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Time Track",
-        home: AttendanceHistoryScreen(),
+        home: LoginScreen(),
     );
   }
 }
