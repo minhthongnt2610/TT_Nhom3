@@ -1,6 +1,5 @@
   import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
-  import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
   import 'package:timetrack/screens/employee_screens/document_management_screen/widgets/date_time_picker.dart';
   import 'package:timetrack/screens/employee_screens/document_management_screen/widgets/text_form_field_widget.dart';
   import '../../../contains/app_colors.dart';
@@ -32,6 +31,11 @@ import 'package:timetrack/common_widget/button_widget.dart';
       int height = MediaQuery.of(context).size.height.toInt();
       int width = MediaQuery.of(context).size.width.toInt();
       return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor:Colors.transparent,
+          elevation: 0,
+        ),
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Container(
@@ -172,7 +176,6 @@ import 'package:timetrack/common_widget/button_widget.dart';
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
