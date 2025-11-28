@@ -43,6 +43,8 @@ dependencies:
   latlong2: ^0.9.1
   geocoding: ^4.0.0
   firebase_core: ^4.2.1
+  cloud_functions: ^6.0.4
+  firebase_auth: ^6.1.2
 #  google_maps_flutter: ^2.13.1
 #  geocoding: ^4.0.0
 flutter_launcher_icons:
