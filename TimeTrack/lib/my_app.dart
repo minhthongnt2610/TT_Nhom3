@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timetrack/screens/common_screens/login_screen.dart';
-import 'package:timetrack/screens/employee_screens/attendance_history_screen/attendance_history_screen.dart';
+import 'package:timetrack/screens/common_screens/login_screen/login_screen.dart';
 
 
 class MyApp extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../contains/app_colors.dart';
+import '../../../contains/app_colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
