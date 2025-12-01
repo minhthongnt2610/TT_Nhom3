@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/contains/app_colors.dart';
-import 'package:timetrack/screens/common_screens/forgot_password_screen.dart';
+import 'package:timetrack/screens/common_screens/forgot_password_creen/forgot_password_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
 import 'package:timetrack/screens/employee_screens/checkin_out_screen/check_in_screen.dart';
 
