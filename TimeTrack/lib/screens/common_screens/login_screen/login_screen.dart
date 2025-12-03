@@ -3,11 +3,15 @@ import 'package:timetrack/contains/app_colors.dart';
 import 'package:timetrack/screens/common_screens/forgot_password_creen/forgot_password_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
 import 'package:timetrack/screens/employee_screens/checkin_out_screen/check_in_screen.dart';
+import 'package:timetrack/testImport.dart';
+
+import '../../../data/remote/firebase/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final authService = AuthService();
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
@@ -63,10 +67,9 @@ class LoginScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             print("Quên mật khẩu");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
-                          },
+                            },
                           child: Text(
                             "Quên mật khẩu",
                             style: TextStyle(color: Colors.white),
@@ -78,9 +81,36 @@ class LoginScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white24,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           print("Đăng nhập");
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CheckInScreen()));
+                          final role = await authService.logInAndGetRole(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+
+                          if (role == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Tài khoản chưa có role hoặc role không hợp lệ")),
+                            );
+                            return;
+                          }
+
+                          if (role == "admin") {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) => const ImportCsvScreen()));
+                          }
+                          else if (role == "nhanvien") {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
+                          }
+                          else if (role == "hr") {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
+                          }
+                          else if (role == "quanly") {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
+                          }
                         },
                         child: Text(
                           "Đăng nhập",
