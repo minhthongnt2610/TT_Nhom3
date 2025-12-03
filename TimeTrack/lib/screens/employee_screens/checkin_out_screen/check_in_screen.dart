@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timetrack/data/remote/firebase/auth_service.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
 import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/app_bar_widget.dart';
 import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/bottom_sheet_widget.dart';
@@ -23,8 +25,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
   late String _currentTime;
   late String _currentDate;
   bool isCheck = false;
+  final firestoreService = FirestoreService();
+  final authService = AuthService();
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
     _currentTime = clockWidget.getCurrentTime();
@@ -84,6 +89,8 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     EventButton(
                       onTap: () {
                         debugPrint("Lịch sử chấm công");
+                        firestoreService.getUser(authService.currentUser!.uid);
+                        debugPrint(authService.currentUser!.uid);
                       },
                       urlImage: "assets/images/icon/LichSuChamCong.png",
                       text: "Lịch sử\nchấm công",

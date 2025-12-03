@@ -47,6 +47,8 @@ dependencies:
   firebase_auth: ^6.1.2
   syncfusion_flutter_gauges: ^31.1.19
   cloud_firestore: ^6.1.0
+  file_picker: ^10.3.7
+  firebase_storage: ^13.0.4
 #  google_maps_flutter: ^2.13.1
 #  geocoding: ^4.0.0
 flutter_launcher_icons:

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/contains/app_colors.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 
+import '../../../data/remote/firebase/auth_service.dart';
+import '../../../models/firebase/fb_nguoi_dung_model.dart';
 import '../../common_screens/widgets/build_info_field.dart';
 
 class InfoEmployee extends StatelessWidget {
@@ -12,6 +15,8 @@ class InfoEmployee extends StatelessWidget {
     String name = 'Phạm Lê Huyền Trân';
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
+    final firestoreService = FirestoreService();
+    final authService = AuthService();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -29,16 +34,34 @@ class InfoEmployee extends StatelessWidget {
               ),
 
               SizedBox(height: 10 * height / 956),
-               GestureDetector(
-                 onTap: () {
-                   debugPrint("Chọn ảnh");
-                 },
-                 child: CircleAvatar(
+              StreamBuilder<FbNguoiDungModel>(
+                stream: firestoreService.getUser(authService.currentUser!.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData) {
+                    debugPrint(authService.currentUser!.uid);
+                    return const Text("Không tìm thấy dữ liệu người dùng");
+
+                  }
+                  final user = snapshot.data!.toNguoiDungModel();
+                  return const SizedBox.shrink();
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  debugPrint("Chọn ảnh");
+                },
+                child: CircleAvatar(
                   radius: 60 * height / 956,
                   backgroundColor: Colors.black,
-                  child: CircleAvatar(radius: 57 * height / 956, backgroundColor: Colors.white),
-                               ),
-               ),
+                  child: CircleAvatar(
+                    radius: 57 * height / 956,
+                    backgroundColor: Colors.white,
+                  ),
+                ),
+              ),
 
               SizedBox(height: 12 * height / 956),
 
@@ -49,7 +72,7 @@ class InfoEmployee extends StatelessWidget {
                   fontSize: 28 * height / 956,
                   color: AppColors.hexD79E4E,
                   fontFamily: 'balooPaaji',
-                )
+                ),
               ),
 
               SizedBox(height: 25 * height / 956),
@@ -76,7 +99,7 @@ class InfoEmployee extends StatelessWidget {
                         debugPrint("Đổi mật khẩu");
                       },
                       child: Padding(
-                        padding:  EdgeInsets.only(right: 8.0 * width / 440),
+                        padding: EdgeInsets.only(right: 8.0 * width / 440),
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
@@ -86,16 +109,16 @@ class InfoEmployee extends StatelessWidget {
                               fontSize: 13 * height / 956,
                               color: AppColors.hexD79E4E,
                               fontFamily: 'balooPaaji',
-                            )
+                            ),
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
 
-               SizedBox(height: 25 * height / 956),
+              SizedBox(height: 25 * height / 956),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -110,7 +133,6 @@ class InfoEmployee extends StatelessWidget {
                 ),
                 onPressed: () {
                   debugPrint('Đăng xuất');
-
                 },
                 child: Text(
                   'Đăng xuất',
