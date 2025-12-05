@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import '../../../../contains/app_colors.dart';
+import '../../../../data/remote/firebase/auth_service.dart';
 import '../../info_screen/info_screen.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key, required this.isCheck});
+  const AppBarWidget({super.key, required this.isCheck, required this.name});
   final bool isCheck;
+  final String name;
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
+    final firebaseAuth = AuthService();
 
     final appbar = AppBar(
       backgroundColor: AppColors.backgroundAppBar,
@@ -30,7 +34,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Text(
-            "Phạm Lê Huyền Trân",
+            name,
             style: TextStyle(
               color: AppColors.textAppBar,
               fontWeight: FontWeight.bold,
@@ -94,11 +98,16 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(AppColors.textAppBar),
+                backgroundColor: MaterialStateProperty.all(
+                  AppColors.textAppBar,
+                ),
               ),
               onPressed: () {
                 debugPrint("Thông tin cá nhân");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => InfoEmployee()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InfoEmployee()),
+                );
               },
               child: Text(
                 "Thông tin cá nhân",

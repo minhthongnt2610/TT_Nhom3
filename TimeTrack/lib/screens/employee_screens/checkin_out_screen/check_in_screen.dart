@@ -29,7 +29,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
   final authService = AuthService();
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     _currentTime = clockWidget.getCurrentTime();
@@ -47,6 +46,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     // TODO: implement dispose
     super.dispose();
     clockWidget.timer.cancel();
+
   }
 
   void _showBottomSheet() {
@@ -63,102 +63,118 @@ class _CheckInScreenState extends State<CheckInScreen> {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(isCheck: isCheck),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(color: AppColors.backgroundColor),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(top: 241 * height / 956),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return StreamBuilder(
+      stream: firestoreService.getUser(authService.currentUser!.uid),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        final name = snapshot.data!;
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBarWidget(isCheck: isCheck, name: name.hoTen),
+          body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(color: AppColors.backgroundColor),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(top: 241 * height / 956),
+                child: Column(
                   children: [
-                    EventButton(
-                      onTap: () {
-                        debugPrint("Quản lý đơn từ");
-                        _showBottomSheet();
-                      },
-                      urlImage: "assets/images/icon/DonXinChamCongBoSung.png",
-                      text: "Quản lý đơn từ",
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        EventButton(
+                          onTap: () {
+                            debugPrint("Quản lý đơn từ");
+                            _showBottomSheet();
+                          },
+                          urlImage:
+                              "assets/images/icon/DonXinChamCongBoSung.png",
+                          text: "Quản lý đơn từ",
+                        ),
+                        EventButton(
+                          onTap: () {
+                            debugPrint("Lịch sử chấm công");
+                            firestoreService.getUser(
+                              authService.currentUser!.uid,
+                            );
+                            debugPrint(authService.currentUser!.uid);
+                          },
+                          urlImage: "assets/images/icon/LichSuChamCong.png",
+                          text: "Lịch sử\nchấm công",
+                        ),
+                        EventButton(
+                          onTap: () {
+                            debugPrint("Trạng thái đơn");
+                          },
+                          urlImage: "assets/images/icon/TrangThaiDon.png",
+                          text: "Trạng thái\n",
+                        ),
+                      ],
                     ),
-                    EventButton(
-                      onTap: () {
-                        debugPrint("Lịch sử chấm công");
-                        firestoreService.getUser(authService.currentUser!.uid);
-                        debugPrint(authService.currentUser!.uid);
+                    SizedBox(height: 46 * height / 956),
+                    CheckButton(
+                      onPressed: () {
+                        setState(() {
+                          isCheck = !isCheck;
+                        });
+                        isCheck
+                            ? debugPrint("CHECK IN")
+                            : debugPrint("CHECK OUT");
+                        isCheck
+                            ? checkInSuccessDialog(context)
+                            : checkOutSuccessDialog(context);
                       },
-                      urlImage: "assets/images/icon/LichSuChamCong.png",
-                      text: "Lịch sử\nchấm công",
+                      nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                     ),
-                    EventButton(
-                      onTap: () {
-                        debugPrint("Trạng thái đơn");
-                      },
-                      urlImage: "assets/images/icon/TrangThaiDon.png",
-                      text: "Trạng thái\n",
+                    SizedBox(height: 46 * height / 956),
+                    Text(
+                      _currentTime,
+                      style: TextStyle(
+                        fontSize: 29 * height / 956,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    Text(
+                      _currentDate,
+                      style: TextStyle(
+                        fontSize: 20 * height / 956,
+                        color: Colors.black,
+                        fontFamily: 'balooPaaji',
+                      ),
+                    ),
+                    SizedBox(height: 5 * height / 956),
+                    Text(
+                      "Đ/c: $_address",
+                      style: TextStyle(
+                        fontSize: 17 * height / 956,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10 * height / 956),
+                    SizedBox(
+                      width: 353 * width / 440,
+                      height: 156 * height / 956,
+                      child: OpenStreetMap(
+                        onChangeAddress: (address) {
+                          setState(() {
+                            _address = address!;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 46 * height / 956),
-                CheckButton(
-                  onPressed: () {
-                    setState(() {
-                      isCheck = !isCheck;
-                    });
-                    isCheck ? debugPrint("CHECK IN") : debugPrint("CHECK OUT");
-                    isCheck
-                        ? checkInSuccessDialog(context)
-                        : checkOutSuccessDialog(context);
-                  },
-                  nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
-                ),
-                SizedBox(height: 46 * height / 956),
-                Text(
-                  _currentTime,
-                  style: TextStyle(
-                    fontSize: 29 * height / 956,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  _currentDate,
-                  style: TextStyle(
-                    fontSize: 20 * height / 956,
-                    color: Colors.black,
-                    fontFamily: 'balooPaaji',
-                  ),
-                ),
-                SizedBox(height: 5 * height / 956),
-                Text(
-                  "Đ/c: $_address",
-                  style: TextStyle(
-                    fontSize: 17 * height / 956,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10 * height / 956),
-                Container(
-                  width: 353 * width / 440,
-                  height: 156 * height / 956,
-                  child: OpenStreetMap(onChangeAddress: (address) {
-                    setState(() {
-                      _address = address!;
-                    });
-                  },),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
