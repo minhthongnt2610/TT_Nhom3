@@ -62,7 +62,7 @@ class _FieldWidgetState extends State<FieldWidget> {
         labelStyle: TextStyle(color: Colors.grey),
         hintStyle: TextStyle(color: Colors.white),
       ),
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.black),
     );
   }
 }

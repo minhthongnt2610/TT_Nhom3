@@ -32,10 +32,9 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
     loc.PermissionStatus permissionGranted;
     permissionGranted = await _location.hasPermission();
     if (permissionGranted == loc.PermissionStatus.denied) {
-      //denied -> chưa được cấp quyền
       permissionGranted = await _location.requestPermission();
       if (permissionGranted != loc.PermissionStatus.granted)
-        return; //không được cấp quyền
+        return;
     }
   }
 
