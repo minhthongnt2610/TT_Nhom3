@@ -65,4 +65,44 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<bool> checkAdmin() async {
+    final user = currentUser;
+    if (user == null) {
+      return false;
+    }
+    final token = await user.getIdTokenResult(true);
+    final role = token.claims?["role"];
+    return role == "admin";
+  }
+
+  Future<bool> checkNV() async {
+    final user = currentUser;
+    if (user == null) {
+      return false;
+    }
+    final token = await user.getIdTokenResult(true);
+    final role = token.claims?["role"];
+    return role == "nv";
+  }
+
+  Future<bool> checkHr() async {
+    final user = currentUser;
+    if (user == null) {
+      return false;
+    }
+    final token = await user.getIdTokenResult(true);
+    final role = token.claims?["role"];
+    return role == "hr";
+  }
+
+  Future<bool> checkQuanLy() async {
+    final user = currentUser;
+    if (user == null) {
+      return false;
+    }
+    final token = await user.getIdTokenResult(true);
+    final role = token.claims?["role"];
+    return role == "quanly";
+  }
 }
