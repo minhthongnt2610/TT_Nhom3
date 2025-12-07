@@ -1,46 +1,37 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:timetrack/data/remote/firebase/auth_service.dart';
+import 'package:timetrack/data/remote/firebase/storage_service.dart';
 
-class ImportCsvScreen extends StatefulWidget {
-  const ImportCsvScreen({super.key});
-
+class ImportFileCsvScreen extends StatefulWidget {
+  const ImportFileCsvScreen({super.key});
   @override
-  State<ImportCsvScreen> createState() => _ImportCsvScreenState();
+  State<ImportFileCsvScreen> createState() => _ImportFileCsvScreenState();
 }
 
-class _ImportCsvScreenState extends State<ImportCsvScreen> {
+class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
   File? selectedCsv;
   bool uploading = false;
   String statusMessage = "";
   bool isAdmin = false;
+  final authService = AuthService();
+  final storageService = StorageService();
 
   @override
   void initState() {
     super.initState();
-    checkAdminRole();
+    checkRole();
   }
 
-  /// Kiểm tra custom claim "role"
-  Future<void> checkAdminRole() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      setState(() => statusMessage = "Bạn chưa đăng nhập");
-      return;
-    }
-
-    // Refresh token để lấy custom claims mới
-    final idTokenResult = await user.getIdTokenResult(true);
-    final role = idTokenResult.claims?["role"];
-
-    if (role == "admin") {
-      setState(() => isAdmin = true);
-    } else {
-      setState(() => statusMessage = "Bạn không có quyền admin để import CSV");
-    }
+  Future<void> checkRole() async {
+    final result = await authService.checkAdmin();
+    setState(() {
+      isAdmin = result;
+    });
   }
 
   /// Chọn file CSV từ máy
@@ -58,26 +49,17 @@ class _ImportCsvScreenState extends State<ImportCsvScreen> {
     }
   }
 
-  /// Upload file vào Firebase Storage
-  Future<void> uploadCsv() async {
+  Future<void> importFileCSV() async {
     if (selectedCsv == null) {
       setState(() => statusMessage = "Vui lòng chọn file CSV trước.");
       return;
     }
-
     setState(() {
       uploading = true;
       statusMessage = "Đang upload...";
     });
-
     try {
-      final fileName = selectedCsv!.path.split("/").last;
-      final storageRef = FirebaseStorage.instance.ref().child(
-        "imports/$fileName",
-      ); // Cloud Functions sẽ xử lý file
-
-      await storageRef.putFile(selectedCsv!);
-
+      await storageService.importFileCSV(selectedCsv!);
       setState(() {
         uploading = false;
         statusMessage = "Upload thành công! CSV sẽ được xử lý tự động.";
@@ -131,7 +113,7 @@ class _ImportCsvScreenState extends State<ImportCsvScreen> {
               label: uploading
                   ? const Text("Đang upload...")
                   : const Text("Upload CSV"),
-              onPressed: uploading ? null : uploadCsv,
+              onPressed: uploading ? null : importFileCSV,
             ),
 
             const SizedBox(height: 40),
