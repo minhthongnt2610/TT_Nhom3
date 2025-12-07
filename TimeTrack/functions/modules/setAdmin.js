@@ -11,7 +11,6 @@ exports.createAdminAccount = onRequest(
     const db = getFirestore();
     const email = "admin@mailinator.com";
     const password = "Admin12345@";
-
     try {
       let  userDetail;
       // Kiểm tra xem email này đã tồn tại hay chưa.
@@ -50,7 +49,6 @@ exports.createAdminAccount = onRequest(
         },
         { merge: true }
       );
-      // Trả kết quả về client
       res.json({
         success: true,
         uid: uid,
