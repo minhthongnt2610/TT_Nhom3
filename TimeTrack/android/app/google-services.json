@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765585247584",
+    "project_id": "timetrack-264b6",
+    "storage_bucket": "timetrack-264b6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765585247584:android:567556e9a2073b82e7a205",
+        "android_client_info": {
+          "package_name": "com.example.timetrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD10LJbObH4BnGJxVVrcjwxGgL42poi5fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
