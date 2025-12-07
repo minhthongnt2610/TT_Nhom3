@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/screens/common_screens/login_screen/login_screen.dart';
-import 'package:timetrack/testImport.dart';
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,9 +7,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Time Track",
-        home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      title: "Time Track",
+      home: LoginScreen(),
     );
   }
 }
