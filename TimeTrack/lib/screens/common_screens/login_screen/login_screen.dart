@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/contains/app_colors.dart';
+import 'package:timetrack/screens/admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
 import 'package:timetrack/screens/common_screens/forgot_password_creen/forgot_password_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
 import 'package:timetrack/screens/employee_screens/checkin_out_screen/check_in_screen.dart';
-import 'package:timetrack/testImport.dart';
 
 import '../../../data/remote/firebase/auth_service.dart';
 
@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
 
                           if (role == "admin") {
                             Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => const ImportCsvScreen()));
+                                MaterialPageRoute(builder: (_) => const ImportFileCsvScreen()));
                           }
                           else if (role == "nhanvien") {
                             Navigator.pushReplacement(context,
