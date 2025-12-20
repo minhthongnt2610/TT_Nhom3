@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
-import 'package:timetrack/screens/employee_screens/document_management_screen/widgets/date_time_picker.dart';
-import 'package:timetrack/screens/employee_screens/document_management_screen/widgets/text_form_field_widget.dart';
+import 'package:timetrack/screens/common_screens/document_screen/widgets/date_time_picker.dart';
+import 'package:timetrack/screens/common_screens/document_screen/widgets/text_form_field_widget.dart';
+
 import '../../../contains/app_colors.dart';
 
-class JobApplicationScreen extends StatefulWidget {
-  const JobApplicationScreen({super.key});
+class LeaveApplicationScreen extends StatefulWidget {
+  const LeaveApplicationScreen({super.key});
+
   @override
-  State<JobApplicationScreen> createState() => _JobApplicationScreenState();
+  State<LeaveApplicationScreen> createState() => _LeaveApplicationScreenState();
 }
 
-class _JobApplicationScreenState extends State<JobApplicationScreen> {
+class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
@@ -18,6 +20,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
+
   @override
   void dispose() {
     nameController.dispose();
@@ -34,29 +37,20 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
     int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor:Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [AppColors.hexFFF0F0, AppColors.hexD79E4E],
-            ),
-          ),
+          color: AppColors.backgroundColor,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 97 * height / 956),
                 Text(
-                  "ĐĂNG KÝ CÔNG TÁC",
+                  "ĐƠN GIẢI TRÌNH",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'balooPaaji',
@@ -169,11 +163,11 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ButtonWidget(onPressed: (){}, title: 'Chuyển',),
+                            ButtonWidget(onPressed: () {}, title: 'Chuyển'),
                             SizedBox(width: 10 * width / 440),
-                            ButtonWidget(onPressed: (){}, title: 'Hủy',),
+                            ButtonWidget(onPressed: () {}, title: 'Hủy'),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
