@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../contains/app_colors.dart';
+import '../../../contains/app_colors.dart';
 
 class CheckButton extends StatefulWidget {
   const CheckButton({
@@ -8,6 +8,7 @@ class CheckButton extends StatefulWidget {
     required this.onPressed,
     required this.nameButton,
   });
+
   final VoidCallback onPressed;
   final String nameButton;
 
@@ -71,7 +72,10 @@ class _CheckButtonState extends State<CheckButton>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [AppColors.backgroundColor, AppColors.backgroundButton],
+                  colors: [
+                    AppColors.backgroundColor,
+                    AppColors.backgroundButton,
+                  ],
                 ),
                 borderRadius: BorderRadius.circular(112 * height / 956),
                 border: Border.all(
@@ -90,7 +94,6 @@ class _CheckButtonState extends State<CheckButton>
               child: Text(
                 widget.nameButton,
                 style: TextStyle(
-
                   fontSize: 35,
                   color: Colors.black,
                   fontFamily: 'balooPaaji',

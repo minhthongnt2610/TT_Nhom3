@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:timetrack/screens/employee_screens/document_management_screen/explanation_screen.dart';
-import 'package:timetrack/screens/employee_screens/document_management_screen/job_application_screen.dart';
-import 'package:timetrack/screens/employee_screens/document_management_screen/leave_application_screen.dart';
 
-import '../../../../contains/app_colors.dart';
+import '../../../contains/app_colors.dart';
+import '../document_screen/explanation_screen.dart';
+import '../document_screen/job_application_screen.dart';
+import '../document_screen/leave_application_screen.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
@@ -14,7 +14,6 @@ class BottomSheetWidget extends StatelessWidget {
     int width = MediaQuery.of(context).size.width.toInt();
 
     return DraggableScrollableSheet(
-
       expand: false,
       initialChildSize: 0.6,
       minChildSize: 0.25,
@@ -54,7 +53,12 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn xin nghỉ phép');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ExplanationScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExplanationScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
@@ -74,7 +78,12 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn giải trình');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => JobApplicationScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JobApplicationScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
@@ -94,7 +103,12 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn đăng ký công tác');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveApplicationScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LeaveApplicationScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),

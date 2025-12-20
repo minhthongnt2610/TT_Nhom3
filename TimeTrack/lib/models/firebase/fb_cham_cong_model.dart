@@ -6,7 +6,7 @@ class FbChamCongModel {
   final String userId;
   final String khuVucId;
   final int checkInTime;
-  final int checkOutTime;
+  final int? checkOutTime;
   final GeoPoint? checkInLocation;
   final GeoPoint? checkOutLocation;
   final String trangThai;
@@ -66,7 +66,7 @@ extension FbChamCongModelExtension on FbChamCongModel {
       userId: userId,
       khuVucId: khuVucId,
       checkInTime: DateTime.fromMillisecondsSinceEpoch(checkInTime),
-      checkOutTime: DateTime.fromMillisecondsSinceEpoch(checkOutTime),
+      checkOutTime: DateTime.fromMillisecondsSinceEpoch(checkOutTime!),
       checkInLocation: checkInLocation,
       checkOutLocation: checkOutLocation,
       trangThai: trangThai,
