@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/contains/app_colors.dart';
-import 'package:timetrack/screens/admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
-import 'package:timetrack/screens/common_screens/forgot_password_creen/forgot_password_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/field_widget.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/check_in_screen.dart';
+import 'package:timetrack/screens/hr_screen/hr_check_in_screen/hr_check_in_screen.dart';
+import 'package:timetrack/screens/manager_screens/manager_check_in_screen/manager_check_in_screen.dart';
 
 import '../../../data/remote/firebase/auth_service.dart';
+import '../../admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
+import '../../employee_screens/employee_checkin_out_screen/employee_check_in_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  static final String route = '/';
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final authService = AuthService();
+  late bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
@@ -69,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () async {
                             print("Quên mật khẩu");
-                            },
+                          },
                           child: Text(
                             "Quên mật khẩu",
                             style: TextStyle(color: Colors.white),
@@ -81,41 +92,76 @@ class LoginScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white24,
                         ),
-                        onPressed: () async {
-                          print("Đăng nhập");
-                          final role = await authService.logInAndGetRole(
-                            email: emailController.text.trim(),
-                            password: passwordController.text.trim(),
-                          );
-
-                          if (role == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Tài khoản chưa có role hoặc role không hợp lệ")),
-                            );
-                            return;
-                          }
-
-                          if (role == "admin") {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => const ImportFileCsvScreen()));
-                          }
-                          else if (role == "nhanvien") {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
-                          }
-                          else if (role == "hr") {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
-                          }
-                          else if (role == "quanly") {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) => const CheckInScreen()));
-                          }
-                        },
-                        child: Text(
-                          "Đăng nhập",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        onPressed: _isLoading
+                            ? null
+                            : () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                final role = await authService.logInAndGetRole(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                );
+                                if (!mounted) return;
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                if (role == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Email/mật khẩu không đúng hoặc tài khoản chưa có role",
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                if (role == "admin") {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          const ImportFileCsvScreen(),
+                                    ),
+                                  );
+                                } else if (role == "nhanvien") {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          const EmployeeCheckInScreen(),
+                                    ),
+                                  );
+                                } else if (role == "hr") {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const HrCheckInScreen(),
+                                    ),
+                                  );
+                                } else if (role == "quanly") {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          const ManagerCheckInScreen(),
+                                    ),
+                                  );
+                                }
+                              },
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text(
+                                "Đăng nhập",
+                                style: TextStyle(color: Colors.white),
+                              ),
                       ),
                     ],
                   ),

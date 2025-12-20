@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+import 'package:timetrack/screens/common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
+import 'package:timetrack/screens/common_screens/widgets/bottom_sheet_widget.dart';
+import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
+import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
+import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/app_bar_widget.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/bottom_sheet_widget.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/check_button.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/clock_widget.dart';
-import 'package:timetrack/screens/employee_screens/checkin_out_screen/widgets/event_button.dart';
-import 'package:timetrack/screens/employee_screens/dialogs/check_out_success_dialog.dart';
-import '../../../contains/app_colors.dart';
-import '../dialogs/check_in_success_dialog.dart';
+import 'package:timetrack/screens/hr_screen/list_all_employee_screen/list_all_employee_screen.dart';
 
-class CheckInScreen extends StatefulWidget {
-  const CheckInScreen({super.key});
+import '../../../contains/app_colors.dart';
+import '../../../data/remote/firebase/function_service.dart';
+import '../../common_screens/dialogs/check_in_fail_dialog.dart';
+import '../../common_screens/dialogs/check_in_success_dialog.dart';
+import '../../common_screens/dialogs/check_out_success_dialog.dart';
+import '../../common_screens/widgets/app_bar_widget.dart';
+
+class HrCheckInScreen extends StatefulWidget {
+  const HrCheckInScreen({super.key});
 
   @override
-  State<CheckInScreen> createState() => _CheckInScreenState();
+  State<HrCheckInScreen> createState() => _HrCheckInScreenState();
 }
 
-class _CheckInScreenState extends State<CheckInScreen> {
+class _HrCheckInScreenState extends State<HrCheckInScreen> {
   String _address = "Đang tải địa chỉ...";
   ClockWidget clockWidget = ClockWidget();
   late String _currentTime;
@@ -27,6 +31,10 @@ class _CheckInScreenState extends State<CheckInScreen> {
   bool isCheck = false;
   final firestoreService = FirestoreService();
   final authService = AuthService();
+  double? _lat;
+  double? _lon;
+  final functionService = FunctionService();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +54,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
     // TODO: implement dispose
     super.dispose();
     clockWidget.timer.cancel();
-
   }
 
   void _showBottomSheet() {
@@ -63,16 +70,17 @@ class _CheckInScreenState extends State<CheckInScreen> {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
 
-    return StreamBuilder(
-      stream: firestoreService.getUser(authService.currentUser!.uid),
+    return FutureBuilder(
+      future: firestoreService.getUser(authService.currentUser!.uid),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-        final name = snapshot.data!;
+        final user = snapshot.data!;
+        final role = user.vaiTro;
         return Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: AppBarWidget(isCheck: isCheck, name: name.hoTen),
+          appBar: AppBarWidget(isCheck: isCheck, name: user.hoTen),
           body: Container(
             width: double.infinity,
             height: double.infinity,
@@ -92,7 +100,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                           },
                           urlImage:
                               "assets/images/icon/DonXinChamCongBoSung.png",
-                          text: "Quản lý đơn từ",
+                          text: "Quản lý\nđơn từ",
                         ),
                         EventButton(
                           onTap: () {
@@ -101,31 +109,70 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               authService.currentUser!.uid,
                             );
                             debugPrint(authService.currentUser!.uid);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => LichSuChamCongScreen(
+                                  uid: authService.currentUser!.uid,
+                                ),
+                              ),
+                            );
                           },
                           urlImage: "assets/images/icon/LichSuChamCong.png",
                           text: "Lịch sử\nchấm công",
                         ),
                         EventButton(
                           onTap: () {
-                            debugPrint("Trạng thái đơn");
+                            debugPrint("Danh sách nhân viên");
+                            if (role == "hr") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ListAllEmployeeScreen(
+                                    uid: authService.currentUser!.uid,
+                                  ),
+                                ),
+                              );
+                            }
                           },
-                          urlImage: "assets/images/icon/TrangThaiDon.png",
-                          text: "Trạng thái\n",
+                          urlImage: "assets/images/icon/document.png",
+                          text: "Danh sách\nnhân viên",
                         ),
                       ],
                     ),
                     SizedBox(height: 46 * height / 956),
                     CheckButton(
-                      onPressed: () {
-                        setState(() {
-                          isCheck = !isCheck;
-                        });
-                        isCheck
-                            ? debugPrint("CHECK IN")
-                            : debugPrint("CHECK OUT");
-                        isCheck
-                            ? checkInSuccessDialog(context)
-                            : checkOutSuccessDialog(context);
+                      onPressed: () async {
+                        debugPrint(
+                          "LAT" + _lat.toString() + "LON" + _lon.toString(),
+                        );
+                        if (_lat == null || _lon == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Không lấy được vị trí GPS"),
+                            ),
+                          );
+                          return;
+                        }
+                        final result = await functionService.chamCong(
+                          lat: _lat!,
+                          lon: _lon!,
+                        );
+                        if (!mounted) return;
+                        if (result['status'] == 'CheckIn') {
+                          setState(() {
+                            isCheck = true;
+                          });
+                          checkInSuccessDialog(context);
+                        } else if (result['status'] == 'CheckOut') {
+                          setState(() {
+                            isCheck = false;
+                          });
+                          checkOutSuccessDialog(context);
+                        } else {
+                          checkInFailDialog(context);
+                          debugPrint(result['message']);
+                        }
                       },
                       nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                     ),
@@ -161,11 +208,16 @@ class _CheckInScreenState extends State<CheckInScreen> {
                       width: 353 * width / 440,
                       height: 156 * height / 956,
                       child: OpenStreetMap(
-                        onChangeAddress: (address) {
+                        onChangeAddress: (address, lat, lon) {
                           setState(() {
                             _address = address!;
+                            _lat = lat;
+                            _lon = lon;
                           });
                         },
+                        kvLat: _lat ?? 0,
+                        kvLon: _lon ?? 0,
+                        banKinh: 100,
                       ),
                     ),
                   ],
