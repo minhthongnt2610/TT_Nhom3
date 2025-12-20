@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+
 import '../../../../contains/app_colors.dart';
 import '../../../../data/remote/firebase/auth_service.dart';
-import '../../info_screen/info_screen.dart';
+import '../info_screen/info_screen.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key, required this.isCheck, required this.name});
+
   final bool isCheck;
   final String name;
+
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
