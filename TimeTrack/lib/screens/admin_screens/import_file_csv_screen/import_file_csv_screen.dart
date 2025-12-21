@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:timetrack/data/remote/firebase/auth_service.dart';
-import 'package:timetrack/data/remote/firebase/storage_service.dart';
+import 'package:timetrack/common_widget/button_admin.dart';
+import 'package:timetrack/common_widget/button_widget.dart';
+import 'package:timetrack/contains/app_colors.dart';
 
 class ImportFileCsvScreen extends StatefulWidget {
   const ImportFileCsvScreen({super.key});
@@ -16,113 +16,98 @@ class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
   File? selectedCsv;
   bool uploading = false;
   String statusMessage = "";
-  bool isAdmin = false;
-  final authService = AuthService();
-  final storageService = StorageService();
 
   @override
   void initState() {
     super.initState();
-    checkRole();
-  }
-
-  Future<void> checkRole() async {
-    final result = await authService.checkAdmin();
-    setState(() {
-      isAdmin = result;
-    });
-  }
-
-  /// Chọn file CSV từ máy
-  Future<void> pickCsvFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ["csv"],
-    );
-
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        selectedCsv = File(result.files.single.path!);
-        statusMessage = "File đã chọn: ${result.files.single.name}";
-      });
-    }
-  }
-
-  Future<void> importFileCSV() async {
-    if (selectedCsv == null) {
-      setState(() => statusMessage = "Vui lòng chọn file CSV trước.");
-      return;
-    }
-    setState(() {
-      uploading = true;
-      statusMessage = "Đang upload...";
-    });
-    try {
-      await storageService.importFileCSV(selectedCsv!);
-      setState(() {
-        uploading = false;
-        statusMessage = "Upload thành công! CSV sẽ được xử lý tự động.";
-      });
-    } catch (e) {
-      setState(() {
-        uploading = false;
-        statusMessage = "Lỗi upload: $e";
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Nếu không phải admin → chặn màn hình
-    if (!isAdmin) {
-      return Scaffold(
-        appBar: AppBar(title: const Text("Import CSV")),
-        body: Center(
-          child: Text(statusMessage, style: const TextStyle(fontSize: 16)),
-        ),
-      );
-    }
-
+    int height = MediaQuery.of(context).size.height.toInt();
+    int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
-      appBar: AppBar(title: const Text("Import CSV cho Admin")),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-
-            ElevatedButton.icon(
-              icon: const Icon(Icons.attach_file),
-              label: const Text("Chọn file CSV"),
-              onPressed: pickCsvFile,
-            ),
-
-            const SizedBox(height: 20),
-
-            if (selectedCsv != null)
-              Text(
-                "File: ${selectedCsv!.path.split("/").last}",
-                style: const TextStyle(fontSize: 16),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
+        centerTitle: true,
+        title: const Text(
+          "IMPORT FILE CSV",
+          style: TextStyle(
+            color: AppColors.backgroundAppBar,
+            fontSize: 20,
+            fontFamily: 'balooPaaji',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 420 * width / 440),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-
-            const SizedBox(height: 40),
-
-            ElevatedButton.icon(
-              icon: const Icon(Icons.cloud_upload),
-              label: uploading
-                  ? const Text("Đang upload...")
-                  : const Text("Upload CSV"),
-              onPressed: uploading ? null : importFileCSV,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Import file CSV',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'balooPaaji',
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 8 * height / 956),
+                    ButtonWidget(onPressed: () {}, title: "Chọn file"),
+                    SizedBox(height: 12 * height / 956),
+                    if (selectedCsv != null)
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.description, color: Colors.blue),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                selectedCsv!.path.split("/").last,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    SizedBox(height: 12 * height / 956),
+                    ButtonAdmin(onPressed: () {}, title: "Upload file"),
+                    SizedBox(height: 16 * height / 956),
+                    if (statusMessage != null)
+                      Text(
+                        statusMessage,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'balooPaaji',
+                          color: statusMessage.startsWith("L")
+                              ? Colors.red
+                              : statusMessage.startsWith("U")
+                              ? Colors.green
+                              : Colors.blueGrey,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
-
-            const SizedBox(height: 40),
-
-            Text(
-              statusMessage,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
-            ),
-          ],
+          ),
         ),
       ),
     );
