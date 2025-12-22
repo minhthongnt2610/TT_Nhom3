@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_admin.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
 import 'package:timetrack/contains/app_colors.dart';
+import 'package:timetrack/data/remote/firebase/auth_service.dart';
+import 'package:timetrack/data/remote/firebase/storage_service.dart';
 
 class ImportFileCsvScreen extends StatefulWidget {
   const ImportFileCsvScreen({super.key});
@@ -13,13 +16,61 @@ class ImportFileCsvScreen extends StatefulWidget {
 }
 
 class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
-  File? selectedCsv;
+  File? selectFile;
   bool uploading = false;
-  String statusMessage = "";
+  String notice = "";
+  bool isAdmin = false;
+  final authService = AuthService();
+  final storageService = StorageService();
 
   @override
   void initState() {
     super.initState();
+    checkRole();
+  }
+
+  Future<void> checkRole() async {
+    final result = await authService.checkAdmin();
+    setState(() => isAdmin = result);
+  }
+
+  Future<void> chooseFileCSV() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ["csv"],
+    );
+
+    if (result != null) {
+      setState(() {
+        selectFile = File(result.files.single.path!);
+        notice = "Đã chọn file CSV";
+      });
+    }
+  }
+
+  Future<void> importFileCSV() async {
+    if (selectFile == null) {
+      setState(() => notice = "Vui lòng chọn file CSV trước");
+      return;
+    }
+
+    setState(() {
+      uploading = true;
+      notice = "Đang upload file CSV...";
+    });
+
+    try {
+      await storageService.importFileCSV(selectFile!);
+      setState(() {
+        uploading = false;
+        notice = "Upload thành công! File sẽ được xử lý tự động.";
+      });
+    } catch (e) {
+      setState(() {
+        uploading = false;
+        notice = "Lỗi upload: $e";
+      });
+    }
   }
 
   @override
@@ -65,9 +116,14 @@ class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
                       ),
                     ),
                     SizedBox(height: 8 * height / 956),
-                    ButtonWidget(onPressed: () {}, title: "Chọn file"),
+                    ButtonWidget(
+                      onPressed: () {
+                        uploading ? null : chooseFileCSV();
+                      },
+                      title: "Chọn file",
+                    ),
                     SizedBox(height: 12 * height / 956),
-                    if (selectedCsv != null)
+                    if (selectFile != null)
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -80,7 +136,7 @@ class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                selectedCsv!.path.split("/").last,
+                                selectFile!.path.split("/").last,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -88,17 +144,22 @@ class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
                         ),
                       ),
                     SizedBox(height: 12 * height / 956),
-                    ButtonAdmin(onPressed: () {}, title: "Upload file"),
+                    ButtonAdmin(
+                      onPressed: () {
+                        uploading ? null : importFileCSV();
+                      },
+                      title: "Upload file",
+                    ),
                     SizedBox(height: 16 * height / 956),
-                    if (statusMessage != null)
+                    if (notice != null)
                       Text(
-                        statusMessage,
+                        notice,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'balooPaaji',
-                          color: statusMessage.startsWith("L")
+                          color: notice.startsWith("L")
                               ? Colors.red
-                              : statusMessage.startsWith("U")
+                              : notice.startsWith("U")
                               ? Colors.green
                               : Colors.blueGrey,
                         ),
