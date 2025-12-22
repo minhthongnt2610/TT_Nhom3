@@ -23,12 +23,16 @@
 //     );
 //   }
 // }
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/text_form_field_widget.dart';
 
+import '../../../common_widget/button_admin.dart';
 import '../../../contains/app_colors.dart';
 
 class RegionalConfigurationScreen extends StatefulWidget {
@@ -38,8 +42,10 @@ class RegionalConfigurationScreen extends StatefulWidget {
     required this.kvLon,
     required this.banKinh,
     required this.tenKv,
+    required this.id,
   });
 
+  final String id;
   final String tenKv;
   final double kvLat;
   final double kvLon;
@@ -86,23 +92,34 @@ class _RegionalConfigurationScreenState
     debugPrint(_diaChi);
   }
 
-  void _updateMap() {
-    final lat = double.tryParse(_latController.toString());
-    final lon = double.tryParse(_lonController.toString());
-    final banKinh = double.tryParse(_banKinhController.toString());
+  Future<void> _updateMap() async {
+    final firestore = FirestoreService();
+    final tenKv = _tenKvController.text;
+    final lat = double.tryParse(_latController.text);
+    final lon = double.tryParse(_lonController.text);
+    final banKinh = double.tryParse(_banKinhController.text);
     if (lat == null || lon == null || banKinh == null) return;
-    final newTamDiem = LatLng(lat, lon);
+    final newTamDiem = LatLng(lat!, lon!);
     setState(() {
+      _diaChi = tenKv;
       _tamDiem = LatLng(lat, lon);
-      _banKinh = banKinh;
+      _banKinh = banKinh!;
     });
-    _mapController.move(_tamDiem, 15);
+    await firestore.updateKvcc(
+      id: widget.id,
+      tenKhuVuc: tenKv,
+      lat: _tamDiem.latitude,
+      lon: _tamDiem.longitude,
+      banKinh: _banKinh,
+    );
+    _mapController.move(newTamDiem, 15);
     _getLocation();
   }
 
   void _updateForm(LatLng latLng) {
     setState(() {
       _tamDiem = latLng;
+      _tenKvController.text = _diaChi;
       _latController.text = latLng.latitude.toStringAsFixed(6);
       _lonController.text = latLng.longitude.toStringAsFixed(6);
     });
@@ -216,6 +233,19 @@ class _RegionalConfigurationScreenState
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20 * height / 956),
+            ButtonAdmin(
+              onPressed: () {
+                log(widget.id);
+                log(_diaChi);
+                log(_tamDiem.latitude.toString());
+                log(_tamDiem.longitude.toString());
+                log(_banKinh.toString());
+
+                _updateMap();
+              },
+              title: "Xác nhận",
             ),
           ],
         ),
