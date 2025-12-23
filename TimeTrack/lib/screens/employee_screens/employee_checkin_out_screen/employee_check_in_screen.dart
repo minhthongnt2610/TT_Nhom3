@@ -7,8 +7,6 @@ import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
-import 'package:timetrack/screens/hr_screen/list_all_employee_screen/list_all_employee_screen.dart';
-import 'package:timetrack/screens/manager_screens/list_employee_of_department_screen/list_employee_of_department_screen.dart';
 
 import '../../../contains/app_colors.dart';
 import '../../../data/remote/firebase/function_service.dart';
@@ -125,26 +123,26 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Trạng thái đơn");
-                            if (role == "quanly") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      ListEmployeeOfDepartmentScreen(
-                                        uid: authService.currentUser!.uid,
-                                      ),
-                                ),
-                              );
-                            } else if (role == "hr") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ListAllEmployeeScreen(
-                                    uid: authService.currentUser!.uid,
-                                  ),
-                                ),
-                              );
-                            }
+                            // if (role == "quanly") {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (_) =>
+                            //           ListEmployeeOfDepartmentScreen(
+                            //             uid: authService.currentUser!.uid,
+                            //           ),
+                            //     ),
+                            //   );
+                            // } else if (role == "hr") {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (_) => ListAllEmployeeScreen(
+                            //         uid: authService.currentUser!.uid,
+                            //       ),
+                            //     ),
+                            //   );
+                            // }
                           },
                           urlImage: "assets/images/icon/TrangThaiDon.png",
                           text: "Trạng thái\n",

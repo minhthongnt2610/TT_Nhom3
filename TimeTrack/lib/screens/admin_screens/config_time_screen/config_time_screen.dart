@@ -118,6 +118,7 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
                         setState(() {
                           _gioBatDau = null;
                           _gioKetThuc = null;
+                          FocusScope.of(context).unfocus();
                         });
                         _formKey.currentState!.reset();
                       },
@@ -139,6 +140,7 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
                         setState(() {
                           _gioBatDau = null;
                           _gioKetThuc = null;
+                          FocusScope.of(context).unfocus();
                         });
                         _formKey.currentState!.reset();
                       },
@@ -220,9 +222,45 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
                                     });
                                   },
                                   onDelete: () async {
-                                    await _repository.deleteThoiGianLamViec(
-                                      item.id,
+                                    final isConfirm = await showDialog<bool>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Xác nhận'),
+                                          content: const Text(
+                                            'Bạn có chắc chắn muốn xóa không?',
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.of(
+                                                context,
+                                              ).pop(false),
+                                              child: const Text('Hủy'),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () => Navigator.of(
+                                                context,
+                                              ).pop(true),
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.backgroundAppBar,
+                                              ),
+                                              child: const Text('Xóa'),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
+
+                                    if (isConfirm == true) {
+                                      await _repository.deleteThoiGianLamViec(
+                                        item.id,
+                                      );
+                                      setState(() {
+                                        FocusScope.of(context).unfocus();
+                                      });
+                                    }
                                   },
                                 );
                               },
