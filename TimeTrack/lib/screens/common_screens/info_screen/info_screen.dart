@@ -96,7 +96,9 @@ class InfoEmployee extends StatelessWidget {
                             BuildInfoField(
                               title: user.vaiTro == 'nhanvien'
                                   ? 'Nhân viên'
-                                  : 'Quản lý',
+                                  : user.vaiTro == 'quanly'
+                                  ? 'Quản lý'
+                                  : 'HR',
                             ),
                             BuildInfoField(title: user.phongBan),
                             BuildInfoField(title: user.email),

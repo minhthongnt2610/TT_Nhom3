@@ -43,7 +43,7 @@ class LichSuChamCongScreen extends StatelessWidget {
               }
               final list = snapshot.data ?? [];
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Center(child: const CircularProgressIndicator());
               }
 
               return ColoredBox(

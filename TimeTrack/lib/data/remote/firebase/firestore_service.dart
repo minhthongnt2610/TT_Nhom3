@@ -56,7 +56,7 @@ class FirestoreService {
   Stream<List<FbNguoiDungModel>> getAll(String id) {
     return _firebaseFirestore
         .collection('NguoiDung')
-        .where('vaiTro', isEqualTo: 'nhanvien')
+        .where('vaiTro', whereIn: ['nhanvien', 'quanly'])
         .snapshots()
         .map((snap) {
           return snap.docs

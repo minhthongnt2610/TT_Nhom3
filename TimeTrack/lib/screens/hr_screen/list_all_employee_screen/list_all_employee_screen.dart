@@ -3,6 +3,7 @@ import 'package:timetrack/contains/app_colors.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 
 import '../../../models/firebase/fb_nguoi_dung_model.dart';
+import '../../common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
 
 class ListAllEmployeeScreen extends StatelessWidget {
   ListAllEmployeeScreen({super.key, required this.uid});
@@ -53,40 +54,53 @@ class ListAllEmployeeScreen extends StatelessWidget {
                     onTap: () {
                       debugPrint("tap tap tap");
                     },
-                    child: Card(
-                      color: AppColors.backgroundAppBar,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: ListTile(
-                        leading: const Icon(Icons.person),
-                        title: Text(
-                          "Họ và tên: ${nv.hoTen}",
-                          style: TextStyle(fontFamily: 'balooPaaji'),
+                    child: GestureDetector(
+                      onTap: () {
+                        debugPrint('tap tap tap');
+                        _store.getUser(nv.id);
+                        debugPrint(nv.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => LichSuChamCongScreen(uid: nv.id),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        color: AppColors.backgroundAppBar,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
                         ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mã: ${nv.ma}",
-                              style: TextStyle(fontFamily: 'balooPaaji'),
-                            ),
-                            Text(
-                              "Phòng ban: ${nv.phongBan}",
-                              style: TextStyle(fontFamily: 'balooPaaji'),
-                            ),
-                            Text(
-                              nv.vaiTro == 'nhanvien'
-                                  ? "Vai trò: Nhân viên"
-                                  : "Vai trò: Quản lý",
-                              style: TextStyle(fontFamily: 'balooPaaji'),
-                            ),
-                            Text(
-                              "Email: ${nv.email}",
-                              style: TextStyle(fontFamily: 'balooPaaji'),
-                            ),
-                          ],
+                        child: ListTile(
+                          leading: const Icon(Icons.person),
+                          title: Text(
+                            "Họ và tên: ${nv.hoTen}",
+                            style: TextStyle(fontFamily: 'balooPaaji'),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mã: ${nv.ma}",
+                                style: TextStyle(fontFamily: 'balooPaaji'),
+                              ),
+                              Text(
+                                "Phòng ban: ${nv.phongBan}",
+                                style: TextStyle(fontFamily: 'balooPaaji'),
+                              ),
+                              Text(
+                                nv.vaiTro == 'nhanvien'
+                                    ? "Vai trò: Nhân viên"
+                                    : "Vai trò: Quản lý",
+                                style: TextStyle(fontFamily: 'balooPaaji'),
+                              ),
+                              Text(
+                                "Email: ${nv.email}",
+                                style: TextStyle(fontFamily: 'balooPaaji'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
