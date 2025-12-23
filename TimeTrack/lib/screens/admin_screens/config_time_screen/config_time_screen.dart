@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_admin.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/extensions/date_time_extension.dart';
+import 'package:timetrack/screens/admin_screens/widgets/item_time.dart';
 
 import '../../../contains/app_colors.dart';
+import '../../../models/firebase/fb_thoi_gian_lam_viec_model.dart';
+import '../../../models/thoi_gian_lam_viec_model.dart';
 import '../../common_screens/document_screen/widgets/text_form_field_widget.dart';
 import '../widgets/time_picker_field.dart';
 
@@ -19,6 +23,8 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
 
   TimeOfDay? _gioBatDau;
   TimeOfDay? _gioKetThuc;
+  String? _editingId;
+  final _repository = FirestoreService();
 
   @override
   void dispose() {
@@ -49,28 +55,6 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
         _gioKetThuc = result;
       });
     }
-  }
-
-  void _onSave() {
-    if (!_formKey.currentState!.validate()) return;
-    if (_gioBatDau == null || _gioKetThuc == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng chọn giờ bắt đầu và kết thúc')),
-      );
-      return;
-    }
-
-    final tenCa = _tenCaController.text.trim();
-    final gioBatDauStr = _gioBatDau!.toHHmm();
-    final gioKetThucStr = _gioKetThuc!.toHHmm();
-
-    // TODO: gọi repository / service lưu Firestore
-    debugPrint('Lưu ca:');
-    debugPrint('Tên ca: $tenCa');
-    debugPrint('Giờ bắt đầu: $gioBatDauStr');
-    debugPrint('Giờ kết thúc: $gioKetThucStr');
-
-    Navigator.pop(context);
   }
 
   @override
@@ -117,7 +101,139 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
                 onTap: _pickGioKetThuc,
                 hintText: 'Giờ kết thúc',
               ),
-              ButtonAdmin(onPressed: () {}, title: 'Lưu'),
+              Row(
+                children: [
+                  Expanded(
+                    child: ButtonAdmin(
+                      onPressed: () {
+                        _repository.addThoiGianLamViec(
+                          ThoiGianLamViecModel(
+                            id: '',
+                            tenCa: _tenCaController.text,
+                            gioBatDau: _gioBatDau!,
+                            gioKetThuc: _gioKetThuc!,
+                          ),
+                        );
+                        _tenCaController.clear();
+                        setState(() {
+                          _gioBatDau = null;
+                          _gioKetThuc = null;
+                        });
+                        _formKey.currentState!.reset();
+                      },
+                      title: 'Lưu',
+                    ),
+                  ),
+                  Expanded(
+                    child: ButtonAdmin(
+                      onPressed: () {
+                        _repository.updateThoiGianLamViec(
+                          ThoiGianLamViecModel(
+                            id: _editingId!,
+                            tenCa: _tenCaController.text,
+                            gioBatDau: _gioBatDau!,
+                            gioKetThuc: _gioKetThuc!,
+                          ),
+                        );
+                        _tenCaController.clear();
+                        setState(() {
+                          _gioBatDau = null;
+                          _gioKetThuc = null;
+                        });
+                        _formKey.currentState!.reset();
+                      },
+                      title: 'Sửa',
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16 * height / 956),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Lịch sử ca làm việc',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'balooPaaji',
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: StreamBuilder<List<FbThoiGianLamViecModel>>(
+                          stream: _repository.getThoiGianLamViec(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (snapshot.hasError) {
+                              debugPrint('Error:' + snapshot.error.toString());
+                              return const Center(
+                                child: Text(
+                                  'Lỗi tải dữ liệu',
+                                  style: TextStyle(fontFamily: 'balooPaaji'),
+                                ),
+                              );
+                            }
+
+                            final data = snapshot.data ?? [];
+
+                            if (data.isEmpty) {
+                              return const Center(
+                                child: Text(
+                                  'Chưa có ca làm việc nào',
+                                  style: TextStyle(
+                                    fontFamily: 'balooPaaji',
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final item = data[index];
+                                return ItemTime(
+                                  model: item,
+                                  onTap: () {
+                                    setState(() {
+                                      _editingId = item.id;
+                                      _tenCaController.text = item.tenCa;
+                                      _gioBatDau = item.gioBatDau.toTimeOfDay();
+                                      _gioKetThuc = item.gioKetThuc
+                                          .toTimeOfDay();
+                                    });
+                                  },
+                                  onDelete: () async {
+                                    await _repository.deleteThoiGianLamViec(
+                                      item.id,
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

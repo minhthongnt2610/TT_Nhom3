@@ -1,24 +1,29 @@
+import 'package:timetrack/extensions/date_time_extension.dart';
+
 import '../thoi_gian_lam_viec_model.dart';
 
-class FbKhuVucChamCongModel {
+class FbThoiGianLamViecModel {
   final String id;
   final String tenCa;
-  final String gioBatDau;
-  final String gioKetThuc;
+  final String gioBatDau; // "07:00"
+  final String gioKetThuc; // "23:59"
 
-  const FbKhuVucChamCongModel({
+  const FbThoiGianLamViecModel({
     required this.id,
     required this.tenCa,
     required this.gioBatDau,
     required this.gioKetThuc,
   });
 
-  factory FbKhuVucChamCongModel.fromJson(Map<String, dynamic> json, String id) {
-    return FbKhuVucChamCongModel(
+  factory FbThoiGianLamViecModel.fromJson(
+    Map<String, dynamic> json,
+    String id,
+  ) {
+    return FbThoiGianLamViecModel(
       id: id,
       tenCa: json['tenCa'] ?? '',
-      gioBatDau: json['gioBatDau'] ?? '',
-      gioKetThuc: json['gioKetThuc'] ?? '',
+      gioBatDau: json['gioBatDau'] ?? '00:00',
+      gioKetThuc: json['gioKetThuc'] ?? '00:00',
     );
   }
 
@@ -27,13 +32,13 @@ class FbKhuVucChamCongModel {
   }
 }
 
-extension FbThoiGianLamViecModelExtension on FbKhuVucChamCongModel {
+extension FbThoiGianLamViecExtension on FbThoiGianLamViecModel {
   ThoiGianLamViecModel toThoiGianLamViecModel() {
     return ThoiGianLamViecModel(
       id: id,
       tenCa: tenCa,
-      gioBatDau: DateTime.parse(gioBatDau),
-      gioKetThuc: DateTime.parse(gioKetThuc),
+      gioBatDau: gioBatDau.toTimeOfDay(),
+      gioKetThuc: gioKetThuc.toTimeOfDay(),
     );
   }
 }
