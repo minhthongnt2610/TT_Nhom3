@@ -1,8 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:timetrack/extensions/date_time_extension.dart';
+
+import 'firebase/fb_thoi_gian_lam_viec_model.dart';
+
 class ThoiGianLamViecModel {
   final String id;
   final String tenCa;
-  final DateTime gioBatDau;
-  final DateTime gioKetThuc;
+  final TimeOfDay gioBatDau;
+  final TimeOfDay gioKetThuc;
 
   const ThoiGianLamViecModel({
     required this.id,
@@ -14,8 +19,8 @@ class ThoiGianLamViecModel {
   ThoiGianLamViecModel copyWith({
     String? id,
     String? tenCa,
-    DateTime? gioBatDau,
-    DateTime? gioKetThuc,
+    TimeOfDay? gioBatDau,
+    TimeOfDay? gioKetThuc,
   }) {
     return ThoiGianLamViecModel(
       id: id ?? this.id,
@@ -25,17 +30,21 @@ class ThoiGianLamViecModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'tenCa': tenCa,
-      'gioBatDau': gioBatDau,
-      'gioKetThuc': gioKetThuc,
-    };
-  }
-
   @override
   String toString() {
-    return 'ThoiGianLamViecModel{id: $id, tenCa: $tenCa, gioBatDau: $gioBatDau, gioKetThuc: $gioKetThuc}';
+    return 'ThoiGianLamViecModel(id: $id, tenCa: $tenCa, '
+        'gioBatDau: ${gioBatDau.toHHmm()}, '
+        'gioKetThuc: ${gioKetThuc.toHHmm()})';
+  }
+}
+
+extension ThoiGianLamViecToFbExtension on ThoiGianLamViecModel {
+  FbThoiGianLamViecModel toFbThoiGianLamViecModel() {
+    return FbThoiGianLamViecModel(
+      id: id,
+      tenCa: tenCa,
+      gioBatDau: gioBatDau.toHHmm(),
+      gioKetThuc: gioKetThuc.toHHmm(),
+    );
   }
 }
