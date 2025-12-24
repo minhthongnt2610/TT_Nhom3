@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
+import 'package:timetrack/screens/admin_screens/config_time_screen/config_time_screen.dart';
 import 'package:timetrack/screens/admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
 import 'package:timetrack/screens/admin_screens/regional_configuration_screen/regional_configuration_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/app_bar_widget.dart';
@@ -9,6 +10,8 @@ import '../../../data/remote/firebase/firestore_service.dart';
 
 class HomeAdminScreen extends StatelessWidget {
   const HomeAdminScreen({super.key});
+
+  static final String route = '/homeAdmin';
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,12 @@ class HomeAdminScreen extends StatelessWidget {
               ),
               Center(
                 child: ButtonAdmin(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ConfigTimeScreen()),
+                    );
+                  },
                   title: "Cấu hình thời gian",
                 ),
               ),

@@ -19,6 +19,8 @@ import '../../common_screens/widgets/app_bar_widget.dart';
 class HrCheckInScreen extends StatefulWidget {
   const HrCheckInScreen({super.key});
 
+  static final String route = '/hr';
+
   @override
   State<HrCheckInScreen> createState() => _HrCheckInScreenState();
 }
@@ -170,7 +172,7 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
                           });
                           checkOutSuccessDialog(context);
                         } else {
-                          checkInFailDialog(context);
+                          checkInFailDialog(context, result['message']);
                           debugPrint(result['message']);
                         }
                       },

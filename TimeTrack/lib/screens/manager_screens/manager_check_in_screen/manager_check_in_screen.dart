@@ -19,6 +19,8 @@ import '../../common_screens/widgets/app_bar_widget.dart';
 class ManagerCheckInScreen extends StatefulWidget {
   const ManagerCheckInScreen({super.key});
 
+  static final String route = '/manager';
+
   @override
   State<ManagerCheckInScreen> createState() => _ManagerCheckInScreenState();
 }
@@ -179,7 +181,7 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                           });
                           checkOutSuccessDialog(context);
                         } else {
-                          checkInFailDialog(context);
+                          checkInFailDialog(context, result['message']);
                           debugPrint(result['message']);
                         }
                       },
