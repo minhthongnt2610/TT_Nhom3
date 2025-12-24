@@ -1,50 +1,77 @@
 const { onCall } = require("firebase-functions/v2/https");
-const { initializeApp } = require("firebase-admin/app");
-const { getFirestore, Timestamp } = require("firebase-admin/firestore");
-const { getAuth } = require("firebase-admin/auth");
+const { db } = require("../firebase");
 
-initializeApp();
-
-const db = getFirestore();
-const auth = getAuth();
-
-function toRadian(de) {
-    return de * Math.PI / 180;
-}
-
-function checkDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; // bán kính trái đất
-    const dlat = toRadian(lat2 - lat1); // tính hiệu của vĩ độ
-    const dlon = toRadian(lon2 - lon1); //kinh độ
-    // công thức haversine
-    const a = Math.sin(dlat / 2) * Math.sin(dlat / 2) +
-        Math.cos(toRadian(lat1)) * Math.cos(toRadian(lat2)) *
-        Math.sin(dlon / 2) * Math.sin(dlon / 2);
-    // tính khoảng cách
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); // tính góc giữa 2 điểm
-    const d = R * c;
-    return d;
-}
-
-function getToday() {
-    const today = new Date();
-    const timeVietNam = new Date(today.getTime() + 7 * 60 * 60 * 1000);
-    const d = String(timeVietNam.getUTCDate()).padStart(2, '0');
-    const m = String(timeVietNam.getUTCMonth() + 1).padStart(2, '0');
-    const y = timeVietNam.getUTCFullYear();
-    return `${y}-${m}-${d}`;
-
-}
-exports.checkChamCong = onCall({ region: "us-central1" }, async(request) => {
-    const x = request;
-    const data = request.data;
-    // xac thuc nguoi dung
-    if (!x.auth) {
-        throw new Error("Bạn phải đăng nhập để sử dụng chức năng này");
+const checkDistance = require("../util/checkDistance");
+const { getToday, getTime } = require("../util/checkDate");
+const { getKhuVucChamCong } = require("../service/khuVucChamCong");
+const { getThoiGianLamViec } = require("../service/thoiGianLamViec");
+const { taoCheckIn, taoCheckOut } = require("../service/chamCongService");
+exports.ChamCong = onCall({ region: "us-central1" }, async(request) => {
+    //kiểm tra đăng nhập
+    if (!request.auth) {
+        throw new Error("Bạn chưa đăng nhập");
+    }
+    const uid = request.auth.uid;
+    //lấy tọa độ
+    const lat = parseFloat(request.data.lat);
+    const lon = parseFloat(request.data.lon);
+    if (isNaN(lat) || isNaN(lon)) {
+        throw new Error("Tọa độ không hợp lệ");
+    }
+    //lấy khu vực chấm công
+    const khuVuc = await getKhuVucChamCong();
+    const distance = checkDistance(
+        lat,
+        lon,
+        khuVuc.toaDo.latitude,
+        khuVuc.toaDo.longitude
+    );
+    const hopLe = distance <= khuVuc.banKinh;
+    if (distance > khuVuc.banKinh) {
+        return {
+            success: false,
+            message: "Bạn đang ở ngoài khu vực chấm công",
+            distance: Math.round(distance),
+            banKinh: khuVuc.banKinh
+        };
+    }
+    //lấy giờ ngày
+    const ngay = getToday();
+    //ktr đã checkin chưa
+    const chamCongSnap = await db
+        .collection("ChamCong")
+        .where("userId", "==", uid)
+        .where("ngay", "==", ngay)
+        .limit(1)
+        .get();
+    if (chamCongSnap.empty) {
+        const time = getTime();
+        const thoiGianLamViec = await getThoiGianLamViec();
+        if (!(thoiGianLamViec.gioBatDau <= time &&
+                time <= thoiGianLamViec.gioKetThuc)) {
+            return { success: false, message: "Ngoài giờ làm việc, không thể checkin" };
+        }
+        await taoCheckIn(uid, ngay, hopLe, khuVuc.id, lat, lon);
+        return {
+            success: true,
+            status: "CheckIn",
+            hopLe,
+            message: hopLe ? "Check-in thành công" : "Bạn đang ngoài khu vực làm việc"
+        };
+    }
+    // nếu chưa thì checkout
+    const doc = chamCongSnap.docs[0];
+    const data = doc.data();
+    if (data.checkOutTime) {
+        return {
+            success: false,
+            message: "Bạn đã hoàn thành chấm công trong ngày",
+        };
+    }
+    await taoCheckOut(doc.ref, lat, lon);
+    return {
+        success: true,
+        status: "CheckOut",
+        message: "Check-out thành công",
     };
-    const uid = x.auth.uid;
-    //lay toa do tu nguoi dung
-    const userLat = data.lat;
-    const userLon = data.lon;
-
 });
