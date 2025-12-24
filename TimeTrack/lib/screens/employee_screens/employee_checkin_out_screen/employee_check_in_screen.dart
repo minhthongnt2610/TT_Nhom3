@@ -18,6 +18,8 @@ import '../../common_screens/widgets/app_bar_widget.dart';
 class EmployeeCheckInScreen extends StatefulWidget {
   const EmployeeCheckInScreen({super.key});
 
+  static final String route = '/employee';
+
   @override
   State<EmployeeCheckInScreen> createState() => _EmployeeCheckInScreenState();
 }
@@ -179,7 +181,7 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                           });
                           checkOutSuccessDialog(context);
                         } else {
-                          checkInFailDialog(context);
+                          checkInFailDialog(context, result['message']);
                           debugPrint(result['message']);
                         }
                       },

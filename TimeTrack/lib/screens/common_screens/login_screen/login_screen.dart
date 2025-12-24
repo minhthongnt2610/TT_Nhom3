@@ -117,34 +117,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return;
                                 }
                                 if (role == "admin") {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const HomeAdminScreen(),
+                                      builder: (_) => HomeAdminScreen(),
                                     ),
+                                    ModalRoute.withName('/homeAdmin'),
                                   );
                                 } else if (role == "nhanvien") {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           const EmployeeCheckInScreen(),
                                     ),
+                                    ModalRoute.withName('/employee'),
                                   );
                                 } else if (role == "hr") {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => const HrCheckInScreen(),
                                     ),
+                                    ModalRoute.withName('/hr'),
                                   );
                                 } else if (role == "quanly") {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           const ManagerCheckInScreen(),
                                     ),
+                                    ModalRoute.withName('/manager'),
                                   );
                                 }
                               },

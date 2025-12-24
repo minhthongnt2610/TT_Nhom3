@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/models/firebase/fb_nguoi_dung_model.dart';
-import 'package:timetrack/screens/admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
+import 'package:timetrack/screens/admin_screens/home_admin_screen/home_admin_screen.dart';
 import 'package:timetrack/screens/common_screens/login_screen/login_screen.dart';
 import 'package:timetrack/screens/employee_screens/employee_checkin_out_screen/employee_check_in_screen.dart';
 import 'package:timetrack/screens/hr_screen/hr_check_in_screen/hr_check_in_screen.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               }
               final user = userSnap.data!;
               if (user.vaiTro == 'admin') {
-                return const ImportFileCsvScreen();
+                return const HomeAdminScreen();
               } else if (user.vaiTro == 'nhanvien') {
                 return const EmployeeCheckInScreen();
               } else if (user.vaiTro == 'hr') {
