@@ -105,4 +105,8 @@ class AuthService {
     final role = token.claims?["role"];
     return role == "quanly";
   }
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+  }
 }
