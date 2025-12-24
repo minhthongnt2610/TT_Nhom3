@@ -5,7 +5,7 @@ import 'package:timetrack/screens/hr_screen/hr_check_in_screen/hr_check_in_scree
 import 'package:timetrack/screens/manager_screens/manager_check_in_screen/manager_check_in_screen.dart';
 
 import '../../../data/remote/firebase/auth_service.dart';
-import '../../admin_screens/import_file_csv_screen/import_file_csv_screen.dart';
+import '../../admin_screens/home_admin_screen/home_admin_screen.dart';
 import '../../employee_screens/employee_checkin_out_screen/employee_check_in_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -75,18 +75,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: passwordController,
                       ),
                       SizedBox(height: 10 * height / 956),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () async {
-                            print("Quên mật khẩu");
-                          },
-                          child: Text(
-                            "Quên mật khẩu",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: GestureDetector(
+                      //     onTap: () async {
+                      //       print("Quên mật khẩu");
+                      //     },
+                      //     child: Text(
+                      //       "Quên mật khẩu",
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: 52 * height / 956),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -120,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) =>
-                                          const ImportFileCsvScreen(),
+                                      builder: (_) => const HomeAdminScreen(),
                                     ),
                                   );
                                 } else if (role == "nhanvien") {

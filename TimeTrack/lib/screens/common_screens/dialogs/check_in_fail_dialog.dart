@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../contains/app_colors.dart';
 
-void checkInFailDialog(BuildContext context) {
+void checkInFailDialog(BuildContext context, String message) {
   int height = MediaQuery.of(context).size.height.toInt();
   int width = MediaQuery.of(context).size.width.toInt();
   showDialog(
@@ -48,10 +48,23 @@ void checkInFailDialog(BuildContext context) {
                   fontFamily: 'balooPaaji',
                 ),
               ),
+              SizedBox(height: 5 * height / 956),
+              Text(
+                message,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black87,
+                  fontFamily: 'balooPaaji',
+                ),
+              ),
               SizedBox(height: 15 * height / 956),
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.exit_to_app_rounded, color: Colors.black54),
+                icon: const Icon(
+                  Icons.exit_to_app_rounded,
+                  color: Colors.black54,
+                ),
               ),
             ],
           ),
