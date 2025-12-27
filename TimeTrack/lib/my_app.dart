@@ -6,7 +6,7 @@ import 'package:timetrack/models/firebase/fb_nguoi_dung_model.dart';
 import 'package:timetrack/screens/admin_screens/home_admin_screen/home_admin_screen.dart';
 import 'package:timetrack/screens/common_screens/login_screen/login_screen.dart';
 import 'package:timetrack/screens/employee_screens/employee_checkin_out_screen/employee_check_in_screen.dart';
-import 'package:timetrack/screens/hr_screen/hr_check_in_screen/hr_check_in_screen.dart';
+import 'package:timetrack/screens/hr_screen/detail_employee_screen/detail_employee_screen.dart';
 import 'package:timetrack/screens/manager_screens/manager_check_in_screen/manager_check_in_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
               } else if (user.vaiTro == 'nhanvien') {
                 return const EmployeeCheckInScreen();
               } else if (user.vaiTro == 'hr') {
-                return const HrCheckInScreen();
+                // return const HrCheckInScreen();
+                return DetailEmployeeScreen();
               }
               return const ManagerCheckInScreen();
             },
