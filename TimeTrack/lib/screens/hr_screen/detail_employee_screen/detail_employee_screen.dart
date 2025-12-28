@@ -7,7 +7,9 @@ import '../../../data/remote/firebase/firestore_service.dart';
 import '../../common_screens/document_screen/widgets/text_form_field_widget.dart';
 
 class DetailEmployeeScreen extends StatefulWidget {
-  const DetailEmployeeScreen({super.key});
+  const DetailEmployeeScreen({super.key, required this.employeeID});
+
+  final String employeeID;
 
   @override
   State<DetailEmployeeScreen> createState() => _DetailEmployeeScreenState();
@@ -27,10 +29,8 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
   @override
   void initState() {
     super.initState();
-    final currentUser = authService.currentUser;
-    if (currentUser != null) {
-      _userFuture = firestoreService.getUser(currentUser.uid);
-    }
+
+    _userFuture = firestoreService.getUser(widget.employeeID);
   }
 
   @override
@@ -175,7 +175,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.hexF8790A,
+                          backgroundColor: AppColors.hexFF3846,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
