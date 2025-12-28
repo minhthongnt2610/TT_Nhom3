@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/contains/app_colors.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+import 'package:timetrack/screens/hr_screen/widgets/bottom_sheet_employee.dart';
 
 import '../../../models/firebase/fb_nguoi_dung_model.dart';
-import '../../common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
 
 class ListAllEmployeeScreen extends StatelessWidget {
   ListAllEmployeeScreen({super.key, required this.uid});
@@ -59,11 +59,13 @@ class ListAllEmployeeScreen extends StatelessWidget {
                         debugPrint('tap tap tap');
                         _store.getUser(nv.id);
                         debugPrint(nv.id);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => LichSuChamCongScreen(uid: nv.id),
-                          ),
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) {
+                            return BottomSheetEmployee(uid: nv.id);
+                          },
                         );
                       },
                       child: Card(
