@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
@@ -37,10 +38,25 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
   double? _lon;
   final functionService = FunctionService();
 
+  Future<void> luuIsCheck(bool value) async {
+    final pre = await SharedPreferences.getInstance();
+    await pre.setBool('isCheck', value);
+  }
+
+  Future<void> loadIsCheck() async {
+    final pre = await SharedPreferences.getInstance();
+    final savedValue = pre.getBool('isCheck') ?? false;
+    if (!mounted) return;
+    setState(() {
+      isCheck = savedValue;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadIsCheck();
     _currentTime = clockWidget.getCurrentTime();
     _currentDate = clockWidget.getCurrentDate();
     clockWidget.startTime(() {
@@ -174,11 +190,13 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                           setState(() {
                             isCheck = true;
                           });
+                          luuIsCheck(true);
                           checkInSuccessDialog(context);
                         } else if (result['status'] == 'CheckOut') {
                           setState(() {
                             isCheck = false;
                           });
+                          luuIsCheck(false);
                           checkOutSuccessDialog(context);
                         } else {
                           checkInFailDialog(context, result['message']);

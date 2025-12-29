@@ -74,19 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {},
                         controller: passwordController,
                       ),
-                      SizedBox(height: 10 * height / 956),
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: GestureDetector(
-                      //     onTap: () async {
-                      //       print("Quên mật khẩu");
-                      //     },
-                      //     child: Text(
-                      //       "Quên mật khẩu",
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(height: 52 * height / 956),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
