@@ -40,7 +40,7 @@ class FirestoreService {
         });
   }
 
-  Future<FbChamCongModel?> getChamCongByUserIdOnce(String userId) async {
+  Future<FbChamCongModel?> getChamCong(String userId) async {
     final snap = await _firebaseFirestore
         .collection('ChamCong')
         .where('userId', isEqualTo: userId)
@@ -133,4 +133,6 @@ class FirestoreService {
   Future<void> deleteThoiGianLamViec(String id) async {
     await _firebaseFirestore.collection('ThoiGianLamViec').doc(id).delete();
   }
+
+  //update nhân viên
 }

@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget({
     super.key,
-    required this.hintText,
+    this.hintText,
     required this.onChanged,
     required this.maxLines,
     required this.initialValue,
     required this.controller,
+    this.labelText,
   });
 
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final ValueChanged<String> onChanged;
   final int maxLines;
   final String? initialValue;
@@ -25,6 +27,12 @@ class TextFormFieldWidget extends StatelessWidget {
         fontFamily: 'balooPaaji',
       ),
       decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(
+          color: Colors.black54,
+          fontSize: 15,
+          fontFamily: 'balooPaaji',
+        ),
         hintText: hintText,
         hintStyle: const TextStyle(
           color: Colors.black26,
