@@ -25,6 +25,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
   final phongBanController = TextEditingController();
   final vaiTroController = TextEditingController();
   final emailController = TextEditingController();
+  final maPhongBanController = TextEditingController();
 
   @override
   void initState() {
@@ -78,6 +79,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                   ? 'Quản lý'
                   : 'HR';
               emailController.text = user.email;
+              maPhongBanController.text = user.phongBanID;
               _isInit = true;
             }
 
@@ -129,6 +131,14 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                           onChanged: (_) {},
                           initialValue: null,
                         ),
+                        SizedBox(height: 8 * height / 956),
+                        TextFormFieldWidget(
+                          labelText: 'Mã phòng ban',
+                          controller: maPhongBanController,
+                          maxLines: 1,
+                          onChanged: (_) {},
+                          initialValue: null,
+                        ),
                       ],
                     ),
                   ),
@@ -154,7 +164,31 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                             context,
                             title: "Sửa",
                             content: "Bạn có chắc chắn muốn sửa nhân viên này?",
-                            onTap: () async {},
+                            onTap: () async {
+                              await firestoreService.updateNhanVien(
+                                id: widget.employeeID,
+                                tenUser: nameController.text,
+                                maUser: maController.text,
+                                vaiTro: vaiTroController.text == "Nhân viên"
+                                    ? "nhanvien"
+                                    : vaiTroController.text == "Quản lý"
+                                    ? "quanly"
+                                    : "hr",
+                                phongBan: phongBanController.text,
+                                maPhongBan: maPhongBanController.text,
+                              );
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Sửa nhân viên thành công',
+                                    style: TextStyle(fontFamily: 'balooPaaji'),
+                                  ),
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            },
                           );
                         },
                         child: Text(
@@ -181,7 +215,22 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                             context,
                             title: "Xóa",
                             content: "Bạn có chắc chắn muốn xóa nhân viên này?",
-                            onTap: () async {},
+                            onTap: () async {
+                              await firestoreService.deleteNhanVien(
+                                widget.employeeID,
+                              );
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Xóa nhân viên thành công',
+                                    style: TextStyle(fontFamily: 'balooPaaji'),
+                                  ),
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            },
                           );
                         },
                         child: Text(

@@ -134,5 +134,24 @@ class FirestoreService {
     await _firebaseFirestore.collection('ThoiGianLamViec').doc(id).delete();
   }
 
-  //update nhân viên
+  Future<FbNguoiDungModel?> updateNhanVien({
+    required String id,
+    required String tenUser,
+    required String maUser,
+    required String vaiTro,
+    required String phongBan,
+    required String maPhongBan,
+  }) async {
+    await _firebaseFirestore.collection('NguoiDung').doc(id).update({
+      'hoTen': tenUser,
+      'ma': maUser,
+      'vaiTro': vaiTro,
+      'phongBan': phongBan,
+      'phongBanID': maPhongBan,
+    });
+  }
+
+  Future<void> deleteNhanVien(String id) async {
+    await _firebaseFirestore.collection('NguoiDung').doc(id).delete();
+  }
 }

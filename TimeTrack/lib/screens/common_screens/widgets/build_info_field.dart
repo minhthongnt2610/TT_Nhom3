@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../contains/app_colors.dart';
 
 class BuildInfoField extends StatelessWidget {
   const BuildInfoField({super.key, required this.title});
+
   final String title;
 
   @override
@@ -31,7 +31,7 @@ class BuildInfoField extends StatelessWidget {
                   fontSize: 14 * height / 956,
                   color: AppColors.hexD79E4E,
                   fontFamily: 'balooPaaji',
-                )
+                ),
               ),
             ),
           ),
