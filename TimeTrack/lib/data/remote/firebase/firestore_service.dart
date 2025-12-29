@@ -40,6 +40,20 @@ class FirestoreService {
         });
   }
 
+  Future<FbChamCongModel?> getChamCongByUserIdOnce(String userId) async {
+    final snap = await _firebaseFirestore
+        .collection('ChamCong')
+        .where('userId', isEqualTo: userId)
+        .orderBy('ngay', descending: true)
+        .limit(1)
+        .get();
+    if (snap.docs.isEmpty) {
+      return null;
+    }
+    final doc = snap.docs.first;
+    return FbChamCongModel.fromJson(doc.data(), doc.id);
+  }
+
   Stream<List<FbNguoiDungModel>> getEmployeeDepartment(String id) {
     return _firebaseFirestore
         .collection('NguoiDung')

@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
                 return const EmployeeCheckInScreen();
               } else if (user.vaiTro == 'hr') {
                 return const HrCheckInScreen();
-                // return DetailEmployeeScreen();
               }
               return const ManagerCheckInScreen();
             },
