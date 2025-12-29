@@ -99,7 +99,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                     child: Column(
                       children: [
                         TextFormFieldWidget(
-                          hintText: 'Họ tên',
+                          labelText: 'Họ tên',
                           controller: nameController,
                           maxLines: 1,
                           onChanged: (_) {},
@@ -107,7 +107,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                         ),
                         SizedBox(height: 8 * height / 956),
                         TextFormFieldWidget(
-                          hintText: 'Mã',
+                          labelText: 'Mã',
                           controller: maController,
                           maxLines: 1,
                           onChanged: (_) {},
@@ -115,7 +115,7 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                         ),
                         SizedBox(height: 8 * height / 956),
                         TextFormFieldWidget(
-                          hintText: 'Vai trò',
+                          labelText: 'Vai trò',
                           controller: vaiTroController,
                           maxLines: 1,
                           onChanged: (_) {},
@@ -123,16 +123,8 @@ class _DetailEmployeeScreenState extends State<DetailEmployeeScreen> {
                         ),
                         SizedBox(height: 8 * height / 956),
                         TextFormFieldWidget(
-                          hintText: 'Phòng ban',
+                          labelText: 'Phòng ban',
                           controller: phongBanController,
-                          maxLines: 1,
-                          onChanged: (_) {},
-                          initialValue: null,
-                        ),
-                        SizedBox(height: 8 * height / 956),
-                        TextFormFieldWidget(
-                          hintText: 'email',
-                          controller: emailController,
                           maxLines: 1,
                           onChanged: (_) {},
                           initialValue: null,
