@@ -6,8 +6,10 @@ class DateTimePicker extends StatefulWidget {
     required this.controller,
     required this.title,
   });
+
   final TextEditingController controller;
   final String title;
+
   @override
   State<DateTimePicker> createState() => _DateTimePickerState();
 }
@@ -22,7 +24,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
     );
     if (time != null) {
       setState(() {
-        widget.controller.text = "${time.day}/${time.month}/${time.year}";
+        widget.controller.text =
+            "${time.year}-${time.month.toString().padLeft(2, '0')}-${time.day.toString().padLeft(2, '0')}";
       });
     }
   }
