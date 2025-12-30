@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+import 'package:timetrack/screens/manager_screens/create_report_screen/create_report_screen.dart';
 
 import '../../../contains/app_colors.dart';
 import '../../../models/firebase/fb_nguoi_dung_model.dart';
@@ -120,6 +121,16 @@ class ListEmployeeOfDepartmentScreen extends StatelessWidget {
                 },
               );
             },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => CreateReportScreen()),
+              );
+            },
+            backgroundColor: AppColors.backgroundAppBar,
+            child: const Icon(Icons.add, color: Colors.white),
           ),
         );
       },
