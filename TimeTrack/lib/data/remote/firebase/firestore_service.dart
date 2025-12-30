@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:timetrack/models/firebase/fb_bao_cao_phong_ban_model.dart';
 import 'package:timetrack/models/firebase/fb_cham_cong_model.dart';
 import 'package:timetrack/models/firebase/fb_khu_vuc_cham_cong_model.dart';
 import 'package:timetrack/models/firebase/fb_nguoi_dung_model.dart';
@@ -27,7 +28,7 @@ class FirestoreService {
     return FbNguoiDungModel.fromJson(doc.data()!, doc.id);
   }
 
-  Stream<List<FbChamCongModel>> getHistoryAttendance(String userId) {
+  Stream<List<FbChamCongModel>> getLichSuChamCong(String userId) {
     return _firebaseFirestore
         .collection('ChamCong')
         .where('userId', isEqualTo: userId)
@@ -40,24 +41,10 @@ class FirestoreService {
         });
   }
 
-  // Future<FbChamCongModel?> getChamCong(String userId) async {
-  //   final snap = await _firebaseFirestore
-  //       .collection('ChamCong')
-  //       .where('userId', isEqualTo: userId)
-  //       .orderBy('ngay', descending: true)
-  //       .limit(1)
-  //       .get();
-  //   if (snap.docs.isEmpty) {
-  //     return null;
-  //   }
-  //   final doc = snap.docs.first;
-  //   return FbChamCongModel.fromJson(doc.data(), doc.id);
-  // }
-
-  Stream<List<FbNguoiDungModel>> getEmployeeDepartment(String id) {
+  Stream<List<FbNguoiDungModel>> getNhanVienPhongBan(String phongBanId) {
     return _firebaseFirestore
         .collection('NguoiDung')
-        .where('phongBanID', isEqualTo: id)
+        .where('phongBanID', isEqualTo: phongBanId)
         .where('vaiTro', isEqualTo: 'nhanvien')
         .snapshots()
         .map((snap) {
@@ -67,7 +54,7 @@ class FirestoreService {
         });
   }
 
-  Stream<List<FbNguoiDungModel>> getAll(String id) {
+  Stream<List<FbNguoiDungModel>> getAllNhanVienVaQuanLy(String id) {
     return _firebaseFirestore
         .collection('NguoiDung')
         .where('vaiTro', whereIn: ['nhanvien', 'quanly'])
@@ -153,5 +140,83 @@ class FirestoreService {
 
   Future<void> deleteNhanVien(String id) async {
     await _firebaseFirestore.collection('NguoiDung').doc(id).delete();
+  }
+
+  Future<List<FbBaoCaoPhongBanModel>> quanLyBaoCaoPhongBan({
+    required String phongBanId,
+    required String tuNgay,
+    required String denNgay,
+  }) async {
+    final nhanVienTrongPhongBan = await _firebaseFirestore
+        .collection('NguoiDung')
+        .where('phongBanID', isEqualTo: phongBanId)
+        .where('vaiTro', isEqualTo: 'nhanvien')
+        .get();
+    List<FbBaoCaoPhongBanModel> result = [];
+    for (final nv in nhanVienTrongPhongBan.docs) {
+      final user = nv.data();
+      final id = nv.id;
+      final chamCong = await _firebaseFirestore
+          .collection('ChamCong')
+          .where('userId', isEqualTo: id)
+          .where('ngay', isGreaterThanOrEqualTo: tuNgay)
+          .where('ngay', isLessThanOrEqualTo: denNgay)
+          .get();
+
+      int soNgayLam = chamCong.docs.length;
+      int tongNgay =
+          (DateTime.parse(denNgay).difference(DateTime.parse(tuNgay)).inDays +
+          1);
+      int soNgayNghi = tongNgay - soNgayLam;
+
+      result.add(
+        FbBaoCaoPhongBanModel(
+          id: id,
+          hoTen: user['hoTen'],
+          maNV: user['ma'],
+          soNgayLam: soNgayLam,
+          soNgayNghi: soNgayNghi < 0 ? 0 : soNgayNghi,
+        ),
+      );
+    }
+    return result;
+  }
+
+  Future<List<FbBaoCaoPhongBanModel>> HRBaoCaoPhongBan({
+    required String tuNgay,
+    required String denNgay,
+  }) async {
+    final allNhanVien = await _firebaseFirestore
+        .collection('NguoiDung')
+        .where('vaiTro', isEqualTo: ['nhanvien', 'quanly'])
+        .get();
+    List<FbBaoCaoPhongBanModel> result = [];
+    for (final nv in allNhanVien.docs) {
+      final user = nv.data();
+      final id = nv.id;
+      final chamCong = await _firebaseFirestore
+          .collection('ChamCong')
+          .where('userId', isEqualTo: id)
+          .where('ngay', isGreaterThanOrEqualTo: tuNgay)
+          .where('ngay', isLessThanOrEqualTo: denNgay)
+          .get();
+
+      int soNgayLam = chamCong.docs.length;
+      int tongNgay =
+          (DateTime.parse(denNgay).difference(DateTime.parse(tuNgay)).inDays +
+          1);
+      int soNgayNghi = tongNgay - soNgayLam;
+
+      result.add(
+        FbBaoCaoPhongBanModel(
+          id: id,
+          hoTen: user['hoTen'],
+          maNV: user['ma'],
+          soNgayLam: soNgayLam,
+          soNgayNghi: soNgayNghi < 0 ? 0 : soNgayNghi,
+        ),
+      );
+    }
+    return result;
   }
 }
