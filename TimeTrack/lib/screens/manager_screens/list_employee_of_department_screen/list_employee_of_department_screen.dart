@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
-import 'package:timetrack/screens/manager_screens/create_report_screen/create_report_screen.dart';
 
 import '../../../contains/app_colors.dart';
 import '../../../models/firebase/fb_nguoi_dung_model.dart';
 import '../../common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
+import '../manager_create_report_screen/manager_create_report_screen.dart';
 
 class ListEmployeeOfDepartmentScreen extends StatelessWidget {
   ListEmployeeOfDepartmentScreen({super.key, required this.uid});
@@ -47,7 +47,7 @@ class ListEmployeeOfDepartmentScreen extends StatelessWidget {
             ),
           ),
           body: StreamBuilder<List<FbNguoiDungModel>>(
-            stream: _store.getEmployeeDepartment(user.phongBanID),
+            stream: _store.getNhanVienPhongBan(user.phongBanID),
             builder: (context, snap) {
               if (snap.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -126,7 +126,10 @@ class ListEmployeeOfDepartmentScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => CreateReportScreen()),
+                MaterialPageRoute(
+                  builder: (_) =>
+                      ManagerCreateReportScreen(phongBanID: user.phongBanID),
+                ),
               );
             },
             backgroundColor: AppColors.backgroundAppBar,

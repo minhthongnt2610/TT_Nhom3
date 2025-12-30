@@ -24,7 +24,7 @@ class ListAllEmployeeScreen extends StatelessWidget {
           return const Center(child: Text("Bạn không có quyền truy cập"));
         }
         return StreamBuilder<List<FbNguoiDungModel>>(
-          stream: _store.getAll(user!.id),
+          stream: _store.getAllNhanVienVaQuanLy(user!.id),
           builder: (context, snap) {
             if (!snap.hasData) {
               return Center(child: const CircularProgressIndicator());
