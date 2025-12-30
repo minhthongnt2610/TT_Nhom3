@@ -1,13 +1,13 @@
 import 'package:timetrack/models/bao_cao_phong_ban_model.dart';
 
-class FbBaoCaoChamCongModel {
+class FbBaoCaoPhongBanModel {
   final String id;
   final String hoTen;
   final String maNV;
   final int soNgayLam;
   final int soNgayNghi;
 
-  FbBaoCaoChamCongModel({
+  FbBaoCaoPhongBanModel({
     required this.id,
     required this.hoTen,
     required this.maNV,
@@ -15,8 +15,8 @@ class FbBaoCaoChamCongModel {
     required this.soNgayNghi,
   });
 
-  factory FbBaoCaoChamCongModel.fromJson(Map<String, dynamic> json, String id) {
-    return FbBaoCaoChamCongModel(
+  factory FbBaoCaoPhongBanModel.fromJson(Map<String, dynamic> json, String id) {
+    return FbBaoCaoPhongBanModel(
       id: id,
       hoTen: json['hoTen'] ?? '',
       maNV: json['maNV'] ?? '',
@@ -35,7 +35,7 @@ class FbBaoCaoChamCongModel {
   }
 }
 
-extension FbBaoCaoChamCongModelExtension on FbBaoCaoChamCongModel {
+extension FbBaoCaoPhongBanModelExtension on FbBaoCaoPhongBanModel {
   BaoCaoChamCongModel toBaoCaoChamCongModel() {
     return BaoCaoChamCongModel(
       id: id,
