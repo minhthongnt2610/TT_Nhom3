@@ -1,27 +1,30 @@
-import 'package:timetrack/models/bao_cao_phong_ban_model.dart';
+import '../bao_cao_tong_hop_model.dart';
 
-class FbBaoCaoPhongBanModel {
+class FbBaoCaoTongHopModel {
   final String id;
   final String hoTen;
   final String maNV;
   final int soNgayLam;
   final int soNgayNghi;
+  final String phongBan;
 
-  FbBaoCaoPhongBanModel({
+  FbBaoCaoTongHopModel({
     required this.id,
     required this.hoTen,
     required this.maNV,
     required this.soNgayLam,
     required this.soNgayNghi,
+    required this.phongBan,
   });
 
-  factory FbBaoCaoPhongBanModel.fromJson(Map<String, dynamic> json, String id) {
-    return FbBaoCaoPhongBanModel(
+  factory FbBaoCaoTongHopModel.fromJson(Map<String, dynamic> json, String id) {
+    return FbBaoCaoTongHopModel(
       id: id,
       hoTen: json['hoTen'] ?? '',
       maNV: json['maNV'] ?? '',
       soNgayLam: json['soNgayLam'] ?? 0,
       soNgayNghi: json['soNgayNghi'] ?? 0,
+      phongBan: json['phongBan'] ?? '',
     );
   }
 
@@ -31,18 +34,20 @@ class FbBaoCaoPhongBanModel {
       'maNV': maNV,
       'soNgayLam': soNgayLam,
       'soNgayNghi': soNgayNghi,
+      'phongBan': phongBan,
     };
   }
 }
 
-extension FbBaoCaoPhongBanModelExtension on FbBaoCaoPhongBanModel {
-  BaoCaoPhongBanModel toBaoCaoPhongBanModel() {
-    return BaoCaoPhongBanModel(
+extension FbBaoCaoTongHopModelExtension on FbBaoCaoTongHopModel {
+  BaoCaoTongHopModel toBaoCaoTongHopModel() {
+    return BaoCaoTongHopModel(
       id: id,
       hoTen: hoTen,
       maNV: maNV,
       soNgayLam: soNgayLam,
       soNgayNghi: soNgayNghi,
+      phongBan: phongBan,
     );
   }
 }

@@ -1,11 +1,11 @@
-class BaoCaoChamCongModel {
+class BaoCaoPhongBanModel {
   final String id;
   final String hoTen;
   final String maNV;
   final int soNgayLam;
   final int soNgayNghi;
 
-  const BaoCaoChamCongModel({
+  const BaoCaoPhongBanModel({
     required this.id,
     required this.hoTen,
     required this.maNV,
@@ -13,14 +13,14 @@ class BaoCaoChamCongModel {
     required this.soNgayNghi,
   });
 
-  BaoCaoChamCongModel copyWith({
+  BaoCaoPhongBanModel copyWith({
     String? id,
     String? hoTen,
     String? maNV,
     int? soNgayLam,
     int? soNgayNghi,
   }) {
-    return BaoCaoChamCongModel(
+    return BaoCaoPhongBanModel(
       id: id ?? this.id,
       hoTen: hoTen ?? this.hoTen,
       maNV: maNV ?? this.maNV,
