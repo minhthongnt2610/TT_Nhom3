@@ -3,12 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
-import 'package:timetrack/screens/common_screens/widgets/bottom_sheet_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
 import 'package:timetrack/screens/manager_screens/list_employee_of_department_screen/list_employee_of_department_screen.dart';
+import 'package:timetrack/screens/manager_screens/list_report_screen/list_report_screen.dart';
 
 import '../../../contains/app_colors.dart';
 import '../../../data/remote/firebase/function_service.dart';
@@ -74,14 +74,14 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet(String name, String id, String department) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return BottomSheetWidget(name: name, id: id, department: department);
-      },
-    );
-  }
+  // void _showBottomSheet(String name, String id, String department) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return BottomSheetWidget(name: name, id: id, department: department);
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,19 +112,19 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        EventButton(
-                          onTap: () {
-                            debugPrint("Quản lý đơn từ");
-                            _showBottomSheet(
-                              user.hoTen,
-                              user.ma,
-                              user.phongBan,
-                            );
-                          },
-                          urlImage:
-                              "assets/images/icon/DonXinChamCongBoSung.png",
-                          text: "Quản lý\nđơn từ",
-                        ),
+                        // EventButton(
+                        //   onTap: () {
+                        //     debugPrint("Quản lý đơn từ");
+                        //     _showBottomSheet(
+                        //       user.hoTen,
+                        //       user.ma,
+                        //       user.phongBan,
+                        //     );
+                        //   },
+                        //   urlImage:
+                        //       "assets/images/icon/DonXinChamCongBoSung.png",
+                        //   text: "Quản lý\nđơn từ",
+                        // ),
                         EventButton(
                           onTap: () {
                             debugPrint("Lịch sử chấm công");
@@ -147,9 +147,18 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Trạng thái đơn");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ListReportScreen(
+                                  idQuanLy: authService.currentUser!.uid,
+                                ),
+                              ),
+                            );
                           },
-                          urlImage: "assets/images/icon/TrangThaiDon.png",
-                          text: "Trạng thái\n",
+                          urlImage:
+                              "assets/images/icon/DonXinChamCongBoSung.png",
+                          text: "Đơn từ\n",
                         ),
                         EventButton(
                           onTap: () {

@@ -18,7 +18,6 @@ class HomeAdminScreen extends StatelessWidget {
     final auth = AuthService();
     final firestoreService = FirestoreService();
     int height = MediaQuery.of(context).size.height.toInt();
-    int width = MediaQuery.of(context).size.width.toInt();
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
         firestoreService.getUser(auth.currentUser!.uid),

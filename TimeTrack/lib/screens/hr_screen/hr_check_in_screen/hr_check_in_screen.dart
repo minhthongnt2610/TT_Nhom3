@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
-import 'package:timetrack/screens/common_screens/widgets/bottom_sheet_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
@@ -74,14 +73,14 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet(String name, String id, String department) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return BottomSheetWidget(name: name, id: id, department: department);
-      },
-    );
-  }
+  // void _showBottomSheet(String name, String id, String department) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return BottomSheetWidget(name: name, id: id, department: department);
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,19 +110,19 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        EventButton(
-                          onTap: () {
-                            debugPrint("Quản lý đơn từ");
-                            _showBottomSheet(
-                              user.hoTen,
-                              user.ma,
-                              user.phongBan,
-                            );
-                          },
-                          urlImage:
-                              "assets/images/icon/DonXinChamCongBoSung.png",
-                          text: "Quản lý\nđơn từ",
-                        ),
+                        // EventButton(
+                        //   onTap: () {
+                        //     debugPrint("Quản lý đơn từ");
+                        //     _showBottomSheet(
+                        //       user.hoTen,
+                        //       user.ma,
+                        //       user.phongBan,
+                        //     );
+                        //   },
+                        //   urlImage:
+                        //       "assets/images/icon/DonXinChamCongBoSung.png",
+                        //   text: "Quản lý\nđơn từ",
+                        // ),
                         EventButton(
                           onTap: () {
                             debugPrint("Lịch sử chấm công");

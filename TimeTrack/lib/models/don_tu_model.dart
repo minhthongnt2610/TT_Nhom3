@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DonTuModel {
   final String id;
   final String userId;
@@ -10,6 +12,7 @@ class DonTuModel {
   final String tuNgay;
   final String denNgay;
   final String trangThai; // cho_duyet | da_duyet | tu_choi
+  final Timestamp ngayTao;
 
   DonTuModel({
     required this.id,
@@ -23,6 +26,7 @@ class DonTuModel {
     required this.tuNgay,
     required this.denNgay,
     required this.trangThai,
+    required this.ngayTao,
   });
 
   DonTuModel copyWith({
@@ -37,6 +41,7 @@ class DonTuModel {
     String? tuNgay,
     String? denNgay,
     String? trangThai,
+    Timestamp? ngayTao,
   }) {
     return DonTuModel(
       id: id ?? this.id,
@@ -50,6 +55,7 @@ class DonTuModel {
       tuNgay: tuNgay ?? this.tuNgay,
       denNgay: denNgay ?? this.denNgay,
       trangThai: trangThai ?? this.trangThai,
+      ngayTao: ngayTao ?? this.ngayTao,
     );
   }
 
@@ -66,6 +72,7 @@ class DonTuModel {
       'tuNgay': tuNgay,
       'denNgay': denNgay,
       'trangThai': trangThai,
+      'ngayTao': ngayTao,
     };
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/models/firebase/fb_don_tu_model.dart';
+import 'package:timetrack/screens/manager_screens/document_detail_screen/job_application_detail_screen.dart';
 
 import '../../../contains/app_colors.dart';
+import '../document_detail_screen/explanation_detail_screen.dart';
+import '../document_detail_screen/leave_application_detail_screen.dart';
 
 class ListReportScreen extends StatelessWidget {
   ListReportScreen({super.key, required this.idQuanLy});
@@ -82,8 +85,70 @@ class ListReportScreen extends StatelessWidget {
                 onTap: () {
                   debugPrint("tap tap tap");
                   if (item.loaiDon == "Đơn xin nghỉ phép") {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ExplanationDetailScreen(
+                          idDon: item.id,
+                          name: item.hoTen,
+                          id: item.maNV,
+                          department: item.phongBanID == 'it'
+                              ? "IT"
+                              : item.phongBanID == "kinh-doanh"
+                              ? "Kinh doanh"
+                              : "Kế toán",
+                          userId: idQuanLy,
+                          fromDate: item.tuNgay,
+                          toDate: item.denNgay,
+                          reason: item.lyDo,
+                        ),
+                      ),
+                    );
                   } else if (item.loaiDon == "Đơn xin công tác") {
-                  } else {}
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => JobApplicationDetailScreen(
+                          idDon: item.id,
+
+                          name: item.hoTen,
+                          id: item.maNV,
+                          department: item.phongBanID == 'it'
+                              ? "IT"
+                              : item.phongBanID == "kinh-doanh"
+                              ? "Kinh doanh"
+                              : "Kế toán",
+
+                          userId: idQuanLy,
+                          fromDate: item.tuNgay,
+                          toDate: item.denNgay,
+                          reason: item.lyDo,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => LeaveApplicationDetailScreen(
+                          idDon: item.id,
+
+                          name: item.hoTen,
+                          id: item.maNV,
+                          department: item.phongBanID == 'it'
+                              ? "IT"
+                              : item.phongBanID == "kinh-doanh"
+                              ? "Kinh doanh"
+                              : "Kế toán",
+
+                          userId: idQuanLy,
+                          fromDate: item.tuNgay,
+                          toDate: item.denNgay,
+                          reason: item.lyDo,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: Card(
                   elevation: 3,

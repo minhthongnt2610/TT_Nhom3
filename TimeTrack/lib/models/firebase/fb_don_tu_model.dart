@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../don_tu_model.dart';
 
 class FbDonTuModel {
@@ -12,6 +14,7 @@ class FbDonTuModel {
   final String tuNgay;
   final String denNgay;
   final String trangThai; // cho_duyet | da_duyet | tu_choi
+  final Timestamp ngayTao;
 
   const FbDonTuModel({
     required this.id,
@@ -25,6 +28,7 @@ class FbDonTuModel {
     required this.tuNgay,
     required this.denNgay,
     required this.trangThai,
+    required this.ngayTao,
   });
 
   factory FbDonTuModel.fromJson(Map<String, dynamic> json, String id) {
@@ -40,6 +44,7 @@ class FbDonTuModel {
       tuNgay: json['tuNgay'] ?? '',
       denNgay: json['denNgay'] ?? '',
       trangThai: json['trangThai'] ?? '',
+      ngayTao: json['ngayTao'] ?? '',
     );
   }
 
@@ -55,6 +60,7 @@ class FbDonTuModel {
       'tuNgay': tuNgay,
       'denNgay': denNgay,
       'trangThai': trangThai,
+      'ngayTao': ngayTao,
     };
   }
 }
@@ -73,6 +79,7 @@ extension FbDonTuModelExtension on FbDonTuModel {
       tuNgay: tuNgay,
       denNgay: denNgay,
       trangThai: trangThai,
+      ngayTao: ngayTao,
     );
   }
 }
