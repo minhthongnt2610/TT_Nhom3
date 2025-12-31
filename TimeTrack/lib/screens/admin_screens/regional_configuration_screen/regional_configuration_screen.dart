@@ -99,11 +99,11 @@ class _RegionalConfigurationScreenState
     final lon = double.tryParse(_lonController.text);
     final banKinh = double.tryParse(_banKinhController.text);
     if (lat == null || lon == null || banKinh == null) return;
-    final newTamDiem = LatLng(lat!, lon!);
+    final newTamDiem = LatLng(lat, lon);
     setState(() {
       _diaChi = tenKv;
       _tamDiem = LatLng(lat, lon);
-      _banKinh = banKinh!;
+      _banKinh = banKinh;
     });
     await firestore.updateKvcc(
       id: widget.id,

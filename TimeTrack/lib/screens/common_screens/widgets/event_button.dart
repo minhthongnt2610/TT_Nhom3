@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class EventButton extends StatelessWidget {
   EventButton({
@@ -8,6 +7,7 @@ class EventButton extends StatelessWidget {
     required this.urlImage,
     required this.text,
   });
+
   final VoidCallback onTap;
   final String urlImage;
   final String text;
@@ -36,7 +36,7 @@ class EventButton extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'balooPaaji',
             fontSize: 12,
-            color:Colors.black,
+            color: Colors.black,
           ),
           textAlign: TextAlign.center,
         ),
