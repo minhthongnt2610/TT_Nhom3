@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timetrack/contains/app_colors.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+import 'package:timetrack/screens/common_screens/change_password_screen/change_password_screen.dart';
 import 'package:timetrack/screens/common_screens/login_screen/login_screen.dart';
 
 import '../../../data/remote/firebase/auth_service.dart';
@@ -105,6 +106,12 @@ class InfoEmployee extends StatelessWidget {
                             GestureDetector(
                               onTap: () {
                                 debugPrint("Đổi mật khẩu");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ChangePasswordScreen(),
+                                  ),
+                                );
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(

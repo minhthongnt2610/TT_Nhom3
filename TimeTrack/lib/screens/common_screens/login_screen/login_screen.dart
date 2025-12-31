@@ -82,60 +82,98 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: _isLoading
                             ? null
                             : () async {
+                                FocusScope.of(context).unfocus();
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                final role = await authService.logInAndGetRole(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                );
-                                if (!mounted) return;
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                if (role == null) {
+                                if (emailController.text.isEmpty ||
+                                    passwordController.text.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                        "Email/mật khẩu không đúng hoặc tài khoản chưa có role",
+                                        "Vui lòng nhập đầy đủ email và mật khẩu",
+                                        style: TextStyle(
+                                          fontFamily: 'balooPaaji',
+                                        ),
                                       ),
                                     ),
                                   );
-                                  return;
                                 }
-                                if (role == "admin") {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => HomeAdminScreen(),
+                                try {
+                                  final role = await authService
+                                      .logInAndGetRole(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text
+                                            .trim(),
+                                      );
+                                  if (!mounted) return;
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  if (role == "admin") {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => HomeAdminScreen(),
+                                      ),
+                                      ModalRoute.withName('/homeAdmin'),
+                                    );
+                                  } else if (role == "nhanvien") {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            const EmployeeCheckInScreen(),
+                                      ),
+                                      ModalRoute.withName('/employee'),
+                                    );
+                                  } else if (role == "hr") {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const HrCheckInScreen(),
+                                      ),
+                                      ModalRoute.withName('/hr'),
+                                    );
+                                  } else if (role == "quanly") {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            const ManagerCheckInScreen(),
+                                      ),
+                                      ModalRoute.withName('/manager'),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Email hoặc mật khẩu không đúng",
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  if (!mounted) return;
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Email hoặc mật khẩu không đúng",
+                                        style: TextStyle(
+                                          fontFamily: 'balooPaaji',
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      duration: Duration(seconds: 2),
                                     ),
-                                    ModalRoute.withName('/homeAdmin'),
-                                  );
-                                } else if (role == "nhanvien") {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const EmployeeCheckInScreen(),
-                                    ),
-                                    ModalRoute.withName('/employee'),
-                                  );
-                                } else if (role == "hr") {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const HrCheckInScreen(),
-                                    ),
-                                    ModalRoute.withName('/hr'),
-                                  );
-                                } else if (role == "quanly") {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const ManagerCheckInScreen(),
-                                    ),
-                                    ModalRoute.withName('/manager'),
                                   );
                                 }
                               },

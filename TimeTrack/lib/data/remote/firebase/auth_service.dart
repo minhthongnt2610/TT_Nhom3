@@ -109,4 +109,20 @@ class AuthService {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
+
+  Future<void> changePassword({
+    required String password,
+    required String newPassword,
+  }) async {
+    final user = currentUser;
+    if (user == null) {
+      throw Exception("Không tìm thấy người dùng hiện tại");
+    }
+    final credential = EmailAuthProvider.credential(
+      email: user.email!,
+      password: password,
+    );
+    await user.reauthenticateWithCredential(credential);
+    await user.updatePassword(newPassword);
+  }
 }
