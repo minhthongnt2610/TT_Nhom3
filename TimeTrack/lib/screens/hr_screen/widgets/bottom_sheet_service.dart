@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:timetrack/screens/hr_screen/detail_employee_screen/detail_employee_screen.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../contains/app_colors.dart';
-import '../../common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
 
-class BottomSheetEmployee extends StatelessWidget {
-  const BottomSheetEmployee({super.key, required this.uid});
+class BottomSheetService extends StatelessWidget {
+  const BottomSheetService({super.key, required this.path});
 
-  final String uid;
+  final String path;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class BottomSheetEmployee extends StatelessWidget {
                 ),
 
                 const Text(
-                  'Chọn thông tin',
+                  'Chọn dịch vụ',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -52,20 +52,14 @@ class BottomSheetEmployee extends StatelessWidget {
                 SizedBox(height: 20 * height / 956),
 
                 ElevatedButton(
-                  onPressed: () {
-                    debugPrint('Lịch sử chấm công');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LichSuChamCongScreen(uid: uid),
-                      ),
-                    );
+                  onPressed: () async {
+                    await OpenFilex.open(path);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
                   child: Text(
-                    'Lịch sử chấm công',
+                    'Xem file excel',
                     style: TextStyle(
                       fontSize: 16 * height / 956,
                       fontFamily: 'balooPaaji',
@@ -78,20 +72,13 @@ class BottomSheetEmployee extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    debugPrint('Thông tin nhân viên');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            DetailEmployeeScreen(employeeID: uid),
-                      ),
-                    );
+                    Share.shareXFiles([XFile(path)]);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 55 * height / 956),
                   ),
                   child: Text(
-                    'Thông tin nhân viên',
+                    'Chia sẻ',
                     style: TextStyle(
                       fontSize: 16 * height / 956,
                       fontFamily: 'balooPaaji',

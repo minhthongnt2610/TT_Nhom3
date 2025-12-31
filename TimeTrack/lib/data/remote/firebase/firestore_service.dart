@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timetrack/models/firebase/fb_bao_cao_phong_ban_model.dart';
+import 'package:timetrack/models/firebase/fb_bao_cao_tong_hop_model.dart';
 import 'package:timetrack/models/firebase/fb_cham_cong_model.dart';
 import 'package:timetrack/models/firebase/fb_khu_vuc_cham_cong_model.dart';
 import 'package:timetrack/models/firebase/fb_nguoi_dung_model.dart';
@@ -182,15 +183,15 @@ class FirestoreService {
     return result;
   }
 
-  Future<List<FbBaoCaoPhongBanModel>> HRBaoCaoPhongBan({
+  Future<List<FbBaoCaoTongHopModel>> HRBaoCaoPhongBan({
     required String tuNgay,
     required String denNgay,
   }) async {
     final allNhanVien = await _firebaseFirestore
         .collection('NguoiDung')
-        .where('vaiTro', isEqualTo: ['nhanvien', 'quanly'])
+        .where('vaiTro', whereIn: ['nhanvien', 'quanly'])
         .get();
-    List<FbBaoCaoPhongBanModel> result = [];
+    List<FbBaoCaoTongHopModel> result = [];
     for (final nv in allNhanVien.docs) {
       final user = nv.data();
       final id = nv.id;
@@ -208,12 +209,13 @@ class FirestoreService {
       int soNgayNghi = tongNgay - soNgayLam;
 
       result.add(
-        FbBaoCaoPhongBanModel(
+        FbBaoCaoTongHopModel(
           id: id,
           hoTen: user['hoTen'],
           maNV: user['ma'],
           soNgayLam: soNgayLam,
           soNgayNghi: soNgayNghi < 0 ? 0 : soNgayNghi,
+          phongBan: user['phongBan'],
         ),
       );
     }

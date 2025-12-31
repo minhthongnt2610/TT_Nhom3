@@ -4,6 +4,7 @@ import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/screens/hr_screen/widgets/bottom_sheet_employee.dart';
 
 import '../../../models/firebase/fb_nguoi_dung_model.dart';
+import '../hr_create_report_screen/hr_create_report_screen.dart';
 
 class ListAllEmployeeScreen extends StatelessWidget {
   ListAllEmployeeScreen({super.key, required this.uid});
@@ -24,7 +25,7 @@ class ListAllEmployeeScreen extends StatelessWidget {
           return const Center(child: Text("Bạn không có quyền truy cập"));
         }
         return StreamBuilder<List<FbNguoiDungModel>>(
-          stream: _store.getAll(user!.id),
+          stream: _store.getAllNhanVienVaQuanLy(user!.id),
           builder: (context, snap) {
             if (!snap.hasData) {
               return Center(child: const CircularProgressIndicator());
@@ -108,6 +109,18 @@ class ListAllEmployeeScreen extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HRCreateReportScreen(),
+                    ),
+                  );
+                },
+                backgroundColor: AppColors.backgroundColor,
+                child: const Icon(Icons.add),
               ),
             );
           },

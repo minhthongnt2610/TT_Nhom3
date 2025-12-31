@@ -36,7 +36,7 @@ class LichSuChamCongScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           return StreamBuilder<List<FbChamCongModel>>(
-            stream: store.getHistoryAttendance(uid),
+            stream: store.getLichSuChamCong(uid),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text("Lỗi: ${snapshot.error}");
