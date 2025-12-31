@@ -132,8 +132,8 @@ class ListEmployeeOfDepartmentScreen extends StatelessWidget {
                 ),
               );
             },
-            backgroundColor: AppColors.backgroundAppBar,
-            child: const Icon(Icons.add, color: Colors.white),
+            backgroundColor: AppColors.backgroundColor,
+            child: const Icon(Icons.add, color: Colors.black54),
           ),
         );
       },
