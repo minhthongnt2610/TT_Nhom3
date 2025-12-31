@@ -11,8 +11,10 @@ class BottomSheetWidget extends StatelessWidget {
     required this.name,
     required this.id,
     required this.department,
+    required this.userId,
   });
 
+  final String userId;
   final String name;
   final String id;
   final String department;
@@ -62,13 +64,14 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn xin nghỉ phép');
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ExplanationScreen(
                           name: name,
                           id: id,
                           department: department,
+                          userId: userId,
                         ),
                       ),
                     );
@@ -91,13 +94,14 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn giải trình');
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => LeaveApplicationScreen(
                           name: name,
                           id: id,
                           department: department,
+                          userId: userId,
                         ),
                       ),
                     );
@@ -120,10 +124,11 @@ class BottomSheetWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Đơn đăng ký công tác');
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => JobApplicationScreen(
+                          userId: userId,
                           name: name,
                           id: id,
                           department: department,
