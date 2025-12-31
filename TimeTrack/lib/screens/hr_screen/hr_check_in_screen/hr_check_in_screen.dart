@@ -74,11 +74,11 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet() {
+  void _showBottomSheet(String name, String id, String department) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return BottomSheetWidget();
+        return BottomSheetWidget(name: name, id: id, department: department);
       },
     );
   }
@@ -114,7 +114,11 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Quản lý đơn từ");
-                            _showBottomSheet();
+                            _showBottomSheet(
+                              user.hoTen,
+                              user.ma,
+                              user.phongBan,
+                            );
                           },
                           urlImage:
                               "assets/images/icon/DonXinChamCongBoSung.png",

@@ -6,13 +6,22 @@ import 'package:timetrack/screens/common_screens/document_screen/widgets/text_fo
 import '../../../contains/app_colors.dart';
 
 class JobApplicationScreen extends StatefulWidget {
-  const JobApplicationScreen({super.key});
+  const JobApplicationScreen({
+    super.key,
+    required this.name,
+    required this.id,
+    required this.department,
+  });
+
+  final String name;
+  final String id;
+  final String department;
 
   @override
-  State<JobApplicationScreen> createState() => _JobApplicationScreenState();
+  State<JobApplicationScreen> createState() => _ExplanationScreenState();
 }
 
-class _JobApplicationScreenState extends State<JobApplicationScreen> {
+class _ExplanationScreenState extends State<JobApplicationScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
@@ -20,6 +29,15 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = widget.name;
+    codeController.text = widget.id;
+    departmentController.text = widget.department;
+  }
 
   @override
   void dispose() {
@@ -50,7 +68,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
               children: [
                 SizedBox(height: 97 * height / 956),
                 Text(
-                  "ĐĂNG KÝ CÔNG TÁC",
+                  "ĐƠN ĐĂNG KÝ CÔNG TÁC",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'balooPaaji',

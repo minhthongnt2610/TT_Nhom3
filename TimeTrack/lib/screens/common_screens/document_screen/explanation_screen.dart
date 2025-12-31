@@ -6,7 +6,16 @@ import 'package:timetrack/screens/common_screens/document_screen/widgets/text_fo
 import '../../../contains/app_colors.dart';
 
 class ExplanationScreen extends StatefulWidget {
-  const ExplanationScreen({super.key});
+  const ExplanationScreen({
+    super.key,
+    required this.name,
+    required this.id,
+    required this.department,
+  });
+
+  final String name;
+  final String id;
+  final String department;
 
   @override
   State<ExplanationScreen> createState() => _ExplanationScreenState();
@@ -20,6 +29,15 @@ class _ExplanationScreenState extends State<ExplanationScreen> {
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = widget.name;
+    codeController.text = widget.id;
+    departmentController.text = widget.department;
+  }
 
   @override
   void dispose() {

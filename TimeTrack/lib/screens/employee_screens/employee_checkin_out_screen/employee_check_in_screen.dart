@@ -73,11 +73,11 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet() {
+  void _showBottomSheet(String name, String id, String department) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return BottomSheetWidget();
+        return BottomSheetWidget(name: name, id: id, department: department);
       },
     );
   }
@@ -113,11 +113,15 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Quản lý đơn từ");
-                            _showBottomSheet();
+                            _showBottomSheet(
+                              user.hoTen,
+                              user.ma,
+                              user.phongBan,
+                            );
                           },
                           urlImage:
                               "assets/images/icon/DonXinChamCongBoSung.png",
-                          text: "Quản lý đơn từ",
+                          text: "Quản lý\nđơn từ",
                         ),
                         EventButton(
                           onTap: () {
@@ -141,29 +145,9 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Trạng thái đơn");
-                            // if (role == "quanly") {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (_) =>
-                            //           ListEmployeeOfDepartmentScreen(
-                            //             uid: authService.currentUser!.uid,
-                            //           ),
-                            //     ),
-                            //   );
-                            // } else if (role == "hr") {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (_) => ListAllEmployeeScreen(
-                            //         uid: authService.currentUser!.uid,
-                            //       ),
-                            //     ),
-                            //   );
-                            // }
                           },
                           urlImage: "assets/images/icon/TrangThaiDon.png",
-                          text: "Trạng thái\n",
+                          text: "Trạng thái đơn\n",
                         ),
                       ],
                     ),

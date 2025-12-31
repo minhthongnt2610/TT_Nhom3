@@ -6,7 +6,16 @@ import '../document_screen/job_application_screen.dart';
 import '../document_screen/leave_application_screen.dart';
 
 class BottomSheetWidget extends StatelessWidget {
-  const BottomSheetWidget({super.key});
+  const BottomSheetWidget({
+    super.key,
+    required this.name,
+    required this.id,
+    required this.department,
+  });
+
+  final String name;
+  final String id;
+  final String department;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +65,11 @@ class BottomSheetWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ExplanationScreen(),
+                        builder: (context) => ExplanationScreen(
+                          name: name,
+                          id: id,
+                          department: department,
+                        ),
                       ),
                     );
                   },
@@ -81,7 +94,11 @@ class BottomSheetWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => JobApplicationScreen(),
+                        builder: (context) => LeaveApplicationScreen(
+                          name: name,
+                          id: id,
+                          department: department,
+                        ),
                       ),
                     );
                   },
@@ -106,7 +123,11 @@ class BottomSheetWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LeaveApplicationScreen(),
+                        builder: (context) => JobApplicationScreen(
+                          name: name,
+                          id: id,
+                          department: department,
+                        ),
                       ),
                     );
                   },

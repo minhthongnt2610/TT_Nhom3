@@ -6,13 +6,22 @@ import 'package:timetrack/screens/common_screens/document_screen/widgets/text_fo
 import '../../../contains/app_colors.dart';
 
 class LeaveApplicationScreen extends StatefulWidget {
-  const LeaveApplicationScreen({super.key});
+  const LeaveApplicationScreen({
+    super.key,
+    required this.name,
+    required this.id,
+    required this.department,
+  });
+
+  final String name;
+  final String id;
+  final String department;
 
   @override
-  State<LeaveApplicationScreen> createState() => _LeaveApplicationScreenState();
+  State<LeaveApplicationScreen> createState() => _ExplanationScreenState();
 }
 
-class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
+class _ExplanationScreenState extends State<LeaveApplicationScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
@@ -20,6 +29,15 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = widget.name;
+    codeController.text = widget.id;
+    departmentController.text = widget.department;
+  }
 
   @override
   void dispose() {
