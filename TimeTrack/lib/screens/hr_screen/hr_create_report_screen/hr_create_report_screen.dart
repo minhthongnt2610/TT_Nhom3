@@ -88,7 +88,7 @@ class _HRCreateReportScreenState extends State<HRCreateReportScreen> {
                   _baoCao.clear();
                 });
 
-                final data = await _store.HRBaoCaoPhongBan(
+                final data = await _store.hrBaoCaoPhongBan(
                   tuNgay: fromDate.text,
                   denNgay: toDate.text,
                 );

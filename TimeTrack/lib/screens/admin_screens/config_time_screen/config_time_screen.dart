@@ -60,7 +60,6 @@ class ConfigTimeScreenState extends State<ConfigTimeScreen> {
   @override
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
-    int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(

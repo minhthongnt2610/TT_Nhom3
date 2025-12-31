@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timetrack/models/firebase/fb_bao_cao_phong_ban_model.dart';
 import 'package:timetrack/models/firebase/fb_bao_cao_tong_hop_model.dart';
 import 'package:timetrack/models/firebase/fb_cham_cong_model.dart';
+import 'package:timetrack/models/firebase/fb_don_tu_model.dart';
 import 'package:timetrack/models/firebase/fb_khu_vuc_cham_cong_model.dart';
 import 'package:timetrack/models/firebase/fb_nguoi_dung_model.dart';
 import 'package:timetrack/models/firebase/fb_thoi_gian_lam_viec_model.dart';
@@ -183,7 +184,7 @@ class FirestoreService {
     return result;
   }
 
-  Future<List<FbBaoCaoTongHopModel>> HRBaoCaoPhongBan({
+  Future<List<FbBaoCaoTongHopModel>> hrBaoCaoPhongBan({
     required String tuNgay,
     required String denNgay,
   }) async {
@@ -220,5 +221,69 @@ class FirestoreService {
       );
     }
     return result;
+  }
+
+  // Future<void> taoDonTu({
+  //   required String userId,
+  //   required String loaiDon,
+  //   required String lyDo,
+  //   required String tuNgay,
+  //   required String denNgay,
+  // }) async {
+  //   final user = await getUser(userId);
+  //   final quanLy = await _firebaseFirestore
+  //       .collection('NguoiDung')
+  //       .where('phongBanID', isEqualTo: user!.phongBanID)
+  //       .where('vaiTro', isEqualTo: 'quanly')
+  //       .limit(1)
+  //       .get();
+  //   final idQuanLy = quanLy.docs.first.id;
+  //   await _firebaseFirestore.collection('DonTu').add({
+  //     'userId': user.id,
+  //     'hoTen': user.hoTen,
+  //     'maNV': user.ma,
+  //     'phongBanID': user.phongBanID,
+  //     'quanLyID': idQuanLy,
+  //     'loaiDon': loaiDon,
+  //     'lyDo': lyDo,
+  //     'tuNgay': tuNgay,
+  //     'denNgay': denNgay,
+  //     'trangThai': 'cho_duyet',
+  //   });
+  // }
+
+  Stream<List<FbDonTuModel>> donChoDuyet({required String idQuanLy}) {
+    return _firebaseFirestore
+        .collection('DonTu')
+        .where('quanLyID', isEqualTo: idQuanLy)
+        .where('trangThai', isEqualTo: 'cho_duyet')
+        .snapshots()
+        .map(
+          (snap) => snap.docs
+              .map((d) => FbDonTuModel.fromJson(d.data(), d.id))
+              .toList(),
+        );
+  }
+
+  Future<void> duyetDon({
+    required String idDon,
+    required bool trangThai,
+  }) async {
+    await _firebaseFirestore.collection('DonTu').doc(idDon).update({
+      'trangThai': trangThai ? 'da_duyet' : 'tu_choi',
+    });
+  }
+
+  Stream<List<FbDonTuModel>> getDonCuaNV({required String nvId}) {
+    return _firebaseFirestore
+        .collection('DonTu')
+        .where('userId', isEqualTo: nvId)
+        .orderBy('ngayTao', descending: true)
+        .snapshots()
+        .map((snap) {
+          return snap.docs
+              .map((doc) => FbDonTuModel.fromJson(doc.data(), doc.id))
+              .toList();
+        });
   }
 }

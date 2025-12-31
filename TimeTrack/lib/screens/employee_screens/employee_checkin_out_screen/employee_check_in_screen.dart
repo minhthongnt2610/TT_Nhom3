@@ -8,6 +8,7 @@ import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
+import 'package:timetrack/screens/employee_screens/status_report_screen/status_report_screen.dart';
 
 import '../../../contains/app_colors.dart';
 import '../../../data/remote/firebase/function_service.dart';
@@ -73,11 +74,21 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
     clockWidget.timer.cancel();
   }
 
-  void _showBottomSheet(String name, String id, String department) {
+  void _showBottomSheet(
+    String userId,
+    String name,
+    String id,
+    String department,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return BottomSheetWidget(name: name, id: id, department: department);
+        return BottomSheetWidget(
+          name: name,
+          id: id,
+          department: department,
+          userId: userId,
+        );
       },
     );
   }
@@ -94,7 +105,6 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
           return Center(child: CircularProgressIndicator());
         }
         final user = snapshot.data!;
-        final role = user.vaiTro;
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBarWidget(isCheck: isCheck, name: user.hoTen),
@@ -114,6 +124,7 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                           onTap: () {
                             debugPrint("Quản lý đơn từ");
                             _showBottomSheet(
+                              authService.currentUser!.uid,
                               user.hoTen,
                               user.ma,
                               user.phongBan,
@@ -145,6 +156,14 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                         EventButton(
                           onTap: () {
                             debugPrint("Trạng thái đơn");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => StatusReportScreen(
+                                  nvId: authService.currentUser!.uid,
+                                ),
+                              ),
+                            );
                           },
                           urlImage: "assets/images/icon/TrangThaiDon.png",
                           text: "Trạng thái đơn\n",

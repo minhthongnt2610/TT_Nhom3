@@ -14,13 +14,30 @@ class FunctionService {
       final result = await callable.call({'lat': lat, 'lon': lon});
       return Map<String, dynamic>.from(result.data);
     } on FirebaseFunctionsException catch (e) {
-      return {
-        'success': false,
-        'message': e.message ?? 'Lỗi chấm công',
-        'code': e.code,
-      };
+      return {'success': false, 'message': e.message, 'code': e.code};
     } catch (e) {
       return {'success': false, 'message': e.toString()};
+    }
+  }
+
+  Future<Map<String, dynamic>> taoDonTu({
+    required String loaiDon,
+    required String lyDo,
+    required String tuNgay,
+    required String denNgay,
+  }) async {
+    try {
+      final callable = _functions.httpsCallable('taoDonTu');
+      final result = await callable.call({
+        'loaiDon': loaiDon,
+        'lyDo': lyDo,
+        'tuNgay': tuNgay,
+        'denNgay': denNgay,
+      });
+
+      return Map<String, dynamic>.from(result.data);
+    } on FirebaseFunctionsException catch (e) {
+      return {'success': false, 'message': e.message};
     }
   }
 }

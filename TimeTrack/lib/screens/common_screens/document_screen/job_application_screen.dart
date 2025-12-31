@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
+import 'package:timetrack/data/remote/firebase/function_service.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/date_time_picker.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/text_form_field_widget.dart';
 
@@ -11,17 +12,19 @@ class JobApplicationScreen extends StatefulWidget {
     required this.name,
     required this.id,
     required this.department,
+    required this.userId,
   });
 
+  final String userId;
   final String name;
   final String id;
   final String department;
 
   @override
-  State<JobApplicationScreen> createState() => _ExplanationScreenState();
+  State<JobApplicationScreen> createState() => _JobApplicationScreenState();
 }
 
-class _ExplanationScreenState extends State<JobApplicationScreen> {
+class _JobApplicationScreenState extends State<JobApplicationScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
@@ -29,6 +32,7 @@ class _ExplanationScreenState extends State<JobApplicationScreen> {
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
+  final function = FunctionService();
 
   @override
   void initState() {
@@ -68,7 +72,7 @@ class _ExplanationScreenState extends State<JobApplicationScreen> {
               children: [
                 SizedBox(height: 97 * height / 956),
                 Text(
-                  "ĐƠN ĐĂNG KÝ CÔNG TÁC",
+                  "ĐƠN XIN CÔNG TÁC",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'balooPaaji',
@@ -158,18 +162,6 @@ class _ExplanationScreenState extends State<JobApplicationScreen> {
                           ],
                         ),
                         SizedBox(height: 29 * height / 956),
-                        SizedBox(
-                          width: 130 * width / 440,
-                          height: 33 * height / 956,
-                          child: TextFormFieldWidget(
-                            hintText: "Số ngày",
-                            onChanged: (value) {},
-                            maxLines: 1,
-                            initialValue: null,
-                            controller: numberController,
-                          ),
-                        ),
-                        SizedBox(height: 29 * height / 956),
                         TextFormFieldWidget(
                           hintText: "Ghi chú",
                           onChanged: (value) {},
@@ -181,7 +173,28 @@ class _ExplanationScreenState extends State<JobApplicationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ButtonWidget(onPressed: () {}, title: 'Chuyển'),
+                            ButtonWidget(
+                              onPressed: () async {
+                                final result = await function.taoDonTu(
+                                  loaiDon: "Đơn xin công tác",
+                                  lyDo: reasonController.text,
+                                  tuNgay: fromDate.text,
+                                  denNgay: toDate.text,
+                                );
+                                if (result['success'] == true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Gửi đơn thành công"),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(result['message'])),
+                                  );
+                                }
+                              },
+                              title: 'Chuyển',
+                            ),
                             SizedBox(width: 10 * width / 440),
                             ButtonWidget(onPressed: () {}, title: 'Hủy'),
                           ],

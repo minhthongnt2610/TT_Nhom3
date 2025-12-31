@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DonTuModel {
+import '../don_tu_model.dart';
+
+class FbDonTuModel {
   final String id;
   final String userId;
   final String hoTen;
@@ -14,7 +16,7 @@ class DonTuModel {
   final String trangThai; // cho_duyet | da_duyet | tu_choi
   final Timestamp ngayTao;
 
-  DonTuModel({
+  const FbDonTuModel({
     required this.id,
     required this.userId,
     required this.hoTen,
@@ -29,39 +31,25 @@ class DonTuModel {
     required this.ngayTao,
   });
 
-  DonTuModel copyWith({
-    String? id,
-    String? userId,
-    String? hoTen,
-    String? maNV,
-    String? phongBanID,
-    String? quanLyID,
-    String? loaiDon,
-    String? lyDo,
-    String? tuNgay,
-    String? denNgay,
-    String? trangThai,
-    Timestamp? ngayTao,
-  }) {
-    return DonTuModel(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      hoTen: hoTen ?? this.hoTen,
-      maNV: maNV ?? this.maNV,
-      phongBanID: phongBanID ?? this.phongBanID,
-      quanLyID: quanLyID ?? this.quanLyID,
-      loaiDon: loaiDon ?? this.loaiDon,
-      lyDo: lyDo ?? this.lyDo,
-      tuNgay: tuNgay ?? this.tuNgay,
-      denNgay: denNgay ?? this.denNgay,
-      trangThai: trangThai ?? this.trangThai,
-      ngayTao: ngayTao ?? this.ngayTao,
+  factory FbDonTuModel.fromJson(Map<String, dynamic> json, String id) {
+    return FbDonTuModel(
+      id: id,
+      userId: json['userId'] ?? '',
+      hoTen: json['hoTen'] ?? '',
+      maNV: json['maNV'] ?? '',
+      phongBanID: json['phongBanID'] ?? '',
+      quanLyID: json['quanLyID'] ?? '',
+      loaiDon: json['loaiDon'] ?? '',
+      lyDo: json['lyDo'] ?? '',
+      tuNgay: json['tuNgay'] ?? '',
+      denNgay: json['denNgay'] ?? '',
+      trangThai: json['trangThai'] ?? '',
+      ngayTao: json['ngayTao'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'userId': userId,
       'hoTen': hoTen,
       'maNV': maNV,
@@ -74,5 +62,24 @@ class DonTuModel {
       'trangThai': trangThai,
       'ngayTao': ngayTao,
     };
+  }
+}
+
+extension FbDonTuModelExtension on FbDonTuModel {
+  DonTuModel toDonTuModel() {
+    return DonTuModel(
+      id: id,
+      userId: userId,
+      hoTen: hoTen,
+      maNV: maNV,
+      phongBanID: phongBanID,
+      quanLyID: quanLyID,
+      loaiDon: loaiDon,
+      lyDo: lyDo,
+      tuNgay: tuNgay,
+      denNgay: denNgay,
+      trangThai: trangThai,
+      ngayTao: ngayTao,
+    );
   }
 }

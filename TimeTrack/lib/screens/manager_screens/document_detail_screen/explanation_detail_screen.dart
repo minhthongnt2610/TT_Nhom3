@@ -1,38 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
+import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/data/remote/firebase/function_service.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/date_time_picker.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/text_form_field_widget.dart';
 
 import '../../../contains/app_colors.dart';
 
-class ExplanationScreen extends StatefulWidget {
-  const ExplanationScreen({
+class ExplanationDetailScreen extends StatefulWidget {
+  const ExplanationDetailScreen({
     super.key,
     required this.name,
     required this.id,
     required this.department,
     required this.userId,
+    required this.fromDate,
+    required this.toDate,
+    required this.reason,
+    required this.idDon,
   });
 
+  final String idDon;
   final String userId;
   final String name;
   final String id;
   final String department;
+  final String fromDate;
+  final String toDate;
+  final String reason;
 
   @override
-  State<ExplanationScreen> createState() => _ExplanationScreenState();
+  State<ExplanationDetailScreen> createState() =>
+      _ExplanationDetailScreenState();
 }
 
-class _ExplanationScreenState extends State<ExplanationScreen> {
+class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
   final TextEditingController fromDate = TextEditingController();
   final TextEditingController toDate = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
-  final TextEditingController numberController = TextEditingController();
   final function = FunctionService();
+  final firestore = FirestoreService();
 
   @override
   void initState() {
@@ -41,6 +51,9 @@ class _ExplanationScreenState extends State<ExplanationScreen> {
     nameController.text = widget.name;
     codeController.text = widget.id;
     departmentController.text = widget.department;
+    fromDate.text = widget.fromDate;
+    toDate.text = widget.toDate;
+    reasonController.text = widget.reason;
   }
 
   @override
@@ -175,28 +188,59 @@ class _ExplanationScreenState extends State<ExplanationScreen> {
                           children: [
                             ButtonWidget(
                               onPressed: () async {
-                                final result = await function.taoDonTu(
-                                  loaiDon: "Đơn xin nghỉ phép",
-                                  lyDo: reasonController.text,
-                                  tuNgay: fromDate.text,
-                                  denNgay: toDate.text,
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (_) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 );
-                                if (result['success'] == true) {
+                                try {
+                                  await firestore.duyetDon(
+                                    idDon: widget.idDon,
+                                    trangThai: true,
+                                  );
+                                  Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text("Gửi đơn thành công"),
+                                      content: Text(
+                                        'Duyệt đơn thành công',
+                                        style: TextStyle(
+                                          fontFamily: 'balooPaaji',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   );
-                                } else {
+                                  Navigator.pop(context);
+                                } catch (e) {
+                                  Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(result['message'])),
+                                    const SnackBar(
+                                      content: Text(
+                                        'Có lỗi xảy ra, vui lòng thử lại',
+                                        style: TextStyle(
+                                          fontFamily: 'balooPaaji',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 }
                               },
-                              title: 'Chuyển',
+
+                              title: 'Đồng ý',
                             ),
                             SizedBox(width: 10 * width / 440),
-                            ButtonWidget(onPressed: () {}, title: 'Hủy'),
+                            ButtonWidget(
+                              onPressed: () {
+                                firestore.duyetDon(
+                                  idDon: widget.idDon,
+                                  trangThai: false,
+                                );
+                              },
+                              title: 'Từ chối',
+                            ),
                           ],
                         ),
                       ],

@@ -61,9 +61,6 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
           "${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}. ";
       debugPrint(_address);
     });
-    if (widget.onChangeAddress != null) {
-      widget.onChangeAddress!(_address, lat, lon);
-    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -81,8 +78,6 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
 
   @override
   Widget build(BuildContext context) {
-    int height = MediaQuery.of(context).size.height.toInt();
-    int width = MediaQuery.of(context).size.width.toInt();
     return Scaffold(
       body: FlutterMap(
         mapController: _mapController,

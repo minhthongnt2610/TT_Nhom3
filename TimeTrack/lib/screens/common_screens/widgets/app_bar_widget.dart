@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../contains/app_colors.dart';
-import '../../../../data/remote/firebase/auth_service.dart';
 import '../info_screen/info_screen.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -14,7 +13,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
-    final firebaseAuth = AuthService();
 
     final appbar = AppBar(
       backgroundColor: AppColors.backgroundAppBar,

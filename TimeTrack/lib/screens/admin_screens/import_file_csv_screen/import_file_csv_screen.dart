@@ -151,19 +151,18 @@ class _ImportFileCsvScreenState extends State<ImportFileCsvScreen> {
                       title: "Upload file",
                     ),
                     SizedBox(height: 16 * height / 956),
-                    if (notice != null)
-                      Text(
-                        notice,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'balooPaaji',
-                          color: notice.startsWith("L")
-                              ? Colors.red
-                              : notice.startsWith("U")
-                              ? Colors.green
-                              : Colors.blueGrey,
-                        ),
+                    Text(
+                      notice,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'balooPaaji',
+                        color: notice.startsWith("L")
+                            ? Colors.red
+                            : notice.startsWith("U")
+                            ? Colors.green
+                            : Colors.blueGrey,
                       ),
+                    ),
                   ],
                 ),
               ),

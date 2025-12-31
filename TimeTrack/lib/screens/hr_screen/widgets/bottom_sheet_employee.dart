@@ -54,7 +54,7 @@ class BottomSheetEmployee extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Lịch sử chấm công');
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => LichSuChamCongScreen(uid: uid),
@@ -79,7 +79,7 @@ class BottomSheetEmployee extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     debugPrint('Thông tin nhân viên');
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
