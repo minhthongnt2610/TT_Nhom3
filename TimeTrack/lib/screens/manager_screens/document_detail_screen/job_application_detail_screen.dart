@@ -5,6 +5,7 @@ import 'package:timetrack/screens/common_screens/document_screen/widgets/date_ti
 import 'package:timetrack/screens/common_screens/document_screen/widgets/text_form_field_widget.dart';
 
 import '../../../contains/app_colors.dart';
+import '../../../data/remote/firebase/auth_service.dart';
 import '../../../data/remote/firebase/firestore_service.dart';
 
 class JobApplicationDetailScreen extends StatefulWidget {
@@ -44,6 +45,15 @@ class _JobApplicationDetailScreenState
   final TextEditingController reasonController = TextEditingController();
   final function = FunctionService();
   final firestore = FirestoreService();
+  final auth = AuthService();
+  bool? isRole;
+
+  Future<void> _loadRole() async {
+    final role = await auth.checkHr();
+    setState(() {
+      isRole = role;
+    });
+  }
 
   @override
   void initState() {
@@ -55,6 +65,7 @@ class _JobApplicationDetailScreenState
     fromDate.text = widget.fromDate;
     toDate.text = widget.toDate;
     reasonController.text = widget.reason;
+    _loadRole();
   }
 
   @override
@@ -184,66 +195,67 @@ class _JobApplicationDetailScreenState
                           controller: reasonController,
                         ),
                         SizedBox(height: 20 * height / 956),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ButtonWidget(
-                              onPressed: () async {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (_) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                                try {
-                                  await firestore.duyetDon(
-                                    idDon: widget.idDon,
-                                    trangThai: true,
-                                  );
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Duyệt đơn thành công',
-                                        style: TextStyle(
-                                          fontFamily: 'balooPaaji',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                        if (isRole == false)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ButtonWidget(
+                                onPressed: () async {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) => const Center(
+                                      child: CircularProgressIndicator(),
                                     ),
                                   );
-                                  Navigator.pop(context);
-                                } catch (e) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Có lỗi xảy ra, vui lòng thử lại',
-                                        style: TextStyle(
-                                          fontFamily: 'balooPaaji',
-                                          fontWeight: FontWeight.bold,
+                                  try {
+                                    await firestore.duyetDon(
+                                      idDon: widget.idDon,
+                                      trangThai: true,
+                                    );
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Duyệt đơn thành công',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }
-                              },
+                                    );
+                                    Navigator.pop(context);
+                                  } catch (e) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Có lỗi xảy ra, vui lòng thử lại',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
 
-                              title: 'Đồng ý',
-                            ),
-                            SizedBox(width: 10 * width / 440),
-                            ButtonWidget(
-                              onPressed: () {
-                                firestore.duyetDon(
-                                  idDon: widget.idDon,
-                                  trangThai: false,
-                                );
-                              },
-                              title: 'Từ chối',
-                            ),
-                          ],
-                        ),
+                                title: 'Đồng ý',
+                              ),
+                              SizedBox(width: 10 * width / 440),
+                              ButtonWidget(
+                                onPressed: () {
+                                  firestore.duyetDon(
+                                    idDon: widget.idDon,
+                                    trangThai: false,
+                                  );
+                                },
+                                title: 'Từ chối',
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),

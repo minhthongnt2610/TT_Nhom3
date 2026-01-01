@@ -112,19 +112,6 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // EventButton(
-                        //   onTap: () {
-                        //     debugPrint("Quản lý đơn từ");
-                        //     _showBottomSheet(
-                        //       user.hoTen,
-                        //       user.ma,
-                        //       user.phongBan,
-                        //     );
-                        //   },
-                        //   urlImage:
-                        //       "assets/images/icon/DonXinChamCongBoSung.png",
-                        //   text: "Quản lý\nđơn từ",
-                        // ),
                         EventButton(
                           onTap: () {
                             debugPrint("Lịch sử chấm công");
@@ -146,7 +133,6 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                         ),
                         EventButton(
                           onTap: () {
-                            debugPrint("Trạng thái đơn");
                             Navigator.push(
                               context,
                               MaterialPageRoute(

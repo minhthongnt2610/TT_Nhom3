@@ -286,4 +286,16 @@ class FirestoreService {
               .toList();
         });
   }
+
+  Stream<List<FbDonTuModel>> getAllDonTu() {
+    return _firebaseFirestore
+        .collection('DonTu')
+        .orderBy('ngayTao', descending: true)
+        .snapshots()
+        .map((snap) {
+          return snap.docs
+              .map((doc) => FbDonTuModel.fromJson(doc.data(), doc.id))
+              .toList();
+        });
+  }
 }
