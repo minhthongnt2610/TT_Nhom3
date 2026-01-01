@@ -33,6 +33,7 @@ class _ExplanationScreenState extends State<ExplanationScreen> {
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
   final function = FunctionService();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -174,27 +175,61 @@ class _ExplanationScreenState extends State<ExplanationScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ButtonWidget(
-                              onPressed: () async {
-                                final result = await function.taoDonTu(
-                                  loaiDon: "Đơn xin nghỉ phép",
-                                  lyDo: reasonController.text,
-                                  tuNgay: fromDate.text,
-                                  denNgay: toDate.text,
+                              onPressed: () {
+                                if (_isLoading) return;
+                                _isLoading = true;
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (_) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 );
-                                if (result['success'] == true) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Gửi đơn thành công"),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(result['message'])),
-                                  );
-                                }
+                                Future(() async {
+                                  try {
+                                    final result = await function.taoDonTu(
+                                      loaiDon: "Đơn xin nghỉ phép",
+                                      lyDo: reasonController.text,
+                                      tuNgay: fromDate.text,
+                                      denNgay: toDate.text,
+                                    );
+                                    if (!mounted) return;
+                                    Navigator.of(context).pop();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          result['success'] == true
+                                              ? "Gửi đơn thành công"
+                                              : result['message'] ??
+                                                    "Có lỗi xảy ra",
+                                        ),
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    if (mounted) {
+                                      Navigator.of(context).pop();
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            "Có lỗi xảy ra, vui lòng thử lại",
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                    }
+                                  }
+                                });
                               },
-                              title: 'Chuyển',
+                              title: 'Đồng ý',
                             ),
+
                             SizedBox(width: 10 * width / 440),
                             ButtonWidget(onPressed: () {}, title: 'Hủy'),
                           ],

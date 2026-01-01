@@ -81,7 +81,6 @@ class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
-    final isRole = auth.checkHr();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
