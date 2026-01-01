@@ -75,7 +75,6 @@ class ListReportScreen extends StatelessWidget {
           }
 
           final list = snapshot.data!;
-
           return ListView.builder(
             padding: const EdgeInsets.all(12),
             itemCount: list.length,
@@ -96,7 +95,9 @@ class ListReportScreen extends StatelessWidget {
                               ? "IT"
                               : item.phongBanID == "kinh-doanh"
                               ? "Kinh doanh"
-                              : "Kế toán",
+                              : item.phongBanID == "ke-toan"
+                              ? "Kế toán"
+                              : "",
                           userId: idQuanLy,
                           fromDate: item.tuNgay,
                           toDate: item.denNgay,
@@ -117,7 +118,9 @@ class ListReportScreen extends StatelessWidget {
                               ? "IT"
                               : item.phongBanID == "kinh-doanh"
                               ? "Kinh doanh"
-                              : "Kế toán",
+                              : item.phongBanID == "ke-toan"
+                              ? "Kế toán"
+                              : "",
 
                           userId: idQuanLy,
                           fromDate: item.tuNgay,
@@ -139,7 +142,9 @@ class ListReportScreen extends StatelessWidget {
                               ? "IT"
                               : item.phongBanID == "kinh-doanh"
                               ? "Kinh doanh"
-                              : "Kế toán",
+                              : item.phongBanID == "ke-toan"
+                              ? "Kế toán"
+                              : "",
 
                           userId: idQuanLy,
                           fromDate: item.tuNgay,

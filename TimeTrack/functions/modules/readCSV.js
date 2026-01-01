@@ -47,7 +47,7 @@ exports.createUsersFromCsv = onObjectFinalized(
         const phongBan = (row.phongBan || "").trim();
         const phongBanID = (row.phongBanID || "").trim();
         const anhDaiDienURL = (row.anhDaiDienURL || "").trim();
-
+ // đọc lỗi log trên console function của firebase
         if (!ma) throw new Error(`Lỗi 'ma' tại dòng ${i + 1}`);
         if (!vaiTro) throw new Error(`Lỗi 'vaiTro' tại dòng ${i + 1}`);
         const email = `${ma.toLowerCase()}@mailinator.com`;
