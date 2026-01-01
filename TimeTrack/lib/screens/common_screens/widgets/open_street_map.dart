@@ -61,6 +61,7 @@ class _OpenStreetMapState extends State<OpenStreetMap> {
           "${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}. ";
       debugPrint(_address);
     });
+    widget.onChangeAddress(_address, lat, lon);
   }
 
   Future<void> _getCurrentLocation() async {

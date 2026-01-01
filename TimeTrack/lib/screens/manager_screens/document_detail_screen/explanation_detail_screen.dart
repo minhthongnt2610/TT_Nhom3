@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetrack/common_widget/button_widget.dart';
+import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
 import 'package:timetrack/data/remote/firebase/function_service.dart';
 import 'package:timetrack/screens/common_screens/document_screen/widgets/date_time_picker.dart';
@@ -12,16 +13,16 @@ class ExplanationDetailScreen extends StatefulWidget {
     super.key,
     required this.name,
     required this.id,
+    this.userId,
     required this.department,
-    required this.userId,
     required this.fromDate,
     required this.toDate,
     required this.reason,
     required this.idDon,
   });
 
+  final String? userId;
   final String idDon;
-  final String userId;
   final String name;
   final String id;
   final String department;
@@ -43,6 +44,15 @@ class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
   final TextEditingController reasonController = TextEditingController();
   final function = FunctionService();
   final firestore = FirestoreService();
+  final auth = AuthService();
+  bool? isRole;
+
+  Future<void> _loadRole() async {
+    final role = await auth.checkHr();
+    setState(() {
+      isRole = role;
+    });
+  }
 
   @override
   void initState() {
@@ -54,6 +64,7 @@ class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
     fromDate.text = widget.fromDate;
     toDate.text = widget.toDate;
     reasonController.text = widget.reason;
+    _loadRole();
   }
 
   @override
@@ -70,6 +81,8 @@ class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
   Widget build(BuildContext context) {
     int height = MediaQuery.of(context).size.height.toInt();
     int width = MediaQuery.of(context).size.width.toInt();
+    final isRole = auth.checkHr();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
@@ -183,66 +196,66 @@ class _ExplanationDetailScreenState extends State<ExplanationDetailScreen> {
                           controller: reasonController,
                         ),
                         SizedBox(height: 20 * height / 956),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ButtonWidget(
-                              onPressed: () async {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (_) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                                try {
-                                  await firestore.duyetDon(
+                        if (isRole == false)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ButtonWidget(
+                                onPressed: () async {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                  try {
+                                    await firestore.duyetDon(
+                                      idDon: widget.idDon,
+                                      trangThai: true,
+                                    );
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Duyệt đơn thành công',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                    Navigator.pop(context);
+                                  } catch (e) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Có lỗi xảy ra, vui lòng thử lại',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                title: 'Đồng ý',
+                              ),
+                              SizedBox(width: 10 * width / 440),
+                              ButtonWidget(
+                                onPressed: () {
+                                  firestore.duyetDon(
                                     idDon: widget.idDon,
-                                    trangThai: true,
+                                    trangThai: false,
                                   );
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Duyệt đơn thành công',
-                                        style: TextStyle(
-                                          fontFamily: 'balooPaaji',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                  Navigator.pop(context);
-                                } catch (e) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Có lỗi xảy ra, vui lòng thử lại',
-                                        style: TextStyle(
-                                          fontFamily: 'balooPaaji',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-
-                              title: 'Đồng ý',
-                            ),
-                            SizedBox(width: 10 * width / 440),
-                            ButtonWidget(
-                              onPressed: () {
-                                firestore.duyetDon(
-                                  idDon: widget.idDon,
-                                  trangThai: false,
-                                );
-                              },
-                              title: 'Từ chối',
-                            ),
-                          ],
-                        ),
+                                },
+                                title: 'Từ chối',
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),

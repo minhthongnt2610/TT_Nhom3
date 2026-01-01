@@ -7,6 +7,7 @@ import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/clock_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/event_button.dart';
 import 'package:timetrack/screens/common_screens/widgets/open_street_map.dart';
+import 'package:timetrack/screens/hr_screen/all_list_report_screen/all_list_report_screen.dart';
 import 'package:timetrack/screens/hr_screen/list_all_employee_screen/list_all_employee_screen.dart';
 
 import '../../../contains/app_colors.dart';
@@ -110,19 +111,25 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // EventButton(
-                        //   onTap: () {
-                        //     debugPrint("Quản lý đơn từ");
-                        //     _showBottomSheet(
-                        //       user.hoTen,
-                        //       user.ma,
-                        //       user.phongBan,
-                        //     );
-                        //   },
-                        //   urlImage:
-                        //       "assets/images/icon/DonXinChamCongBoSung.png",
-                        //   text: "Quản lý\nđơn từ",
-                        // ),
+                        EventButton(
+                          onTap: () {
+                            debugPrint("Quản lý đơn từ");
+                            // _showBottomSheet(
+                            //   user.hoTen,
+                            //   user.ma,
+                            //   user.phongBan,
+                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AllListReportScreen(),
+                              ),
+                            );
+                          },
+                          urlImage:
+                              "assets/images/icon/DonXinChamCongBoSung.png",
+                          text: "Quản lý\nđơn từ",
+                        ),
                         EventButton(
                           onTap: () {
                             debugPrint("Lịch sử chấm công");
