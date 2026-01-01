@@ -37,6 +37,7 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
   double? _lat;
   double? _lon;
   final functionService = FunctionService();
+  bool isLoading = false;
 
   Future<void> luuIsCheck(bool value) async {
     final pre = await SharedPreferences.getInstance();
@@ -170,39 +171,58 @@ class _HrCheckInScreenState extends State<HrCheckInScreen> {
                     ),
                     SizedBox(height: 46 * height / 956),
                     CheckButton(
-                      onPressed: () async {
-                        debugPrint(
-                          "LAT" + _lat.toString() + "LON" + _lon.toString(),
+                      onPressed: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (_) =>
+                              const Center(child: CircularProgressIndicator()),
                         );
-                        if (_lat == null || _lon == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Không lấy được vị trí GPS"),
-                            ),
-                          );
-                          return;
-                        }
-                        final result = await functionService.chamCong(
-                          lat: _lat!,
-                          lon: _lon!,
-                        );
-                        if (!mounted) return;
-                        if (result['status'] == 'CheckIn') {
-                          setState(() {
-                            isCheck = true;
-                          });
-                          luuIsCheck(true);
-                          checkInSuccessDialog(context);
-                        } else if (result['status'] == 'CheckOut') {
-                          setState(() {
-                            isCheck = false;
-                          });
-                          luuIsCheck(false);
-                          checkOutSuccessDialog(context);
-                        } else {
-                          checkInFailDialog(context, result['message']);
-                          debugPrint(result['message']);
-                        }
+                        Future(() async {
+                          try {
+                            final result = await functionService.chamCong(
+                              lat: _lat!,
+                              lon: _lon!,
+                            );
+                            if (!mounted) return;
+                            Navigator.of(context).pop();
+                            if (result['status'] == 'CheckIn') {
+                              setState(() {
+                                isCheck = true;
+                              });
+                              luuIsCheck(true);
+                              checkInSuccessDialog(context);
+                            } else if (result['status'] == 'CheckOut') {
+                              setState(() {
+                                isCheck = false;
+                              });
+                              luuIsCheck(false);
+                              checkOutSuccessDialog(context);
+                            } else {
+                              checkInFailDialog(context, result['message']);
+                            }
+                          } catch (e) {
+                            if (mounted) {
+                              Navigator.of(context, rootNavigator: true).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Có lỗi xảy ra, vui lòng thử lại",
+                                  ),
+                                ),
+                              );
+                            }
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          }
+                        });
                       },
                       nameButton: isCheck ? "CHECK OUT" : "CHECK IN",
                     ),

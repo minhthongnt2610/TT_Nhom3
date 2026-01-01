@@ -17,7 +17,11 @@ class HomeAdminScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = AuthService();
     final firestoreService = FirestoreService();
-    int height = MediaQuery.of(context).size.height.toInt();
+    int height = MediaQuery
+        .of(context)
+        .size
+        .height
+        .toInt();
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
         firestoreService.getUser(auth.currentUser!.uid),
@@ -49,13 +53,14 @@ class HomeAdminScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => RegionalConfigurationScreen(
-                          id: kvcc.id,
-                          tenKv: kvcc.tenKhuVuc,
-                          kvLat: kvcc.toaDo.latitude,
-                          kvLon: kvcc.toaDo.longitude,
-                          banKinh: kvcc.banKinh,
-                        ),
+                        builder: (_) =>
+                            RegionalConfigurationScreen(
+                              id: kvcc.id,
+                              tenKv: kvcc.tenKhuVuc,
+                              kvLat: kvcc.toaDo.latitude,
+                              kvLon: kvcc.toaDo.longitude,
+                              banKinh: kvcc.banKinh,
+                            ),
                       ),
                     );
                   },
@@ -73,9 +78,9 @@ class HomeAdminScreen extends StatelessWidget {
                   title: "Cấu hình thời gian",
                 ),
               ),
-              Center(
-                child: ButtonAdmin(onPressed: () {}, title: "Tạo tài khoản"),
-              ),
+              // Center(
+              //   child: ButtonAdmin(onPressed: () {}, title: "Tạo tài khoản"),
+              // ),
               Center(
                 child: ButtonAdmin(
                   onPressed: () {
