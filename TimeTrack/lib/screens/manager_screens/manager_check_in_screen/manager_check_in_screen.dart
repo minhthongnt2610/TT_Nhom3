@@ -134,6 +134,7 @@ class _ManagerCheckInScreenState extends State<ManagerCheckInScreen> {
                         ),
                         EventButton(
                           onTap: () {
+                            debugPrint(authService.currentUser!.uid);
                             Navigator.push(
                               context,
                               MaterialPageRoute(

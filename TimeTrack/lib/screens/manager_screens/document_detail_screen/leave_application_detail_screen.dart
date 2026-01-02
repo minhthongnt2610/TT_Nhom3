@@ -246,11 +246,46 @@ class _LeaveApplicationDetailScreenState
                               ),
                               SizedBox(width: 10 * width / 440),
                               ButtonWidget(
-                                onPressed: () {
-                                  firestore.duyetDon(
-                                    idDon: widget.idDon,
-                                    trangThai: false,
+                                onPressed: () async {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
                                   );
+                                  try {
+                                    firestore.duyetDon(
+                                      idDon: widget.idDon,
+                                      trangThai: false,
+                                    );
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Đã từ chối duyệt đơn',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                    Navigator.pop(context);
+                                  } catch (e) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Có lỗi xảy ra, vui lòng thử lại',
+                                          style: TextStyle(
+                                            fontFamily: 'balooPaaji',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
                                 title: 'Từ chối',
                               ),

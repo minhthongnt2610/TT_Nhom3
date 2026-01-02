@@ -9,13 +9,7 @@ exports.taoDonTu = onCall({ region: "us-central1" }, async (request) => {
   }
   const uid = request.auth.uid;
   const { loaiDon, lyDo, tuNgay, denNgay } = request.data;
-  if (!loaiDon || !lyDo || !tuNgay || !denNgay) {
-    throw new Error("Thiếu dữ liệu tạo đơn");
-  }
   const userSnap = await db.collection("NguoiDung").doc(uid).get();
-  if (!userSnap.exists) {
-    throw new Error("Không tìm thấy nhân viên");
-  }
   const user = userSnap.data();
   const quanLySnap = await db
     .collection("NguoiDung")

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timetrack/data/remote/firebase/auth_service.dart';
 import 'package:timetrack/data/remote/firebase/firestore_service.dart';
+import 'package:timetrack/screens/common_screens/dialogs/check_out_fail_dialog.dart';
 import 'package:timetrack/screens/common_screens/history_check_in_out_screen/history_check_in_out_screen.dart';
 import 'package:timetrack/screens/common_screens/widgets/bottom_sheet_widget.dart';
 import 'package:timetrack/screens/common_screens/widgets/check_button.dart';
@@ -12,7 +13,6 @@ import 'package:timetrack/screens/employee_screens/status_report_screen/status_r
 
 import '../../../contains/app_colors.dart';
 import '../../../data/remote/firebase/function_service.dart';
-import '../../common_screens/dialogs/check_in_fail_dialog.dart';
 import '../../common_screens/dialogs/check_in_success_dialog.dart';
 import '../../common_screens/dialogs/check_out_success_dialog.dart';
 import '../../common_screens/widgets/app_bar_widget.dart';
@@ -204,7 +204,7 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                               luuIsCheck(false);
                               checkOutSuccessDialog(context);
                             } else {
-                              checkInFailDialog(context, result['message']);
+                              checkOutFailDialog(context, result['message']);
                             }
                           } catch (e) {
                             if (mounted) {
