@@ -13,7 +13,6 @@ import 'package:timetrack/screens/employee_screens/status_report_screen/status_r
 
 import '../../../contains/app_colors.dart';
 import '../../../data/remote/firebase/function_service.dart';
-import '../../common_screens/dialogs/check_in_fail_dialog.dart';
 import '../../common_screens/dialogs/check_in_success_dialog.dart';
 import '../../common_screens/dialogs/check_out_success_dialog.dart';
 import '../../common_screens/widgets/app_bar_widget.dart';
@@ -198,10 +197,7 @@ class _EmployeeCheckInScreenState extends State<EmployeeCheckInScreen> {
                               });
                               luuIsCheck(true);
                               checkInSuccessDialog(context);
-                            } else {
-                              checkInFailDialog(context, result['message']);
-                            }
-                            if (result['status'] == 'CheckOut') {
+                            } else if (result['status'] == 'CheckOut') {
                               setState(() {
                                 isCheck = false;
                               });

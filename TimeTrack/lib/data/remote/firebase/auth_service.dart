@@ -30,17 +30,13 @@ class AuthService {
     required String password,
   }) async {
     try {
-      print("BẮT ĐẦU ĐĂNG NHẬP");
       // Đăng nhập bằng email và pass, userCredential để cho biết user đã đng nhập là ai.
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       //lấy thông tin user
       User user = userCredential.user!;
-      print("EMAIL: ${user.email}");
-      print("UID: ${user.uid}");
       //yêu cầu firebase refesh lại token mới để nhận claim mới nhất
       IdTokenResult tokenResult = await user.getIdTokenResult(true);
-      print("TOKEN CLAIMS: ${tokenResult.claims}");
       // kiểm tra custom claims
       final claims = tokenResult.claims;
       if (claims == null) {
@@ -49,19 +45,16 @@ class AuthService {
       }
       // lấy role từ claims.
       String? role = claims["role"] as String?;
-      print("ROLE: $role");
+      print("role: $role");
       //Kiểm tra role hợp lệ.
       if (role == "admin" ||
           role == "nhanvien" ||
           role == "hr" ||
           role == "quanly") {
-        print("ROLE HỢP LỆ, TRẢ VỀ: $role");
         return role;
       }
-      print("ROLE KHÔNG HỢP LỆ HOẶC CHƯA ĐƯỢC SET");
       return null;
     } catch (e) {
-      print("LỖI ĐĂNG NHẬP: $e");
       rethrow;
     }
   }
