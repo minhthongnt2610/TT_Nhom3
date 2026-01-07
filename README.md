@@ -84,5 +84,4 @@ Hệ thống sử dụng giải pháp Native Firebase để đảm bảo tính �
    - Deploy functions: `firebase deploy --only functions`.
 3. **Flutter Setup:**
    - Chạy `flutter pub get`.
-   - Thay đổi API Key Google Maps trong `AndroidManifest.xml` và `AppDelegate.swift`.
    - Chạy ứng dụng: `flutter run`.
